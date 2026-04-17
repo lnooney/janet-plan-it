@@ -553,9 +553,9 @@ button:active { transform: scale(0.98); }
         <div class="field">
           <label>How urgent is it?</label>
           <select id="task-pri" style="width:100%;">
-            <option value="high">🔴 Urgent — due soon</option>
-            <option value="med" selected>🟡 Important — due this week</option>
-            <option value="low">🟢 Not urgent yet</option>
+            <option value="high">🔴 Due in 1–2 days — do this first</option>
+            <option value="med" selected>🟡 Due in 3–7 days — on your radar</option>
+            <option value="low">🟢 Due later — not urgent yet</option>
           </select>
         </div>
       </div>
@@ -567,9 +567,9 @@ button:active { transform: scale(0.98); }
 
     <div class="filter-row">
       <button class="fpill active" onclick="filterTasks('all',this)">All</button>
-      <button class="fpill" onclick="filterTasks('high',this)">Urgent</button>
-      <button class="fpill" onclick="filterTasks('med',this)">This week</button>
-      <button class="fpill" onclick="filterTasks('low',this)">Later</button>
+      <button class="fpill" onclick="filterTasks('high',this)">Due in 1–2 days</button>
+      <button class="fpill" onclick="filterTasks('med',this)">Due in 3–7 days</button>
+      <button class="fpill" onclick="filterTasks('low',this)">Due later</button>
       <button class="fpill" onclick="filterTasks('done',this)">Done ✓</button>
     </div>
 
@@ -580,13 +580,60 @@ button:active { transform: scale(0.98); }
     </div>
 
     <div class="metrics">
-      <div class="metric"><div class="metric-num" id="m-urgent">0</div><div class="metric-label">Urgent</div></div>
+      <div class="metric"><div class="metric-num" id="m-urgent">0</div><div class="metric-label">Due in 1–2 days</div></div>
       <div class="metric"><div class="metric-num" id="m-remaining">0</div><div class="metric-label">To do</div></div>
       <div class="metric"><div class="metric-num" id="m-done">0</div><div class="metric-label">Done ✓</div></div>
     </div>
 
     <div id="priority-output"></div>
 
+  </div>
+
+  <!-- EDIT TASK MODAL -->
+  <div id="edit-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.45); z-index:1000; align-items:center; justify-content:center; padding:1rem;">
+    <div style="background:var(--card); border-radius:var(--radius-lg); padding:1.5rem; width:100%; max-width:480px; box-shadow:0 8px 32px rgba(0,0,0,0.2);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <div style="font-family:var(--font); font-size:17px; color:var(--text);">Edit task</div>
+        <button onclick="closeEditModal()" style="border:none; background:none; font-size:18px; color:var(--text3); cursor:pointer;">✕</button>
+      </div>
+      <input type="hidden" id="edit-id"/>
+      <div class="field">
+        <label>Task name</label>
+        <input type="text" id="edit-name" style="width:100%;"/>
+      </div>
+      <div class="field">
+        <label>Due date</label>
+        <input type="date" id="edit-due" style="width:100%;"/>
+      </div>
+      <div class="field">
+        <label>Type</label>
+        <select id="edit-cat" style="width:100%;">
+          <option>Homework</option>
+          <option>Paper or project</option>
+          <option>Exam prep</option>
+          <option>Reading</option>
+          <option>Class attendance</option>
+          <option>Work shift</option>
+          <option>Club or org</option>
+          <option>Appointment</option>
+          <option>Self-care</option>
+          <option>Financial aid / admin</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>How urgent is it?</label>
+        <select id="edit-pri" style="width:100%;">
+          <option value="high">🔴 Due in 1–2 days — do this first</option>
+          <option value="med">🟡 Due in 3–7 days — on your radar</option>
+          <option value="low">🟢 Due later — not urgent yet</option>
+        </select>
+      </div>
+      <div style="display:flex; gap:8px; margin-top:4px;">
+        <button class="btn-primary" onclick="saveTaskEdit()">Save changes</button>
+        <button onclick="closeEditModal()">Cancel</button>
+      </div>
+    </div>
   </div>
 
   <!-- ══ SCHEDULE ══ -->
@@ -602,18 +649,22 @@ button:active { transform: scale(0.98); }
           <div class="card-title" style="margin-bottom:0;">Today</div>
           <div id="today-date" style="font-size:12px; color:var(--text3);"></div>
         </div>
-        <button onclick="generateSchedule()">Build from my tasks ↗</button>
+        <button onclick="generateSchedule()">Add study blocks from my tasks ↗</button>
+      </div>
+      <div class="tip-box" style="margin-bottom:12px; font-size:12px;">
+        <strong>How this works:</strong> Add your fixed commitments below first (work shifts, classes, meals). Then hit "Add study blocks from my tasks" and Janet will fill in study time around what you've already scheduled.
       </div>
       <div id="schedule-list">
-        <div class="empty"><div class="empty-icon">🗓️</div>Add time blocks below, or hit "Build from my tasks" to let Janet create a schedule for you.</div>
+        <div class="empty"><div class="empty-icon">🗓️</div>Add your fixed commitments below (work, class, meals), then let Janet fill in your study time around them.</div>
       </div>
     </div>
 
     <div class="card" style="background:var(--bg2);">
       <div class="card-title">Add a time block</div>
+      <p style="font-size:13px; color:var(--text2); margin-bottom:12px;">Add anything fixed in your day — a class, work shift, meal, or appointment. Fields marked <span style="color:var(--red);">*</span> are required.</p>
       <div class="grid2">
         <div class="field">
-          <label>Start time</label>
+          <label>Start time <span style="color:var(--red);">*</span></label>
           <input type="time" id="bl-start" style="width:100%;" />
         </div>
         <div class="field">
@@ -622,8 +673,8 @@ button:active { transform: scale(0.98); }
         </div>
       </div>
       <div class="field">
-        <label>What's happening?</label>
-        <input type="text" id="bl-label" placeholder="e.g. Study for BIO exam, Work shift, Lunch break" style="width:100%;" />
+        <label>What's happening? <span style="color:var(--red);">*</span></label>
+        <input type="text" id="bl-label" placeholder="e.g. Work shift, BIO 107 lecture, Lunch" style="width:100%;" />
       </div>
       <div class="field">
         <label>Type</label>
@@ -636,6 +687,7 @@ button:active { transform: scale(0.98); }
           <option value="other">Other</option>
         </select>
       </div>
+      <div id="bl-error" style="display:none; font-size:12px; color:var(--red); margin-bottom:8px;">Please fill in both Start time and What's happening before adding a block.</div>
       <button class="btn-primary" onclick="addBlock()">Add block</button>
     </div>
 
@@ -645,7 +697,7 @@ button:active { transform: scale(0.98); }
   <div id="tab-semester" class="panel">
 
     <div class="tip-box">
-      <strong>The hidden curriculum of the semester:</strong> BU has deadlines that can seriously affect your financial aid, grades, and housing — and nobody sends you a big reminder. Here's what to watch for, month by month.
+      <strong>The hidden curriculum of the semester:</strong> BU has deadlines that can seriously affect your financial aid, grades, and housing — and nobody sends you a big reminder. Here's what to watch for, month by month. Always check the official BU Academic Calendar for exact dates each semester: <a href="https://www.bu.edu/academics/calendar/" target="_blank" style="color:var(--amber-text); font-weight:600;">bu.edu/academics/calendar</a>
     </div>
 
     <div class="card">
@@ -654,33 +706,33 @@ button:active { transform: scale(0.98); }
         <li class="tl-item">
           <div class="tl-month">September</div>
           <div class="tl-body">
-            <strong>SPLASH</strong> — BU's big student activities fair. This is your best shot to find clubs, orgs, and communities that feel like you. Even if you're not a joiner, just walking through is worth it.
-            <br>Start visiting professors during office hours early — before you <em>need</em> anything. It's way less awkward than showing up when you're already struggling.
+            <strong>SPLASH</strong> — BU's big student activities fair happens early in the fall semester. This is your best shot to find clubs, orgs, and communities that feel like you. Even if you're not a joiner, just walking through is worth it.
+            <br><br>Start visiting professors during office hours early — before you <em>need</em> anything. It's way less awkward than showing up when you're already struggling. Office hours are free, drop-in time with your professor — you don't need an appointment or a specific question to go.
           </div>
         </li>
         <li class="tl-item">
           <div class="tl-month">October</div>
           <div class="tl-body">
-            Check your grades so far — have you gotten feedback on assignments? Mid-terms are coming.
-            <div class="tl-urgent">⚠️ Oct 1: Spring study abroad applications due</div>
-            <div class="tl-urgent">⚠️ Last day to drop a course WITHOUT a "W" grade — check your academic calendar</div>
-            <br><small>A "W" on your transcript means you withdrew from the class. It doesn't hurt your GPA, but too many can raise questions. Dropping before the deadline means no record of it at all.</small>
+            Check your grades so far — have you gotten feedback on assignments? Mid-terms are coming. This is a good time to flag anything that isn't going well <em>before</em> it gets worse.
+            <div class="tl-urgent">⚠️ Early fall: Check the BU calendar for the last day to drop a course WITHOUT a "W" grade</div>
+            <div class="tl-urgent">⚠️ Check the BU calendar for the spring study abroad application deadline</div>
+            <br><small>A "W" on your transcript means you withdrew from the class. It doesn't hurt your GPA, but too many can raise questions. Dropping before the deadline means no record of it at all. Talk to your advisor before dropping any course.</small>
           </div>
         </li>
         <li class="tl-item">
           <div class="tl-month">November</div>
           <div class="tl-body">
-            <strong>Course registration</strong> — you'll meet with your academic advisor to plan next semester's courses. This is required before you can register. Schedule that meeting early — advisor slots fill up fast.
-            <div class="tl-urgent">⚠️ Mid-November: Last day to drop with a "W" grade</div>
-            Summer internship applications start opening now. Don't wait until spring — the good ones close early.
+            <strong>Course registration</strong> happens in November. You'll need to meet with your academic advisor before you can register — this is required, not optional. Schedule that meeting early because advisor slots fill up fast.
+            <div class="tl-urgent">⚠️ Mid-to-late November: Last day to drop a course with a "W" grade — check the BU calendar</div>
+            Summer internship applications start opening in November and December. The best opportunities close early — don't wait until spring to start looking.
           </div>
         </li>
         <li class="tl-item">
           <div class="tl-month">December</div>
           <div class="tl-body">
-            Finals prep. Build a study schedule at least 2 weeks out.
-            <div class="tl-urgent">⚠️ Book travel home before prices spike — the closer to holidays, the more expensive</div>
-            Dorm students must vacate for winter break. If you can't go home, BU reserves hotel rooms and has support for students who need help with costs — contact the Dean of Students Office.
+            Finals season. Build a study schedule at least two weeks before exams start — cramming the night before rarely works.
+            <div class="tl-urgent">⚠️ Book travel home early — prices spike significantly as the holidays approach</div>
+            Dorm students must vacate for winter break. If you can't go home, BU has options — contact the Dean of Students Office. If home isn't a safe place, reach out to them confidentially.
           </div>
         </li>
       </ul>
@@ -692,39 +744,38 @@ button:active { transform: scale(0.98); }
         <li class="tl-item">
           <div class="tl-month">January</div>
           <div class="tl-body">
-            Winter activities fair — find clubs if you missed SPLASH or want to try something new.
-            <div class="tl-urgent">⚠️ Applications for summer on-campus jobs (including orientation) open — apply early</div>
-            RA applications for next year also open in January.
+            BU holds a winter activities fair early in January — a great chance to find clubs if you missed SPLASH or want to try something new. January is also when many summer on-campus job applications open, including orientation positions. If you want to stay in Boston over the summer, apply early.
+            <div class="tl-urgent">⚠️ RA applications for the following academic year typically open in January</div>
           </div>
         </li>
         <li class="tl-item">
           <div class="tl-month">February</div>
           <div class="tl-body">
-            <strong>Housing portal opens</strong> — if you want to live on campus next year, you must complete the application and pay a deposit to get a selection number.
-            <div class="tl-urgent">⚠️ Late February: Last day to drop without a "W" grade</div>
+            <strong>Housing portal opens</strong> in late January or early February. If you want to live on campus next year, you must complete the application and pay a deposit to receive a housing selection number. Missing this window means starting from the back of the line.
+            <div class="tl-urgent">⚠️ Check the BU calendar: last day to drop a course without a "W" grade is in February</div>
           </div>
         </li>
         <li class="tl-item">
           <div class="tl-month">March</div>
           <div class="tl-body">
-            Housing selection (seniors first, then juniors, then sophomores). Gender-affirming housing has separate dates — check BU housing site.
-            Mid-terms. Check your grades and get ahead of anything slipping.
-            <div class="tl-urgent">⚠️ Mar 1 & Mar 15: Study abroad applications (summer and fall)</div>
+            Housing selection happens in March — seniors choose first, then juniors, then sophomores. Gender-affirming and gender-neutral housing options have separate deadlines; check the BU Housing site.
+            <br><br>Mid-terms are typically in March. Check your grades and get ahead of anything that's slipping — there's still time to turn things around.
+            <div class="tl-urgent">⚠️ Check the BU calendar for study abroad application deadlines (summer and fall programs)</div>
           </div>
         </li>
         <li class="tl-item">
           <div class="tl-month">April</div>
           <div class="tl-body">
-            <div class="tl-urgent">⚠️ April 1: FAFSA renewal priority deadline — if you receive financial aid, this is critical</div>
-            <div class="tl-urgent">⚠️ Early April: Last day to drop with a "W" or go pass/fail</div>
-            <br><small>The FAFSA is the federal form that determines your financial aid. Missing this deadline can affect your aid for next year. Go to studentaid.gov and log in with your FSA ID.</small>
+            <div class="tl-urgent">⚠️ FAFSA renewal priority deadline is in early April — if you receive financial aid, this is critical</div>
+            <div class="tl-urgent">⚠️ Check the BU calendar: last day to drop with a "W" or designate a course pass/fail</div>
+            <br><small>The FAFSA is the federal form that determines your financial aid each year. You must renew it annually — it doesn't carry over automatically. Go to <strong>studentaid.gov</strong> and log in with your FSA ID. Missing this deadline can affect your aid for next year.</small>
           </div>
         </li>
         <li class="tl-item">
           <div class="tl-month">May</div>
           <div class="tl-body">
-            Reading period and finals in early May. Dining ends with dinner on the last day of exams. Make travel plans early.
-            <div class="tl-urgent">⚠️ Non-degree students: move out the day after exams. Degree students: 10am after Commencement.</div>
+            Reading period and final exams happen in early May. Dining hall service ends at the close of finals — make meal and travel plans accordingly. Book travel home early; prices go up fast near Commencement.
+            <div class="tl-urgent">⚠️ Check the BU calendar for move-out deadlines — they differ for degree and non-degree students</div>
           </div>
         </li>
       </ul>
@@ -735,9 +786,18 @@ button:active { transform: scale(0.98); }
       <p style="font-size:13px; color:var(--text2); line-height:1.6; margin-bottom:10px;">
         To keep your financial aid, you must pass at least <strong>75% of the credits you attempt</strong> and maintain at least a <strong>2.0 cumulative GPA</strong> each year. This applies to CASS Scholars and most students receiving aid.
       </p>
-      <p style="font-size:13px; color:var(--text2); line-height:1.6;">
-        If you fall below SAP, your aid can be suspended — but you can appeal. The appeal asks you to explain what happened and what you'll do differently. You can include letters from doctors, professors, or advisors. If you're worried about your GPA or credits, talk to your advisor <em>now</em>, not at the end of the semester. For appeals: <a href="http://www.bu.edu/finaid/eligibility/satisfactory-academic-progress/" target="_blank" style="color:var(--blue);">bu.edu/finaid → SAP</a>
+      <p style="font-size:13px; color:var(--text2); line-height:1.6; margin-bottom:10px;">
+        If you fall below SAP, your aid can be suspended — but you can appeal. The appeal asks you to explain what happened and what you'll do differently. You can include letters from doctors, professors, or advisors. If you're worried about your GPA or credits, talk to your advisor <em>now</em>, not at the end of the semester.
       </p>
+      <a href="http://www.bu.edu/finaid/eligibility/satisfactory-academic-progress/" target="_blank" style="font-size:13px; color:var(--blue);">Learn more about SAP and how to appeal → bu.edu/finaid</a>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Always check the official BU Academic Calendar</div>
+      <p style="font-size:13px; color:var(--text2); line-height:1.6; margin-bottom:12px;">
+        Exact dates for add/drop deadlines, registration windows, housing applications, and other key milestones shift slightly each semester. The official BU Academic Calendar is always up to date — bookmark it and check it at the start of every semester.
+      </p>
+      <a href="https://www.bu.edu/academics/calendar/" target="_blank" style="display:inline-block; background:var(--red); color:#fff; padding:10px 20px; border-radius:var(--radius); font-size:14px; font-weight:500; text-decoration:none;">Open BU Academic Calendar →</a>
     </div>
 
   </div>
@@ -1093,22 +1153,54 @@ function renderTasks() {
     return;
   }
 
-  const priMap = { high: ['b-red','Urgent'], med: ['b-amber','This week'], low: ['b-green','Later'] };
+  const priMap = {
+    high: ['b-red', '🔴 Due in 1–2 days'],
+    med:  ['b-amber', '🟡 Due in 3–7 days'],
+    low:  ['b-green', '🟢 Due later']
+  };
   list.innerHTML = filtered.map(t => {
     const [bc, pl] = priMap[t.priority] || ['b-gray', t.priority];
     return `<li class="task-item">
       <button class="task-check ${t.done ? 'done' : ''}" onclick="toggleTask(${t.id})"></button>
-      <div class="task-body">
+      <div class="task-body" onclick="editTask(${t.id})" style="cursor:pointer;" title="Click to edit">
         <div class="task-name ${t.done ? 'done' : ''}">${t.name}</div>
         <div class="task-meta">
           ${t.due ? `<span>${fmtDate(t.due)}</span>` : ''}
           <span>${t.cat}</span>
           <span class="badge ${bc}">${pl}</span>
+          <span style="font-size:11px; color:var(--text3);">tap to edit</span>
         </div>
       </div>
       <button class="icon-btn" onclick="deleteTask(${t.id})">✕</button>
     </li>`;
   }).join('');
+}
+
+function editTask(id) {
+  const t = tasks.find(x => x.id === id);
+  if (!t) return;
+  document.getElementById('edit-id').value = t.id;
+  document.getElementById('edit-name').value = t.name;
+  document.getElementById('edit-due').value = t.due || '';
+  document.getElementById('edit-cat').value = t.cat;
+  document.getElementById('edit-pri').value = t.priority;
+  document.getElementById('edit-modal').style.display = 'flex';
+}
+
+function closeEditModal() {
+  document.getElementById('edit-modal').style.display = 'none';
+}
+
+function saveTaskEdit() {
+  const id = parseInt(document.getElementById('edit-id').value);
+  const t = tasks.find(x => x.id === id);
+  if (!t) return;
+  t.name = document.getElementById('edit-name').value.trim() || t.name;
+  t.due = document.getElementById('edit-due').value;
+  t.cat = document.getElementById('edit-cat').value;
+  t.priority = document.getElementById('edit-pri').value;
+  closeEditModal();
+  renderTasks();
 }
 
 function fmtDate(s) {
@@ -1134,28 +1226,49 @@ async function aiPrioritize() {
 function addBlock() {
   const start = document.getElementById('bl-start').value;
   const label = document.getElementById('bl-label').value.trim();
-  if (!start || !label) return;
-  blocks.push({ start, end: document.getElementById('bl-end').value, label, type: document.getElementById('bl-type').value });
+  const errEl = document.getElementById('bl-error');
+  if (!start || !label) {
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+  blocks.push({
+    start,
+    end: document.getElementById('bl-end').value,
+    label,
+    type: document.getElementById('bl-type').value,
+    manual: true
+  });
   blocks.sort((a,b) => a.start.localeCompare(b.start));
+  document.getElementById('bl-start').value = '';
+  document.getElementById('bl-end').value = '';
   document.getElementById('bl-label').value = '';
+  document.getElementById('bl-type').value = 'study';
   renderSchedule();
 }
 
 function deleteBlock(i) { blocks.splice(i,1); renderSchedule(); }
 
+function clearAIBlocks() {
+  blocks = blocks.filter(b => b.manual);
+  renderSchedule();
+}
+
 function renderSchedule() {
   const list = document.getElementById('schedule-list');
   if (blocks.length === 0) {
-    list.innerHTML = '<div class="empty"><div class="empty-icon">🗓️</div>No time blocks yet.</div>';
+    list.innerHTML = '<div class="empty"><div class="empty-icon">🗓️</div>Add your fixed commitments below (work, class, meals), then let Janet fill in your study time around them.</div>';
     return;
   }
   const tc = { study:'b-blue', class:'b-teal', work:'b-amber', break:'b-green', meeting:'b-gray', other:'b-gray' };
   const tl = { study:'Study', class:'Class', work:'Work', break:'Break', meeting:'Meeting', other:'Other' };
-  list.innerHTML = blocks.map((b,i) => `
-    <div class="sched-item">
+  const hasAI = blocks.some(b => !b.manual);
+  list.innerHTML = (hasAI ? `<div style="display:flex; justify-content:flex-end; margin-bottom:8px;"><button onclick="clearAIBlocks()" style="font-size:12px; color:var(--text3); padding:4px 10px;">Clear Janet's study blocks</button></div>` : '') +
+    blocks.map((b,i) => `
+    <div class="sched-item" style="${b.manual ? '' : 'background:var(--blue-bg); border-radius:var(--radius); margin-bottom:4px;'}">
       <div class="sched-time">${fmt12(b.start)}${b.end ? '–'+fmt12(b.end) : ''}</div>
       <div class="sched-body">
-        <div class="sched-label">${b.label}</div>
+        <div class="sched-label">${b.label}${b.manual ? '' : ' <span style="font-size:11px; color:var(--blue-text);">· added by Janet</span>'}</div>
         <div class="sched-sub"><span class="badge ${tc[b.type]||'b-gray'}">${tl[b.type]||b.type}</span></div>
       </div>
       <button class="icon-btn" onclick="deleteBlock(${i})">✕</button>
@@ -1172,15 +1285,29 @@ async function generateSchedule() {
   const pending = tasks.filter(t => !t.done);
   if (pending.length === 0) { alert('Add some tasks first in the Tasks tab!'); return; }
   const list = document.getElementById('schedule-list');
-  list.innerHTML = '<div class="thinking"><span>Janet is building your schedule</span><div class="dots"><span></span><span></span><span></span></div></div>';
+  list.innerHTML = '<div class="thinking"><span>Janet is building your study blocks</span><div class="dots"><span></span><span></span><span></span></div></div>';
+
   const taskStr = pending.map(t => `- ${t.name} (priority: ${t.priority}, due: ${t.due||'no date'}, type: ${t.cat})`).join('\n');
+
+  const existingStr = blocks.length > 0
+    ? '\n\nAlready scheduled (do NOT overlap with these):\n' + blocks.map(b => `- ${fmt12(b.start)}${b.end ? '–'+fmt12(b.end) : ''}: ${b.label} (${b.type})`).join('\n')
+    : '';
+
   try {
     const reply = await callJanet(
-      `Create a realistic day schedule from these tasks. Return ONLY a JSON array, no markdown or explanation: [{"time":"9:00am","end":"10:30am","label":"...","type":"study"}]. Types: study, class, work, break, meeting, other. Include at least one break and don't schedule more than 90 min without a break. Tasks:\n${taskStr}`,
+      `Create study blocks for today based on these tasks. Return ONLY a JSON array, no markdown or explanation: [{"time":"9:00am","end":"10:30am","label":"...","type":"study"}]. Types: study, break. Only add study time and breaks — do NOT recreate any already-scheduled blocks. Schedule around the existing commitments. Include at least one break and don't schedule more than 90 min of study without a break.${existingStr}\n\nTasks to schedule:\n${taskStr}`,
       'You are a scheduling assistant. Return ONLY valid JSON arrays. No markdown, no explanation, no text outside the array.'
     );
     const parsed = JSON.parse(reply.replace(/```json|```/g,'').trim());
-    blocks = parsed.map(b => ({ start: to24(b.time), end: b.end ? to24(b.end) : '', label: b.label, type: b.type||'study' }));
+    const newBlocks = parsed.map(b => ({
+      start: to24(b.time),
+      end: b.end ? to24(b.end) : '',
+      label: b.label,
+      type: b.type||'study',
+      manual: false
+    }));
+    // Keep existing manual blocks, add new AI-generated ones
+    blocks = [...blocks.filter(b => b.manual), ...newBlocks];
     blocks.sort((a,b) => a.start.localeCompare(b.start));
     renderSchedule();
   } catch(e) {
