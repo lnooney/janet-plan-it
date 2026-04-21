@@ -1,427 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Janet Plan It — BU Student Planner</title>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-:root {
-  --bg: #faf9f6;
-  --bg2: #f2f0ea;
-  --bg3: #e8e5dc;
-  --card: #ffffff;
-  --text: #1c1c1a;
-  --text2: #5a5850;
-  --text3: #8a8780;
-  --border: rgba(0,0,0,0.1);
-  --border2: rgba(0,0,0,0.18);
-  --red: #cc3b2f;
-  --red-bg: #fdf0ee;
-  --red-text: #9b2d23;
-  --green: #3a6b1a;
-  --green-bg: #edf5e0;
-  --green-text: #2d5414;
-  --blue: #1a5fa8;
-  --blue-bg: #e8f1fb;
-  --blue-text: #164d8a;
-  --amber: #8c5a10;
-  --amber-bg: #fdf3e0;
-  --amber-text: #724808;
-  --teal: #0f6b58;
-  --teal-bg: #e2f4ef;
-  --teal-text: #0a5244;
-  --radius: 10px;
-  --radius-lg: 14px;
-  --shadow: 0 1px 3px rgba(0,0,0,0.06);
-  --font: 'Georgia', serif;
-  --sans: system-ui, -apple-system, sans-serif;
+:root{
+  --bg:#faf9f6;--bg2:#f2f0ea;--bg3:#e8e5dc;
+  --card:#ffffff;--text:#1c1c1a;--text2:#5a5850;--text3:#8a8780;
+  --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.18);
+  --red:#cc3b2f;--red-bg:#fdf0ee;--red-text:#9b2d23;
+  --green:#3a6b1a;--green-bg:#edf5e0;--green-text:#2d5414;
+  --blue:#1a5fa8;--blue-bg:#e8f1fb;--blue-text:#164d8a;
+  --amber:#8c5a10;--amber-bg:#fdf3e0;--amber-text:#724808;
+  --teal:#0f6b58;--teal-bg:#e2f4ef;--teal-text:#0a5244;
+  --radius:10px;--radius-lg:14px;
+  --shadow:0 1px 3px rgba(0,0,0,0.06);
+  --font:'Georgia',serif;--sans:system-ui,-apple-system,sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #181816;
-    --bg2: #222220;
-    --bg3: #2c2c29;
-    --card: #1e1e1c;
-    --text: #f0ede6;
-    --text2: #b0ae a8;
-    --text3: #807e78;
-    --border: rgba(255,255,255,0.09);
-    --border2: rgba(255,255,255,0.16);
-    --red-bg: #3a1a17;
-    --red-text: #f09090;
-    --green-bg: #1a2e10;
-    --green-text: #90c860;
-    --blue-bg: #0e2a4a;
-    --blue-text: #80b8f0;
-    --amber-bg: #2e1e08;
-    --amber-text: #e8a840;
-    --teal-bg: #082820;
-    --teal-text: #50c4a8;
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#181816;--bg2:#222220;--bg3:#2c2c29;
+    --card:#1e1e1c;--text:#f0ede6;--text2:#b0aea8;--text3:#807e78;
+    --border:rgba(255,255,255,0.09);--border2:rgba(255,255,255,0.16);
+    --red-bg:#3a1a17;--red-text:#f09090;
+    --green-bg:#1a2e10;--green-text:#90c860;
+    --blue-bg:#0e2a4a;--blue-text:#80b8f0;
+    --amber-bg:#2e1e08;--amber-text:#e8a840;
+    --teal-bg:#082820;--teal-text:#50c4a8;
   }
 }
 
-body {
-  font-family: var(--sans);
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  padding: 0;
-}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;}
 
-/* ── HEADER ── */
-.site-header {
-  background: var(--card);
-  border-bottom: 0.5px solid var(--border);
-  padding: 1rem 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
+.site-header{background:var(--card);border-bottom:0.5px solid var(--border);padding:1rem 1.5rem;display:flex;align-items:center;gap:14px;}
+.janet-mark{width:42px;height:42px;background:linear-gradient(135deg,#cc3b2f 0%,#e8623a 100%);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.site-header h1{font-family:var(--font);font-size:20px;font-weight:normal;font-style:italic;color:var(--text);}
+.site-header p{font-size:12px;color:var(--text3);margin-top:1px;}
+.bu-badge{margin-left:auto;font-size:11px;font-weight:600;color:var(--red-text);background:var(--red-bg);padding:4px 10px;border-radius:999px;}
 
-.janet-mark {
-  width: 42px; height: 42px;
-  background: linear-gradient(135deg, #cc3b2f 0%, #e8623a 100%);
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
-}
+.tabs{background:var(--card);border-bottom:0.5px solid var(--border);display:flex;overflow-x:auto;padding:0 1.5rem;}
+.tab{padding:12px 13px;font-size:13px;font-weight:500;color:var(--text3);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:color 0.15s;font-family:var(--sans);}
+.tab:hover{color:var(--text2);}
+.tab.active{color:var(--text);border-bottom-color:var(--red);}
 
-.site-header h1 {
-  font-family: var(--font);
-  font-size: 20px;
-  font-weight: normal;
-  font-style: italic;
-  color: var(--text);
-  letter-spacing: -0.01em;
-}
+.main{max-width:840px;margin:0 auto;padding:1.5rem;}
+.panel{display:none;}
+.panel.active{display:block;}
 
-.site-header p {
-  font-size: 12px;
-  color: var(--text3);
-  margin-top: 1px;
-}
+.card{background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:14px;box-shadow:var(--shadow);}
+.card-title{font-size:13px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;}
 
-.bu-badge {
-  margin-left: auto;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--red-text);
-  background: var(--red-bg);
-  padding: 4px 10px;
-  border-radius: 999px;
-  letter-spacing: 0.04em;
-}
+input,select,textarea,button{font-family:var(--sans);font-size:14px;color:var(--text);background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius);padding:9px 12px;outline:none;transition:border-color 0.15s,box-shadow 0.15s;}
+input:focus,textarea:focus,select:focus{border-color:var(--red);box-shadow:0 0 0 2px rgba(204,59,47,0.15);}
+button{cursor:pointer;background:none;padding:9px 18px;font-weight:500;transition:background 0.12s,transform 0.1s;}
+button:hover{background:var(--bg2);}
+button:active{transform:scale(0.98);}
+.btn-primary{background:var(--red);color:#fff;border-color:var(--red);}
+.btn-primary:hover{background:#b5342a;}
 
-/* ── TABS ── */
-.tabs {
-  background: var(--card);
-  border-bottom: 0.5px solid var(--border);
-  display: flex;
-  overflow-x: auto;
-  gap: 0;
-  padding: 0 1.5rem;
-}
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px;font-weight:500;}
+.field .hint{font-size:11px;color:var(--text3);margin-top:3px;line-height:1.4;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 
-.tab {
-  padding: 12px 16px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text3);
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: color 0.15s;
-  font-family: var(--sans);
-}
+/* CHAT */
+.chat-container{display:flex;flex-direction:column;background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px;}
+.chat-messages{overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:12px;min-height:240px;max-height:500px;}
+.chat-msg{display:flex;flex-direction:column;gap:4px;}
+.chat-msg.user{align-items:flex-end;}
+.chat-msg.janet{align-items:flex-start;}
+.chat-bubble{max-width:85%;padding:10px 14px;border-radius:12px;font-size:14px;line-height:1.65;white-space:pre-wrap;}
+.chat-msg.user .chat-bubble{background:var(--red);color:#fff;border-radius:12px 12px 4px 12px;}
+.chat-msg.janet .chat-bubble{background:var(--bg2);color:var(--text);border-radius:12px 12px 12px 4px;border-left:3px solid var(--red);}
+.chat-msg-label{font-size:11px;color:var(--text3);padding:0 4px;}
+.chat-bubble-actions{display:flex;gap:6px;margin-top:4px;}
+.bubble-btn{font-size:11px;padding:3px 10px;border-radius:999px;border:0.5px solid var(--border2);background:none;cursor:pointer;color:var(--text3);}
+.bubble-btn:hover{background:var(--bg2);color:var(--text);}
+.chat-input-area{border-top:0.5px solid var(--border);padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--bg);}
+.chat-input-row{display:flex;gap:8px;align-items:flex-end;}
+.chat-input-row textarea{flex:1;min-height:44px;max-height:120px;resize:none;padding:10px 12px;font-size:14px;}
+.chat-chips{display:flex;flex-wrap:wrap;gap:5px;}
+.chip{font-size:12px;padding:5px 12px;border-radius:999px;border:0.5px solid var(--border2);cursor:pointer;background:none;color:var(--text2);transition:all .12s;}
+.chip:hover{background:var(--bg2);color:var(--text);border-color:var(--red);}
 
-.tab:hover { color: var(--text2); }
-.tab.active { color: var(--text); border-bottom-color: var(--red); }
+.thinking-bubble{background:var(--bg2);border-radius:12px 12px 12px 4px;border-left:3px solid var(--red);padding:10px 14px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text3);}
+.dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--red);animation:bounce 1.2s infinite;margin-right:3px;}
+.dots span:nth-child(2){animation-delay:.2s;}
+.dots span:nth-child(3){animation-delay:.4s;}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
 
-/* ── LAYOUT ── */
-.main { max-width: 840px; margin: 0 auto; padding: 1.5rem; }
-.panel { display: none; }
-.panel.active { display: block; }
+.task-list{list-style:none;}
+.task-item{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:0.5px solid var(--border);}
+.task-item:last-child{border-bottom:none;}
+.task-check{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border2);flex-shrink:0;cursor:pointer;margin-top:1px;background:none;padding:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.task-check.done{background:var(--green-bg);border-color:var(--green);}
+.task-check.done::after{content:'';width:9px;height:5px;border-left:2px solid var(--green);border-bottom:2px solid var(--green);transform:rotate(-45deg) translateY(-1px);display:block;}
+.task-body{flex:1;min-width:0;}
+.task-name{font-size:14px;line-height:1.4;}
+.task-name.done{color:var(--text3);text-decoration:line-through;}
+.task-meta{font-size:12px;color:var(--text3);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
 
-/* ── CARDS ── */
-.card {
-  background: var(--card);
-  border: 0.5px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 1.25rem;
-  margin-bottom: 14px;
-  box-shadow: var(--shadow);
-}
+.badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;display:inline-block;}
+.b-red{background:var(--red-bg);color:var(--red-text);}
+.b-amber{background:var(--amber-bg);color:var(--amber-text);}
+.b-green{background:var(--green-bg);color:var(--green-text);}
+.b-blue{background:var(--blue-bg);color:var(--blue-text);}
+.b-teal{background:var(--teal-bg);color:var(--teal-text);}
+.b-gray{background:var(--bg3);color:var(--text2);}
 
-.card-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text2);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 12px;
-}
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.fpill{font-size:12px;padding:5px 12px;border-radius:999px;border:0.5px solid var(--border2);background:none;cursor:pointer;color:var(--text2);transition:all .12s;}
+.fpill.active{background:var(--bg3);color:var(--text);}
 
-/* ── FORMS ── */
-input, select, textarea, button {
-  font-family: var(--sans);
-  font-size: 14px;
-  color: var(--text);
-  background: var(--bg2);
-  border: 0.5px solid var(--border2);
-  border-radius: var(--radius);
-  padding: 9px 12px;
-  outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.metric{background:var(--bg2);border-radius:var(--radius);padding:14px;text-align:center;}
+.metric-num{font-size:26px;font-weight:600;color:var(--text);line-height:1;}
+.metric-label{font-size:11px;color:var(--text3);margin-top:4px;}
 
-input:focus, textarea:focus, select:focus {
-  border-color: var(--red);
-  box-shadow: 0 0 0 2px rgba(204,59,47,0.15);
-}
+.icon-btn{background:none;border:none;cursor:pointer;font-size:13px;color:var(--text3);padding:3px 6px;border-radius:6px;}
+.icon-btn:hover{background:var(--bg2);}
 
-button {
-  cursor: pointer;
-  background: none;
-  border: 0.5px solid var(--border2);
-  padding: 9px 18px;
-  font-weight: 500;
-  transition: background 0.12s, transform 0.1s;
-}
+.sched-section{margin-bottom:18px;}
+.sched-section-title{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;}
+.sched-item{display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);align-items:flex-start;}
+.sched-item:last-child{border-bottom:none;}
+.sched-time{width:110px;font-size:12px;color:var(--text3);flex-shrink:0;padding-top:2px;line-height:1.5;}
+.sched-body{flex:1;}
+.sched-label{font-size:14px;color:var(--text);}
+.sched-sub{font-size:12px;color:var(--text3);margin-top:2px;}
+.sched-day-tag{font-size:11px;font-weight:600;color:var(--blue-text);background:var(--blue-bg);padding:2px 6px;border-radius:4px;display:inline-block;margin-bottom:2px;}
 
-button:hover { background: var(--bg2); }
-button:active { transform: scale(0.98); }
+.tip-box{background:var(--amber-bg);border-left:3px solid var(--amber);border-radius:0 var(--radius) var(--radius) 0;padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--amber-text);line-height:1.55;}
+.tip-box strong{font-weight:600;}
+.info-box{background:var(--blue-bg);border-left:3px solid var(--blue);border-radius:0 var(--radius) var(--radius) 0;padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--blue-text);line-height:1.55;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
 
-.btn-primary {
-  background: var(--red);
-  color: white;
-  border-color: var(--red);
-}
-.btn-primary:hover { background: #b5342a; }
+.timeline{list-style:none;}
+.tl-item{display:flex;gap:14px;padding:10px 0;border-bottom:0.5px solid var(--border);}
+.tl-item:last-child{border-bottom:none;}
+.tl-month{width:70px;font-size:12px;font-weight:600;color:var(--text2);flex-shrink:0;padding-top:2px;}
+.tl-body{flex:1;font-size:13px;color:var(--text);line-height:1.55;}
+.tl-urgent{color:var(--red-text);font-weight:600;font-size:12px;margin-top:3px;}
 
-.field { margin-bottom: 12px; }
-.field label {
-  display: block;
-  font-size: 12px;
-  color: var(--text2);
-  margin-bottom: 5px;
-  font-weight: 500;
-}
+.intro{background:linear-gradient(135deg,var(--red-bg) 0%,var(--bg) 100%);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem 1.25rem;margin-bottom:16px;}
+.intro h2{font-family:var(--font);font-size:22px;font-weight:normal;font-style:italic;color:var(--text);margin-bottom:6px;}
+.intro p{font-size:14px;color:var(--text2);line-height:1.6;}
 
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.sos-header{background:linear-gradient(135deg,var(--red) 0%,#e8623a 100%);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;margin-bottom:14px;color:#fff;}
+.sos-header h2{font-family:var(--font);font-size:20px;font-weight:normal;font-style:italic;margin-bottom:4px;}
+.sos-header p{font-size:13px;opacity:0.85;}
 
-/* ── CHIPS ── */
-.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-.chip {
-  font-size: 12px;
-  padding: 6px 13px;
-  border-radius: 999px;
-  border: 0.5px solid var(--border2);
-  cursor: pointer;
-  background: none;
-  color: var(--text2);
-  font-weight: 400;
-  transition: all 0.12s;
-}
-.chip:hover { background: var(--bg2); color: var(--text); border-color: var(--red); }
+.storage-note{background:var(--bg3);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:var(--text3);margin-bottom:14px;line-height:1.5;}
 
-/* ── AI OUTPUT ── */
-.ai-bubble {
-  background: var(--bg2);
-  border-radius: var(--radius-lg);
-  padding: 1.1rem 1.25rem;
-  margin-bottom: 14px;
-  font-size: 14px;
-  line-height: 1.75;
-  white-space: pre-wrap;
-  color: var(--text);
-  border-left: 3px solid var(--red);
-}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;padding:1rem;}
+.modal-box{background:var(--card);border-radius:var(--radius-lg);padding:1.5rem;width:100%;max-width:480px;box-shadow:0 8px 32px rgba(0,0,0,0.2);}
 
-.thinking {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 13px; color: var(--text3);
-  padding: 10px 0;
-}
+.resource-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.resource-card{background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);}
+.resource-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.resource-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:8px;}
+.resource-link{font-size:12px;color:var(--blue);text-decoration:none;}
+.resource-link:hover{text-decoration:underline;}
+.resource-phone{font-size:11px;color:var(--text3);margin-top:2px;}
+.resource-cat{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin:1.2rem 0 8px;}
 
-.dots span {
-  display: inline-block; width: 5px; height: 5px;
-  border-radius: 50%; background: var(--text3);
-  animation: bounce 1.2s infinite; margin-right: 3px;
-}
-.dots span:nth-child(2) { animation-delay: 0.2s; }
-.dots span:nth-child(3) { animation-delay: 0.4s; }
+.empty{text-align:center;padding:2rem 1rem;color:var(--text3);font-size:14px;}
+.empty-icon{font-size:28px;margin-bottom:8px;}
 
-@keyframes bounce {
-  0%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(-5px); }
-}
-
-/* ── TASKS ── */
-.task-list { list-style: none; }
-.task-item {
-  display: flex; align-items: flex-start; gap: 10px;
-  padding: 11px 0;
-  border-bottom: 0.5px solid var(--border);
-}
-.task-item:last-child { border-bottom: none; }
-
-.task-check {
-  width: 20px; height: 20px; border-radius: 50%;
-  border: 1.5px solid var(--border2); flex-shrink: 0;
-  cursor: pointer; margin-top: 1px; background: none;
-  padding: 0; display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s;
-}
-.task-check.done { background: var(--green-bg); border-color: var(--green); }
-.task-check.done::after {
-  content: ''; width: 9px; height: 5px;
-  border-left: 2px solid var(--green);
-  border-bottom: 2px solid var(--green);
-  transform: rotate(-45deg) translateY(-1px); display: block;
-}
-
-.task-body { flex: 1; min-width: 0; }
-.task-name { font-size: 14px; line-height: 1.4; }
-.task-name.done { color: var(--text3); text-decoration: line-through; }
-.task-meta { font-size: 12px; color: var(--text3); margin-top: 3px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-
-.badge {
-  font-size: 11px; font-weight: 600;
-  padding: 2px 8px; border-radius: 999px;
-  display: inline-block;
-}
-.b-red { background: var(--red-bg); color: var(--red-text); }
-.b-amber { background: var(--amber-bg); color: var(--amber-text); }
-.b-green { background: var(--green-bg); color: var(--green-text); }
-.b-blue { background: var(--blue-bg); color: var(--blue-text); }
-.b-teal { background: var(--teal-bg); color: var(--teal-text); }
-.b-gray { background: var(--bg3); color: var(--text2); }
-
-.icon-btn {
-  background: none; border: none; cursor: pointer;
-  font-size: 13px; color: var(--text3);
-  padding: 3px 6px; border-radius: 6px;
-}
-.icon-btn:hover { background: var(--bg2); }
-
-/* ── FILTER PILLS ── */
-.filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-.fpill {
-  font-size: 12px; padding: 5px 12px; border-radius: 999px;
-  border: 0.5px solid var(--border2);
-  background: none; cursor: pointer; color: var(--text2);
-  transition: all 0.12s;
-}
-.fpill.active { background: var(--bg3); color: var(--text); border-color: var(--border2); }
-
-/* ── METRICS ── */
-.metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-.metric {
-  background: var(--bg2); border-radius: var(--radius); padding: 14px;
-  text-align: center;
-}
-.metric-num { font-size: 26px; font-weight: 600; color: var(--text); line-height: 1; }
-.metric-label { font-size: 11px; color: var(--text3); margin-top: 4px; }
-
-/* ── SCHEDULE ── */
-.sched-item {
-  display: flex; gap: 14px; padding: 11px 0;
-  border-bottom: 0.5px solid var(--border); align-items: flex-start;
-}
-.sched-item:last-child { border-bottom: none; }
-.sched-time { width: 88px; font-size: 12px; color: var(--text3); flex-shrink: 0; padding-top: 2px; font-variant-numeric: tabular-nums; }
-.sched-body { flex: 1; }
-.sched-label { font-size: 14px; color: var(--text); }
-.sched-sub { font-size: 12px; color: var(--text3); margin-top: 3px; }
-
-/* ── RESOURCES ── */
-.resource-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.resource-card {
-  background: var(--card); border: 0.5px solid var(--border);
-  border-radius: var(--radius); padding: 14px;
-  box-shadow: var(--shadow);
-}
-.resource-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-.resource-desc { font-size: 12px; color: var(--text2); line-height: 1.5; margin-bottom: 8px; }
-.resource-link { font-size: 12px; color: var(--blue); text-decoration: none; }
-.resource-link:hover { text-decoration: underline; }
-.resource-phone { font-size: 11px; color: var(--text3); margin-top: 2px; }
-
-.resource-cat {
-  font-size: 12px; font-weight: 600; color: var(--text2);
-  text-transform: uppercase; letter-spacing: 0.06em;
-  margin: 1.2rem 0 8px;
-}
-.resource-cat:first-child { margin-top: 0; }
-
-/* ── EMPTY ── */
-.empty { text-align: center; padding: 2.5rem 1rem; color: var(--text3); font-size: 14px; }
-.empty-icon { font-size: 28px; margin-bottom: 8px; }
-
-/* ── HIDDEN CURRICULUM TIP ── */
-.tip-box {
-  background: var(--amber-bg);
-  border-left: 3px solid var(--amber);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 10px 14px;
-  margin-bottom: 12px;
-  font-size: 13px;
-  color: var(--amber-text);
-  line-height: 1.55;
-}
-.tip-box strong { font-weight: 600; }
-
-/* ── SEMESTER TIMELINE ── */
-.timeline { list-style: none; }
-.tl-item {
-  display: flex; gap: 14px; padding: 10px 0;
-  border-bottom: 0.5px solid var(--border);
-}
-.tl-item:last-child { border-bottom: none; }
-.tl-month {
-  width: 70px; font-size: 12px; font-weight: 600;
-  color: var(--text2); flex-shrink: 0; padding-top: 2px;
-}
-.tl-body { flex: 1; font-size: 13px; color: var(--text); line-height: 1.55; }
-.tl-urgent { color: var(--red-text); font-weight: 600; font-size: 12px; margin-top: 3px; }
-
-/* ── DIVIDER ── */
-.divider { height: 0.5px; background: var(--border); margin: 1rem 0; }
-
-/* ── INTRO SECTION ── */
-.intro {
-  background: linear-gradient(135deg, var(--red-bg) 0%, var(--bg) 100%);
-  border: 0.5px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem 1.25rem;
-  margin-bottom: 16px;
-}
-.intro h2 {
-  font-family: var(--font);
-  font-size: 22px; font-weight: normal;
-  font-style: italic; color: var(--text);
-  margin-bottom: 6px;
-}
-.intro p { font-size: 14px; color: var(--text2); line-height: 1.6; }
-
-/* ── RESPONSIVE ── */
-@media (max-width: 560px) {
-  .grid2, .grid3, .resource-grid, .metrics { grid-template-columns: 1fr; }
-  .main { padding: 1rem; }
-  .tab { padding: 10px 12px; font-size: 12px; }
+@media(max-width:560px){
+  .grid2,.resource-grid,.metrics{grid-template-columns:1fr;}
+  .main{padding:1rem;}
+  .tab{padding:10px 9px;font-size:12px;}
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="site-header">
   <div class="janet-mark">📋</div>
   <div>
@@ -431,906 +188,706 @@ button:active { transform: scale(0.98); }
   <div class="bu-badge">BU</div>
 </header>
 
-<!-- TABS -->
 <nav class="tabs">
-  <button class="tab active" onclick="switchTab('home', this)">Home</button>
-  <button class="tab" onclick="switchTab('plan', this)">Study Planner</button>
-  <button class="tab" onclick="switchTab('tasks', this)">My Tasks</button>
-  <button class="tab" onclick="switchTab('schedule', this)">My Schedule</button>
-  <button class="tab" onclick="switchTab('semester', this)">Semester Guide</button>
-  <button class="tab" onclick="switchTab('resources', this)">BU Resources</button>
+  <button class="tab active" onclick="switchTab('home',this)">Home</button>
+  <button class="tab" onclick="switchTab('tasks',this)">My Tasks & Schedule</button>
+  <button class="tab" onclick="switchTab('planner',this)">Study Planner</button>
+  <button class="tab" onclick="switchTab('sos',this)">Study S.O.S.</button>
+  <button class="tab" onclick="switchTab('semester',this)">Semester Guide</button>
+  <button class="tab" onclick="switchTab('resources',this)">BU Resources</button>
 </nav>
 
 <div class="main">
 
-  <!-- ══ HOME ══ -->
-  <div id="tab-home" class="panel active">
-
-    <div class="intro">
-      <h2>Hey — let's figure this out together.</h2>
-      <p>College has a lot of unwritten rules. Janet doesn't assume you already know them. Tell her what's going on, and she'll help you make a plan, find the right resources, and get things done. You've got this.</p>
-    </div>
-
-    <div class="tip-box">
-      <strong>New here?</strong> A good place to start: tell Janet what's stressing you out most right now. She'll help you break it down into steps you can actually take.
-    </div>
-
-    <div class="card">
-      <div class="card-title">Talk to Janet</div>
-      <div class="chips">
-        <button class="chip" onclick="useChip(this)">I have no idea how to start this paper</button>
-        <button class="chip" onclick="useChip(this)">I have an exam in 3 days and haven't started</button>
-        <button class="chip" onclick="useChip(this)">I work 20 hours a week — help me plan my time</button>
-        <button class="chip" onclick="useChip(this)">What even is office hours and should I go?</button>
-        <button class="chip" onclick="useChip(this)">I'm behind in two classes — what do I do?</button>
-        <button class="chip" onclick="useChip(this)">Help me figure out what to do this week</button>
-        <button class="chip" onclick="useChip(this)">I'm really overwhelmed and don't know where to start</button>
-        <button class="chip" onclick="useChip(this)">How do I talk to my professor about a bad grade?</button>
-      </div>
-      <div class="field">
-        <textarea id="home-input" placeholder="Tell Janet what's going on…" style="width:100%; min-height:72px;"></textarea>
-      </div>
-      <div style="display:flex; gap:8px; margin-top:6px;">
-        <button class="btn-primary" onclick="askJanet()">Ask Janet ↗</button>
-        <button onclick="clearHome()">Clear</button>
+<!-- HOME -->
+<div id="tab-home" class="panel active">
+  <div class="intro">
+    <h2>Hey — let's figure this out together.</h2>
+    <p>College has a lot of unwritten rules. Janet doesn't assume you already know them. Tell her what's going on and she'll help you make a plan, find the right resources, and get things done. You've got this.</p>
+  </div>
+  <div class="tip-box">
+    <strong>New here?</strong> Tell Janet what's stressing you out most right now. Or go to <strong>My Tasks & Schedule</strong> to get organized first, then come back to the <strong>Study Planner</strong> for a week-by-week plan.
+  </div>
+  <div class="chat-container">
+    <div class="chat-messages" id="home-messages">
+      <div class="chat-msg janet">
+        <div class="chat-msg-label">Janet</div>
+        <div class="chat-bubble">Hi! I'm Janet. I'm here to help you navigate college — whether that's figuring out where to start on a paper, dealing with a packed week, or just talking through what's going on. What's on your mind?</div>
       </div>
     </div>
+    <div class="chat-input-area">
+      <div class="chat-chips">
+        <button class="chip" onclick="setInput('home-input',this)">I have no idea how to start this paper</button>
+        <button class="chip" onclick="setInput('home-input',this)">I'm behind in two classes — what do I do?</button>
+        <button class="chip" onclick="setInput('home-input',this)">What even is office hours and should I go?</button>
+        <button class="chip" onclick="setInput('home-input',this)">How do I talk to my professor about a bad grade?</button>
+        <button class="chip" onclick="setInput('home-input',this)">I'm really overwhelmed and don't know where to start</button>
+        <button class="chip" onclick="setInput('home-input',this)">I work 20 hours a week — help me plan my time</button>
+      </div>
+      <div class="chat-input-row">
+        <textarea id="home-input" placeholder="Tell Janet what's going on…" onkeydown="handleKey(event,'home')"></textarea>
+        <button class="btn-primary" onclick="sendChat('home')">Send ↗</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <div id="home-output"></div>
+<!-- MY TASKS & SCHEDULE -->
+<div id="tab-tasks" class="panel">
 
+  <div class="storage-note">
+    💾 <strong>Janet remembers your info on this device and browser.</strong> If you switch to a different device or browser, or clear your browser data, you'll need to re-enter your tasks and schedule. Tip: always come back to Janet using the same browser on the same device.
   </div>
 
-  <!-- ══ STUDY PLANNER ══ -->
-  <div id="tab-plan" class="panel">
-
-    <div class="tip-box">
-      <strong>What's a study plan?</strong> It's a schedule that maps out exactly when you'll work on each class before a deadline. It makes the work feel way more manageable — instead of a big scary blob, you have small daily tasks.
+  <div class="card" style="background:var(--bg2);">
+    <div class="card-title">Add a task</div>
+    <div class="grid2">
+      <div class="field"><label>Task name</label><input type="text" id="task-name" placeholder="e.g. Read chapter 4 for BIO 107" style="width:100%;"/></div>
+      <div class="field"><label>Due date</label><input type="date" id="task-due" style="width:100%;"/></div>
     </div>
-
-    <div class="card">
-      <div class="card-title">Build my study plan</div>
-      <div class="field">
-        <label>What do you need to do? (be specific!)</label>
-        <textarea id="plan-topic" placeholder="e.g. Write a 5-page paper for COM 101 on media bias, study for Econ midterm covering chapters 3–6, catch up on reading for SOC 210…" style="width:100%; min-height:70px;"></textarea>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label>When is the deadline?</label>
-          <input type="date" id="plan-deadline" style="width:100%;" />
-        </div>
-        <div class="field">
-          <label>How many hours can you study per day?</label>
-          <input type="number" id="plan-hours" min="0.5" max="12" step="0.5" value="2" style="width:100%;" />
-        </div>
-      </div>
-      <div class="field">
-        <label>When are you NOT available? (work, classes, family stuff, etc.)</label>
-        <input type="text" id="plan-constraints" placeholder="e.g. Work Mon/Wed nights, class T/Th 9–12, no Sundays" style="width:100%;" />
-      </div>
-      <div class="field">
-        <label>Anything else Janet should know?</label>
-        <input type="text" id="plan-extra" placeholder="e.g. I'm a slow reader, I have a group project due same week, I need lots of breaks" style="width:100%;" />
-      </div>
-      <button class="btn-primary" onclick="buildPlan()">Build my plan ↗</button>
-    </div>
-
-    <div id="plan-output"></div>
-
-  </div>
-
-  <!-- ══ TASKS ══ -->
-  <div id="tab-tasks" class="panel">
-
-    <div class="card" style="background: var(--bg2);">
-      <div class="card-title">Add a task</div>
-      <div class="grid2">
-        <div class="field">
-          <label>What do you need to do?</label>
-          <input type="text" id="task-name" placeholder="e.g. Read chapter 4 for BIO 107" style="width:100%;" />
-        </div>
-        <div class="field">
-          <label>Due date (optional)</label>
-          <input type="date" id="task-due" style="width:100%;" />
-        </div>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label>Type</label>
-          <select id="task-cat" style="width:100%;">
-            <option>Homework</option>
-            <option>Paper or project</option>
-            <option>Exam prep</option>
-            <option>Reading</option>
-            <option>Class attendance</option>
-            <option>Work shift</option>
-            <option>Club or org</option>
-            <option>Appointment</option>
-            <option>Self-care</option>
-            <option>Financial aid / admin</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>How urgent is it?</label>
-          <select id="task-pri" style="width:100%;">
-            <option value="high">🔴 Due in 1–2 days — do this first</option>
-            <option value="med" selected>🟡 Due in 3–7 days — on your radar</option>
-            <option value="low">🟢 Due later — not urgent yet</option>
-          </select>
-        </div>
-      </div>
-      <div style="display:flex; gap:8px;">
-        <button class="btn-primary" onclick="addTask()">Add task</button>
-        <button onclick="aiPrioritize()">Help me prioritize ↗</button>
-      </div>
-    </div>
-
-    <div class="filter-row">
-      <button class="fpill active" onclick="filterTasks('all',this)">All</button>
-      <button class="fpill" onclick="filterTasks('high',this)">Due in 1–2 days</button>
-      <button class="fpill" onclick="filterTasks('med',this)">Due in 3–7 days</button>
-      <button class="fpill" onclick="filterTasks('low',this)">Due later</button>
-      <button class="fpill" onclick="filterTasks('done',this)">Done ✓</button>
-    </div>
-
-    <div class="card">
-      <ul class="task-list" id="task-list">
-        <li class="empty"><div class="empty-icon">📝</div>No tasks yet — add one above, or ask Janet to help you figure out what to work on first.</li>
-      </ul>
-    </div>
-
-    <div class="metrics">
-      <div class="metric"><div class="metric-num" id="m-urgent">0</div><div class="metric-label">Due in 1–2 days</div></div>
-      <div class="metric"><div class="metric-num" id="m-remaining">0</div><div class="metric-label">To do</div></div>
-      <div class="metric"><div class="metric-num" id="m-done">0</div><div class="metric-label">Done ✓</div></div>
-    </div>
-
-    <div id="priority-output"></div>
-
-  </div>
-
-  <!-- EDIT TASK MODAL -->
-  <div id="edit-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.45); z-index:1000; align-items:center; justify-content:center; padding:1rem;">
-    <div style="background:var(--card); border-radius:var(--radius-lg); padding:1.5rem; width:100%; max-width:480px; box-shadow:0 8px 32px rgba(0,0,0,0.2);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <div style="font-family:var(--font); font-size:17px; color:var(--text);">Edit task</div>
-        <button onclick="closeEditModal()" style="border:none; background:none; font-size:18px; color:var(--text3); cursor:pointer;">✕</button>
-      </div>
-      <input type="hidden" id="edit-id"/>
-      <div class="field">
-        <label>Task name</label>
-        <input type="text" id="edit-name" style="width:100%;"/>
-      </div>
-      <div class="field">
-        <label>Due date</label>
-        <input type="date" id="edit-due" style="width:100%;"/>
-      </div>
+    <div class="grid2">
       <div class="field">
         <label>Type</label>
-        <select id="edit-cat" style="width:100%;">
-          <option>Homework</option>
-          <option>Paper or project</option>
-          <option>Exam prep</option>
-          <option>Reading</option>
-          <option>Class attendance</option>
-          <option>Work shift</option>
-          <option>Club or org</option>
-          <option>Appointment</option>
-          <option>Self-care</option>
-          <option>Financial aid / admin</option>
-          <option>Other</option>
+        <select id="task-cat" style="width:100%;">
+          <option>Homework</option><option>Paper or project</option><option>Exam prep</option>
+          <option>Reading</option><option>Class attendance</option><option>Work shift</option>
+          <option>Club or org</option><option>Appointment</option><option>Self-care</option>
+          <option>Financial aid / admin</option><option>Other</option>
         </select>
       </div>
       <div class="field">
         <label>How urgent is it?</label>
-        <select id="edit-pri" style="width:100%;">
+        <select id="task-pri" style="width:100%;">
           <option value="high">🔴 Due in 1–2 days — do this first</option>
-          <option value="med">🟡 Due in 3–7 days — on your radar</option>
+          <option value="med" selected>🟡 Due in 3–7 days — on your radar</option>
           <option value="low">🟢 Due later — not urgent yet</option>
         </select>
       </div>
-      <div style="display:flex; gap:8px; margin-top:4px;">
-        <button class="btn-primary" onclick="saveTaskEdit()">Save changes</button>
-        <button onclick="closeEditModal()">Cancel</button>
-      </div>
     </div>
+    <button class="btn-primary" onclick="addTask()">Add task</button>
   </div>
 
-  <!-- ══ SCHEDULE ══ -->
-  <div id="tab-schedule" class="panel">
+  <div class="filter-row">
+    <button class="fpill active" onclick="filterTasks('all',this)">All</button>
+    <button class="fpill" onclick="filterTasks('high',this)">Due in 1–2 days</button>
+    <button class="fpill" onclick="filterTasks('med',this)">Due in 3–7 days</button>
+    <button class="fpill" onclick="filterTasks('low',this)">Due later</button>
+    <button class="fpill" onclick="filterTasks('done',this)">Done ✓</button>
+  </div>
 
-    <div class="tip-box">
-      <strong>Pro tip:</strong> Scheduling your study time like it's a class you can't skip is one of the biggest things that separates students who stay on top of things from those who don't. Block it out — then treat it like an appointment.
+  <div class="card">
+    <ul class="task-list" id="task-list">
+      <li class="empty"><div class="empty-icon">📝</div>No tasks yet — add one above.</li>
+    </ul>
+  </div>
+
+  <div class="metrics">
+    <div class="metric"><div class="metric-num" id="m-urgent">0</div><div class="metric-label">Due in 1–2 days</div></div>
+    <div class="metric"><div class="metric-num" id="m-remaining">0</div><div class="metric-label">To do</div></div>
+    <div class="metric"><div class="metric-num" id="m-done">0</div><div class="metric-label">Done ✓</div></div>
+  </div>
+
+  <div style="margin-bottom:1.5rem;">
+    <button class="btn-primary" onclick="goToPlanner()">Help me plan my week ↗</button>
+  </div>
+
+  <div class="card" style="background:var(--bg2);">
+    <div class="card-title">Add a schedule commitment</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6;">Add your classes, work shifts, and other fixed commitments so Janet knows when you're available to study. Fields marked <span style="color:var(--red);">*</span> are required.</p>
+
+    <div class="field">
+      <label>Is this recurring or a one-time event?</label>
+      <select id="bl-recurring" style="width:100%;" onchange="toggleScheduleType()">
+        <option value="weekly">Recurring every week (e.g. every Tuesday)</option>
+        <option value="date">One-time on a specific date</option>
+      </select>
     </div>
-
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <div>
-          <div class="card-title" style="margin-bottom:0;">Today</div>
-          <div id="today-date" style="font-size:12px; color:var(--text3);"></div>
-        </div>
-        <button onclick="generateSchedule()">Add study blocks from my tasks ↗</button>
-      </div>
-      <div class="tip-box" style="margin-bottom:12px; font-size:12px;">
-        <strong>How this works:</strong> Add your fixed commitments below first (work shifts, classes, meals). Then hit "Add study blocks from my tasks" and Janet will fill in study time around what you've already scheduled.
-      </div>
-      <div id="schedule-list">
-        <div class="empty"><div class="empty-icon">🗓️</div>Add your fixed commitments below (work, class, meals), then let Janet fill in your study time around them.</div>
-      </div>
-    </div>
-
-    <div class="card" style="background:var(--bg2);">
-      <div class="card-title">Add a time block</div>
-      <p style="font-size:13px; color:var(--text2); margin-bottom:12px;">Add anything fixed in your day — a class, work shift, meal, or appointment. Fields marked <span style="color:var(--red);">*</span> are required.</p>
-      <div class="grid2">
-        <div class="field">
-          <label>Start time <span style="color:var(--red);">*</span></label>
-          <input type="time" id="bl-start" style="width:100%;" />
-        </div>
-        <div class="field">
-          <label>End time</label>
-          <input type="time" id="bl-end" style="width:100%;" />
-        </div>
-      </div>
-      <div class="field">
-        <label>What's happening? <span style="color:var(--red);">*</span></label>
-        <input type="text" id="bl-label" placeholder="e.g. Work shift, BIO 107 lecture, Lunch" style="width:100%;" />
-      </div>
-      <div class="field">
-        <label>Type</label>
-        <select id="bl-type" style="width:100%;">
-          <option value="study">Study / homework</option>
-          <option value="class">Class</option>
-          <option value="work">Work</option>
-          <option value="break">Break / self-care</option>
-          <option value="meeting">Meeting / appointment</option>
-          <option value="other">Other</option>
+    <div id="weekly-fields">
+      <div class="field"><label>Day of week <span style="color:var(--red);">*</span></label>
+        <select id="bl-day" style="width:100%;">
+          <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+          <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
         </select>
       </div>
-      <div id="bl-error" style="display:none; font-size:12px; color:var(--red); margin-bottom:8px;">Please fill in both Start time and What's happening before adding a block.</div>
-      <button class="btn-primary" onclick="addBlock()">Add block</button>
     </div>
-
+    <div id="date-fields" style="display:none;">
+      <div class="field"><label>Date <span style="color:var(--red);">*</span></label><input type="date" id="bl-date" style="width:100%;"/></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Start time <span style="color:var(--red);">*</span></label><input type="time" id="bl-start" style="width:100%;"/></div>
+      <div class="field"><label>End time</label><input type="time" id="bl-end" style="width:100%;"/></div>
+    </div>
+    <div class="field"><label>What's happening? <span style="color:var(--red);">*</span></label><input type="text" id="bl-label" placeholder="e.g. BIO 107 lecture, Work shift, Club meeting" style="width:100%;"/></div>
+    <div class="field">
+      <label>Type</label>
+      <select id="bl-type" style="width:100%;">
+        <option value="class">Class</option><option value="work">Work</option>
+        <option value="break">Break / self-care</option><option value="meeting">Meeting / appointment</option>
+        <option value="club">Club or org</option><option value="other">Other</option>
+      </select>
+    </div>
+    <div id="bl-error" style="display:none;font-size:12px;color:var(--red);margin-bottom:8px;">Please fill in all required fields before adding.</div>
+    <button class="btn-primary" onclick="addBlock()">Add to my schedule</button>
   </div>
 
-  <!-- ══ SEMESTER GUIDE ══ -->
-  <div id="tab-semester" class="panel">
-
-    <div class="tip-box">
-      <strong>The hidden curriculum of the semester:</strong> BU has deadlines that can seriously affect your financial aid, grades, and housing — and nobody sends you a big reminder. Here's what to watch for, month by month. Always check the official BU Academic Calendar for exact dates each semester: <a href="https://www.bu.edu/academics/calendar/" target="_blank" style="color:var(--amber-text); font-weight:600;">bu.edu/academics/calendar</a>
+  <div class="card">
+    <div class="card-title">My Schedule</div>
+    <div id="schedule-display">
+      <div class="empty"><div class="empty-icon">🗓️</div>No commitments added yet.</div>
     </div>
-
-    <div class="card">
-      <div class="card-title">Fall semester</div>
-      <ul class="timeline">
-        <li class="tl-item">
-          <div class="tl-month">September</div>
-          <div class="tl-body">
-            <strong>SPLASH</strong> — BU's big student activities fair happens early in the fall semester. This is your best shot to find clubs, orgs, and communities that feel like you. Even if you're not a joiner, just walking through is worth it.
-            <br><br>Start visiting professors during office hours early — before you <em>need</em> anything. It's way less awkward than showing up when you're already struggling. Office hours are free, drop-in time with your professor — you don't need an appointment or a specific question to go.
-          </div>
-        </li>
-        <li class="tl-item">
-          <div class="tl-month">October</div>
-          <div class="tl-body">
-            Check your grades so far — have you gotten feedback on assignments? Mid-terms are coming. This is a good time to flag anything that isn't going well <em>before</em> it gets worse.
-            <div class="tl-urgent">⚠️ Early fall: Check the BU calendar for the last day to drop a course WITHOUT a "W" grade</div>
-            <div class="tl-urgent">⚠️ Check the BU calendar for the spring study abroad application deadline</div>
-            <br><small>A "W" on your transcript means you withdrew from the class. It doesn't hurt your GPA, but too many can raise questions. Dropping before the deadline means no record of it at all. Talk to your advisor before dropping any course.</small>
-          </div>
-        </li>
-        <li class="tl-item">
-          <div class="tl-month">November</div>
-          <div class="tl-body">
-            <strong>Course registration</strong> happens in November. You'll need to meet with your academic advisor before you can register — this is required, not optional. Schedule that meeting early because advisor slots fill up fast.
-            <div class="tl-urgent">⚠️ Mid-to-late November: Last day to drop a course with a "W" grade — check the BU calendar</div>
-            Summer internship applications start opening in November and December. The best opportunities close early — don't wait until spring to start looking.
-          </div>
-        </li>
-        <li class="tl-item">
-          <div class="tl-month">December</div>
-          <div class="tl-body">
-            Finals season. Build a study schedule at least two weeks before exams start — cramming the night before rarely works.
-            <div class="tl-urgent">⚠️ Book travel home early — prices spike significantly as the holidays approach</div>
-            Dorm students must vacate for winter break. If you can't go home, BU has options — contact the Dean of Students Office. If home isn't a safe place, reach out to them confidentially.
-          </div>
-        </li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Spring semester</div>
-      <ul class="timeline">
-        <li class="tl-item">
-          <div class="tl-month">January</div>
-          <div class="tl-body">
-            BU holds a winter activities fair early in January — a great chance to find clubs if you missed SPLASH or want to try something new. January is also when many summer on-campus job applications open, including orientation positions. If you want to stay in Boston over the summer, apply early.
-            <div class="tl-urgent">⚠️ RA applications for the following academic year typically open in January</div>
-          </div>
-        </li>
-        <li class="tl-item">
-          <div class="tl-month">February</div>
-          <div class="tl-body">
-            <strong>Housing portal opens</strong> in late January or early February. If you want to live on campus next year, you must complete the application and pay a deposit to receive a housing selection number. Missing this window means starting from the back of the line.
-            <div class="tl-urgent">⚠️ Check the BU calendar: last day to drop a course without a "W" grade is in February</div>
-          </div>
-        </li>
-        <li class="tl-item">
-          <div class="tl-month">March</div>
-          <div class="tl-body">
-            Housing selection happens in March — seniors choose first, then juniors, then sophomores. Gender-affirming and gender-neutral housing options have separate deadlines; check the BU Housing site.
-            <br><br>Mid-terms are typically in March. Check your grades and get ahead of anything that's slipping — there's still time to turn things around.
-            <div class="tl-urgent">⚠️ Check the BU calendar for study abroad application deadlines (summer and fall programs)</div>
-          </div>
-        </li>
-        <li class="tl-item">
-          <div class="tl-month">April</div>
-          <div class="tl-body">
-            <div class="tl-urgent">⚠️ FAFSA renewal priority deadline is in early April — if you receive financial aid, this is critical</div>
-            <div class="tl-urgent">⚠️ Check the BU calendar: last day to drop with a "W" or designate a course pass/fail</div>
-            <br><small>The FAFSA is the federal form that determines your financial aid each year. You must renew it annually — it doesn't carry over automatically. Go to <strong>studentaid.gov</strong> and log in with your FSA ID. Missing this deadline can affect your aid for next year.</small>
-          </div>
-        </li>
-        <li class="tl-item">
-          <div class="tl-month">May</div>
-          <div class="tl-body">
-            Reading period and final exams happen in early May. Dining hall service ends at the close of finals — make meal and travel plans accordingly. Book travel home early; prices go up fast near Commencement.
-            <div class="tl-urgent">⚠️ Check the BU calendar for move-out deadlines — they differ for degree and non-degree students</div>
-          </div>
-        </li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Satisfactory Academic Progress (SAP) — protect your financial aid</div>
-      <p style="font-size:13px; color:var(--text2); line-height:1.6; margin-bottom:10px;">
-        To keep your financial aid, you must pass at least <strong>75% of the credits you attempt</strong> and maintain at least a <strong>2.0 cumulative GPA</strong> each year. This applies to CASS Scholars and most students receiving aid.
-      </p>
-      <p style="font-size:13px; color:var(--text2); line-height:1.6; margin-bottom:10px;">
-        If you fall below SAP, your aid can be suspended — but you can appeal. The appeal asks you to explain what happened and what you'll do differently. You can include letters from doctors, professors, or advisors. If you're worried about your GPA or credits, talk to your advisor <em>now</em>, not at the end of the semester.
-      </p>
-      <a href="http://www.bu.edu/finaid/eligibility/satisfactory-academic-progress/" target="_blank" style="font-size:13px; color:var(--blue);">Learn more about SAP and how to appeal → bu.edu/finaid</a>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Always check the official BU Academic Calendar</div>
-      <p style="font-size:13px; color:var(--text2); line-height:1.6; margin-bottom:12px;">
-        Exact dates for add/drop deadlines, registration windows, housing applications, and other key milestones shift slightly each semester. The official BU Academic Calendar is always up to date — bookmark it and check it at the start of every semester.
-      </p>
-      <a href="https://www.bu.edu/academics/calendar/" target="_blank" style="display:inline-block; background:var(--red); color:#fff; padding:10px 20px; border-radius:var(--radius); font-size:14px; font-weight:500; text-decoration:none;">Open BU Academic Calendar →</a>
-    </div>
-
   </div>
 
-  <!-- ══ RESOURCES ══ -->
-  <div id="tab-resources" class="panel">
+</div>
 
-    <div class="tip-box">
-      <strong>These resources exist because students need them.</strong> Using them isn't a sign you're struggling — it's a sign you're smart enough to use what's available. Every student at BU has access to all of these, free.
+<!-- EDIT MODAL -->
+<div id="edit-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <span style="font-family:var(--font);font-size:17px;">Edit task</span>
+      <button onclick="closeEditModal()" style="border:none;background:none;font-size:18px;color:var(--text3);cursor:pointer;padding:0;">✕</button>
     </div>
-
-    <div class="card-title">Food & basic needs</div>
-    <div class="resource-grid">
-      <div class="resource-card">
-        <div class="resource-name">BU Food Pantry</div>
-        <div class="resource-desc">Free food, toiletries, and menstrual products. Order online and pick up discreetly on the Charles River or Medical campuses. No questions asked.</div>
-        <a class="resource-link" href="https://www.bu.edu/studentwellbeing/bu-food-pantry/" target="_blank">bu.edu/studentwellbeing/bu-food-pantry</a>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">Terrier Meal Share</div>
-        <div class="resource-desc">Need dining hall meals? The Dean of Students Office can connect you. Other students donate unused guest meals, and BU matches them. No cost to you.</div>
-        <a class="resource-link" href="https://www.bu.edu/dos/terrier-meal-share/" target="_blank">bu.edu/dos/terrier-meal-share</a>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">Financial Emergency Help</div>
-        <div class="resource-desc">Students have gotten help with laptop loaners, emergency housing, and flights home for family emergencies. Contact the Dean of Students Office.</div>
-        <div class="resource-phone">Delcenia Collins-Murrell: drcm@bu.edu</div>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">City of Boston Food Resources</div>
-        <div class="resource-desc">Text "FOOD" to 617-579-8238 for a food resource chatbot. Also: Fair Foods ($2 grocery bags), Fresh Truck mobile market, community fridges in Allston-Brighton, Brookline, Cambridge, and South End.</div>
-      </div>
+    <input type="hidden" id="edit-id"/>
+    <div class="field"><label>Task name</label><input type="text" id="edit-name" style="width:100%;"/></div>
+    <div class="field"><label>Due date</label><input type="date" id="edit-due" style="width:100%;"/></div>
+    <div class="field"><label>Type</label>
+      <select id="edit-cat" style="width:100%;">
+        <option>Homework</option><option>Paper or project</option><option>Exam prep</option>
+        <option>Reading</option><option>Class attendance</option><option>Work shift</option>
+        <option>Club or org</option><option>Appointment</option><option>Self-care</option>
+        <option>Financial aid / admin</option><option>Other</option>
+      </select>
     </div>
+    <div class="field"><label>How urgent is it?</label>
+      <select id="edit-pri" style="width:100%;">
+        <option value="high">🔴 Due in 1–2 days — do this first</option>
+        <option value="med">🟡 Due in 3–7 days — on your radar</option>
+        <option value="low">🟢 Due later — not urgent yet</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn-primary" onclick="saveTaskEdit()">Save changes</button>
+      <button onclick="closeEditModal()">Cancel</button>
+    </div>
+  </div>
+</div>
 
-    <div class="card-title" style="margin-top:1.2rem;">Academic support</div>
-    <div class="resource-grid">
-      <div class="resource-card">
-        <div class="resource-name">Educational Resource Center (ERC)</div>
-        <div class="resource-desc">Free peer tutoring, academic support advising, workshops, and writing assistance. If you're struggling in a class, start here.</div>
-        <a class="resource-link" href="http://www.bu.edu/erc" target="_blank">bu.edu/erc</a>
-        <div class="resource-phone">100 Bay State Rd., 5th floor · 617-353-7077</div>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">CAS Writing Center</div>
-        <div class="resource-desc">Free one-on-one writing help for students in Writing Program courses. They'll work through any stage of your paper with you — brainstorming, drafts, revisions.</div>
-        <a class="resource-link" href="https://www.bu.edu/writingprogram/the-writing-center/" target="_blank">bu.edu/writingprogram/the-writing-center</a>
-        <div class="resource-phone">100 Bay State Rd., 3rd floor · 617-358-1500</div>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">BU Libraries</div>
-        <div class="resource-desc">Free research help from actual librarians — by chat, text, email, or appointment. You never pay for access to sources. Great for papers and research projects.</div>
-        <a class="resource-link" href="http://www.bu.edu/library" target="_blank">bu.edu/library</a>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">Academic Advising</div>
-        <div class="resource-desc">Your academic advisor helps you plan your courses, navigate requirements, and handle academic difficulties. Meet with them every semester — not just when something's wrong.</div>
-        <a class="resource-link" href="https://www.bu.edu/advising/" target="_blank">bu.edu/advising</a>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">First Year Success</div>
-        <div class="resource-desc">Assistant Directors specifically for first-year students. They'll reach out to you, and you can reach out to them anytime you're navigating the adjustment to college.</div>
-        <a class="resource-link" href="https://www.bu.edu/advising/for-students/assistant-directors-of-first-year-success/" target="_blank">bu.edu/advising → First Year Success</a>
-        <div class="resource-phone">100 Bay State Road</div>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">Disability & Access Services</div>
-        <div class="resource-desc">If you have a disability, chronic illness, or mental health condition, DAS can set up accommodations for your classes — extra time, note-taking support, and more. It's confidential.</div>
-        <a class="resource-link" href="http://www.bu.edu/disability" target="_blank">bu.edu/disability</a>
-        <div class="resource-phone">25 Buick Street · 617-353-3658</div>
+<!-- STUDY PLANNER -->
+<div id="tab-planner" class="panel">
+  <div class="tip-box">
+    <strong>Study Planner = the big picture.</strong> Janet will look at everything on your task list and schedule and help you map out a realistic, day-by-day plan. The more you've filled in under My Tasks & Schedule, the better her advice will be. You can also just start chatting and she'll ask you what she needs to know.
+  </div>
+  <div class="chat-container">
+    <div class="chat-messages" id="planner-messages">
+      <div class="chat-msg janet">
+        <div class="chat-msg-label">Janet</div>
+        <div class="chat-bubble">Let's build your study plan. Tell me what you're working toward — what assignments or exams are coming up, when they're due, and how far out you want to plan. I'll build you a realistic day-by-day breakdown.</div>
       </div>
     </div>
-
-    <div class="card-title" style="margin-top:1.2rem;">Community & belonging</div>
-    <div class="resource-grid">
-      <div class="resource-card">
-        <div class="resource-name">Newbury Center</div>
-        <div class="resource-desc">BU's home for first-generation college students. Programming, community, and people who get what it's like to be the first in your family navigating this. This one's for you.</div>
-        <a class="resource-link" href="https://www.bu.edu/newbury-center/" target="_blank">bu.edu/newbury-center</a>
-        <div class="resource-phone">755 Commonwealth Ave. · 617-353-3400</div>
+    <div class="chat-input-area">
+      <div class="chat-chips">
+        <button class="chip" onclick="setInput('planner-input',this)">Build me a plan for the next two weeks</button>
+        <button class="chip" onclick="setInput('planner-input',this)">I have three things due this week — help me sequence them</button>
+        <button class="chip" onclick="setInput('planner-input',this)">Help me plan out the rest of the semester</button>
+        <button class="chip" onclick="setInput('planner-input',this)">I keep procrastinating — help me build a realistic routine</button>
       </div>
-      <div class="resource-card">
-        <div class="resource-name">Howard Thurman Center</div>
-        <div class="resource-desc">BU's cultural hub — intentionally inclusive, culturally affirming programming, events, discussions, and community. A great place to feel at home.</div>
-        <a class="resource-link" href="http://www.bu.edu/thurman" target="_blank">bu.edu/thurman</a>
-        <div class="resource-phone">808 Commonwealth Ave. · 617-353-4745</div>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">LGBTQIA+ Student Resource Center</div>
-        <div class="resource-desc">Community, programming, and resources to affirm student identities. Drop in to study, hang out, or pick up free gender-affirming products and pronoun pins.</div>
-        <a class="resource-link" href="https://www.bu.edu/lgbtqia-student-center/" target="_blank">bu.edu/lgbtqia-student-center</a>
-        <div class="resource-phone">808 Commonwealth Ave.</div>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">Student Activities Office</div>
-        <div class="resource-desc">Find student clubs, orgs, and events. There are hundreds of groups — cultural, academic, athletic, social. Getting involved is one of the most important things you can do.</div>
-        <a class="resource-link" href="https://www.bu.edu/studentactivities/" target="_blank">bu.edu/studentactivities</a>
-        <div class="resource-phone">775 Commonwealth Ave. · 617-353-3635</div>
+      <div class="chat-input-row">
+        <textarea id="planner-input" placeholder="Tell Janet what you're working on and when things are due…" onkeydown="handleKey(event,'planner')"></textarea>
+        <button class="btn-primary" onclick="sendChat('planner')">Send ↗</button>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="card-title" style="margin-top:1.2rem;">Mental health & wellness</div>
-    <div class="resource-grid">
-      <div class="resource-card">
-        <div class="resource-name">Counseling & Psychiatric Services (CAPS)</div>
-        <div class="resource-desc">Free counseling for BU students — anxiety, depression, stress, whatever you're going through. A crisis counselor is available 24/7. You don't have to be in crisis to reach out.</div>
-        <a class="resource-link" href="http://www.bu.edu/shs/behavioral" target="_blank">bu.edu/shs/behavioral</a>
-        <div class="resource-phone">617-353-3569 (24/7 crisis line)</div>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">Student Health Services</div>
-        <div class="resource-desc">Medical care for all full-time students. Schedule through Patient Connect or walk in if you're feeling unwell.</div>
-        <a class="resource-link" href="http://www.bu.edu/shs" target="_blank">bu.edu/shs</a>
-        <div class="resource-phone">881 Commonwealth Ave. · 617-353-3575</div>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">The Wellbeing Project</div>
-        <div class="resource-desc">Campus-wide initiative for student health and wellness — events, programs, and resources to help you feel good during your time at BU.</div>
-        <a class="resource-link" href="https://www.bu.edu/provost/wellbeingproject/" target="_blank">bu.edu/provost/wellbeingproject</a>
-        <div class="resource-phone">930 Commonwealth Ave. · Wellbp@bu.edu</div>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">SARP (Survivor Advocacy)</div>
-        <div class="resource-desc">Confidential care and support for survivors of sexual assault. A counselor is available 24/7, year-round. Reaching out does not automatically trigger a report.</div>
-        <a class="resource-link" href="http://www.bu.edu/sarp" target="_blank">bu.edu/sarp</a>
-        <div class="resource-phone">617-353-SARP (7277) — 24/7</div>
+<!-- STUDY SOS -->
+<div id="tab-sos" class="panel">
+  <div class="sos-header">
+    <h2>Study S.O.S.</h2>
+    <p>Something due in the next day or two? Let's focus. Tell Janet what you're dealing with and she'll help you figure out the fastest path forward.</p>
+  </div>
+  <div class="tip-box">
+    <strong>How this works:</strong> Tell Janet what's due, when, and where you're at. She'll ask a few quick questions then give you a specific, realistic plan for the time you have. No judgment — just a plan.
+  </div>
+  <div class="chat-container">
+    <div class="chat-messages" id="sos-messages">
+      <div class="chat-msg janet">
+        <div class="chat-msg-label">Janet</div>
+        <div class="chat-bubble">What's the situation? Tell me what's due, when it's due, and where you're at right now — haven't started, have some notes, have a draft, or studied some but feeling lost. I'll help you figure out exactly what to do with the time you have left.</div>
       </div>
     </div>
-
-    <div class="card-title" style="margin-top:1.2rem;">Money, jobs & future planning</div>
-    <div class="resource-grid">
-      <div class="resource-card">
-        <div class="resource-name">Office of Financial Assistance</div>
-        <div class="resource-desc">All financial aid questions start here. Meet in person, on Zoom, or via live chat. If something about your aid looks wrong or you need help, come here first.</div>
-        <a class="resource-link" href="http://www.bu.edu/finaid" target="_blank">bu.edu/finaid</a>
-        <div class="resource-phone">881 Commonwealth Ave., 5th floor · 617-353-2965</div>
+    <div class="chat-input-area">
+      <div class="chat-chips">
+        <button class="chip" onclick="setInput('sos-input',this)">Exam tomorrow and I haven't studied yet</button>
+        <button class="chip" onclick="setInput('sos-input',this)">Paper due tonight and I have a messy draft</button>
+        <button class="chip" onclick="setInput('sos-input',this)">Paper due tomorrow and I haven't started</button>
+        <button class="chip" onclick="setInput('sos-input',this)">I've been studying but I'm panicking — what do I focus on?</button>
+        <button class="chip" onclick="setInput('sos-input',this)">I have 4 hours and two things due — help me triage</button>
       </div>
-      <div class="resource-card">
-        <div class="resource-name">Student Employment Office</div>
-        <div class="resource-desc">Helps you find on-campus jobs (work study and non-work study) and off-campus jobs. The JobX board lists openings. On-campus jobs are great — flexible hours, understanding supervisors.</div>
-        <a class="resource-link" href="http://www.bu.edu/seo" target="_blank">bu.edu/seo</a>
-        <div class="resource-phone">881 Commonwealth Ave., 2nd floor · 617-353-3594</div>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">Center for Career Development</div>
-        <div class="resource-desc">Internships, résumé reviews, career advising, alumni connections, job postings — all through your Handshake account. Walk-in résumé review is available — no appointment needed.</div>
-        <a class="resource-link" href="http://www.bu.edu/careers" target="_blank">bu.edu/careers</a>
-        <div class="resource-phone">100 Bay State Rd., 6th floor · 617-353-3590</div>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">Undergraduate Research (UROP)</div>
-        <div class="resource-desc">Get paid to do real research with a BU professor. Open to all undergrads. This is one of the best résumé-builders and learning experiences available — don't sleep on it.</div>
-        <a class="resource-link" href="https://www.bu.edu/urop/" target="_blank">bu.edu/urop</a>
-        <div class="resource-phone">775 Commonwealth Ave., 5th floor · 617-353-2200</div>
+      <div class="chat-input-row">
+        <textarea id="sos-input" placeholder="What's due, when, and where are you at with it?" onkeydown="handleKey(event,'sos')"></textarea>
+        <button class="btn-primary" onclick="sendChat('sos')">Send ↗</button>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="card-title" style="margin-top:1.2rem;">When something goes wrong</div>
-    <div class="resource-grid">
-      <div class="resource-card">
-        <div class="resource-name">University Service Center</div>
-        <div class="resource-desc">For complex problems that involve multiple offices — leaves of absence, withdrawals, situations that need more than one department to resolve.</div>
-        <a class="resource-link" href="http://www.bu.edu/usc" target="_blank">bu.edu/usc</a>
-        <div class="resource-phone">881 Commonwealth Ave., Lower Level · 617-358-1818</div>
-      </div>
-      <div class="resource-card">
-        <div class="resource-name">Dean of Students Office</div>
-        <div class="resource-desc">For emergencies — housing insecurity, family crises, laptop loaners, and more. Students have gotten real help here. Don't wait until things spiral.</div>
-        <div class="resource-phone">Contact: drcm@bu.edu (Delcenia Collins-Murrell)</div>
-      </div>
-    </div>
+<!-- SEMESTER GUIDE -->
+<div id="tab-semester" class="panel">
 
-  </div><!-- end resources -->
+  <div class="info-box">
+    <div><strong>Always check the official BU Academic Calendar for exact dates.</strong> Deadlines shift slightly each semester — the calendar is always up to date.</div>
+    <a href="https://www.bu.edu/academics/calendar/" target="_blank" style="display:inline-block;background:var(--blue);color:#fff;padding:8px 16px;border-radius:var(--radius);font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;flex-shrink:0;">Open BU Calendar →</a>
+  </div>
+
+  <div class="tip-box">
+    <strong>The hidden curriculum of the semester:</strong> BU has deadlines that can seriously affect your financial aid, grades, and housing — and nobody sends you a big reminder. Here's what to watch for, month by month.
+  </div>
+
+  <div class="card">
+    <div class="card-title">Fall semester</div>
+    <ul class="timeline">
+      <li class="tl-item">
+        <div class="tl-month">September</div>
+        <div class="tl-body">
+          <strong>SPLASH</strong> — BU's big student activities fair happens early in the fall. Your best shot to find clubs, orgs, and communities that feel like you. Even if you're not a joiner, just walking through is worth it.
+          <br><br>Start visiting professors during office hours early — before you <em>need</em> anything. Office hours are free, drop-in time with your professor. You don't need an appointment or a specific question. It's way less awkward than showing up when you're already struggling.
+        </div>
+      </li>
+      <li class="tl-item">
+        <div class="tl-month">October</div>
+        <div class="tl-body">
+          Check your grades so far — have you gotten feedback on assignments? Mid-terms are coming. This is a good time to flag anything that isn't going well before it gets worse.
+          <div class="tl-urgent">⚠️ Check the BU calendar: last day to drop a course WITHOUT a "W" grade</div>
+          <div class="tl-urgent">⚠️ Check the BU calendar: spring study abroad application deadline</div>
+          <br><small>A "W" on your transcript means you withdrew from the class. It doesn't hurt your GPA, but too many can raise questions. Dropping before this deadline means no record of it at all. Talk to your advisor before dropping any course.</small>
+        </div>
+      </li>
+      <li class="tl-item">
+        <div class="tl-month">November</div>
+        <div class="tl-body">
+          <strong>Course registration</strong> happens in November. You must meet with your academic advisor before you can register — this is required, not optional. Schedule that meeting early because advisor slots fill up fast.
+          <div class="tl-urgent">⚠️ Check the BU calendar: last day to drop a course WITH a "W" grade</div>
+          Summer internship applications start opening in November and December. The best opportunities close early — don't wait until spring.
+        </div>
+      </li>
+      <li class="tl-item">
+        <div class="tl-month">December</div>
+        <div class="tl-body">
+          Finals season. Build a study schedule at least two weeks before exams start.
+          <div class="tl-urgent">⚠️ Book travel home early — prices spike significantly as the holidays approach</div>
+          Dorm students must vacate for winter break. If you can't go home or home isn't a safe place, contact the Dean of Students Office — BU has options and will not leave you without support.
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Spring semester</div>
+    <ul class="timeline">
+      <li class="tl-item">
+        <div class="tl-month">January</div>
+        <div class="tl-body">
+          BU holds a winter activities fair early in January — great if you missed SPLASH or want to try something new. Many summer on-campus job applications open in January, including orientation positions. If you want to stay in Boston over the summer, apply early.
+          <div class="tl-urgent">⚠️ RA applications for the following year typically open in January</div>
+        </div>
+      </li>
+      <li class="tl-item">
+        <div class="tl-month">February</div>
+        <div class="tl-body">
+          <strong>Housing portal opens</strong> in late January or early February. Complete the application and pay a deposit to get a housing selection number. Missing this window means starting from the back of the line.
+          <div class="tl-urgent">⚠️ Check the BU calendar: last day to drop a course without a "W" grade</div>
+        </div>
+      </li>
+      <li class="tl-item">
+        <div class="tl-month">March</div>
+        <div class="tl-body">
+          Housing selection happens in March — seniors first, then juniors, then sophomores. Gender-affirming and gender-neutral housing options have separate deadlines; check the BU Housing site.
+          <br><br>Mid-terms are typically in March. Check your grades and get ahead of anything slipping — there's still time to turn things around.
+          <div class="tl-urgent">⚠️ Check the BU calendar: study abroad application deadlines (summer and fall programs)</div>
+        </div>
+      </li>
+      <li class="tl-item">
+        <div class="tl-month">April</div>
+        <div class="tl-body">
+          <div class="tl-urgent">⚠️ FAFSA renewal priority deadline is in early April — if you receive financial aid, this is critical</div>
+          <div class="tl-urgent">⚠️ Check the BU calendar: last day to drop with a "W" or go pass/fail</div>
+          <br><small>The FAFSA is the federal form that determines your financial aid each year — you must renew it annually, it doesn't carry over automatically. Go to <strong>studentaid.gov</strong> and log in with your FSA ID. Missing this deadline can affect your aid for next year.</small>
+        </div>
+      </li>
+      <li class="tl-item">
+        <div class="tl-month">May</div>
+        <div class="tl-body">
+          Reading period and final exams in early May. Dining hall service ends at the close of finals. Book travel home early — prices go up fast near Commencement.
+          <div class="tl-urgent">⚠️ Check the BU calendar for move-out deadlines — they differ for degree and non-degree students</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Satisfactory Academic Progress (SAP) — protect your financial aid</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:10px;">
+      To keep your financial aid, you must pass at least <strong>75% of the credits you attempt</strong> and maintain at least a <strong>2.0 cumulative GPA</strong> each year. This applies to Pathways Scholars and most students receiving aid.
+    </p>
+    <p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:12px;">
+      If you fall below SAP, your aid can be suspended — but you can appeal. The appeal asks you to explain what happened and what you'll do differently. You can include letters from doctors, professors, or advisors. If you're worried about your GPA or credits, talk to your advisor <em>now</em>, not at the end of the semester.
+    </p>
+    <a href="http://www.bu.edu/finaid/eligibility/satisfactory-academic-progress/" target="_blank" style="font-size:13px;color:var(--blue);">Learn more about SAP and how to appeal → bu.edu/finaid</a>
+  </div>
+
+</div>
+
+<!-- BU RESOURCES -->
+<div id="tab-resources" class="panel">
+  <div class="tip-box">
+    <strong>These resources exist because students need them.</strong> Using them isn't a sign you're struggling — it's a sign you're smart enough to use what's available. Every student at BU has access to all of these, free.
+  </div>
+
+  <div class="resource-cat">Food & basic needs</div>
+  <div class="resource-grid" style="margin-bottom:16px;">
+    <div class="resource-card"><div class="resource-name">BU Food Pantry</div><div class="resource-desc">Free food, toiletries, and menstrual products. Order online and pick up discreetly on the Charles River or Medical campuses. No questions asked.</div><a class="resource-link" href="https://www.bu.edu/studentwellbeing/bu-food-pantry/" target="_blank">bu.edu/studentwellbeing/bu-food-pantry</a></div>
+    <div class="resource-card"><div class="resource-name">Terrier Meal Share</div><div class="resource-desc">Need dining hall meals? Other students donate unused guest meals and BU matches them. No cost to you.</div><a class="resource-link" href="https://www.bu.edu/dos/terrier-meal-share/" target="_blank">bu.edu/dos/terrier-meal-share</a></div>
+    <div class="resource-card"><div class="resource-name">Financial Emergency Help</div><div class="resource-desc">Students have gotten help with laptop loaners, emergency housing, and flights home for family emergencies. Contact the Dean of Students Office.</div><div class="resource-phone">Delcenia Collins-Murrell: drcm@bu.edu</div></div>
+    <div class="resource-card"><div class="resource-name">City of Boston Food Resources</div><div class="resource-desc">Text "FOOD" to 617-579-8238. Also: Fair Foods ($2 grocery bags), Fresh Truck mobile market, community fridges in Allston-Brighton, Brookline, Cambridge, and South End.</div></div>
+  </div>
+
+  <div class="resource-cat">Academic support</div>
+  <div class="resource-grid" style="margin-bottom:16px;">
+    <div class="resource-card"><div class="resource-name">Educational Resource Center (ERC)</div><div class="resource-desc">Free peer tutoring, academic support advising, workshops, and writing assistance. If you're struggling in a class, start here.</div><a class="resource-link" href="http://www.bu.edu/erc" target="_blank">bu.edu/erc</a><div class="resource-phone">100 Bay State Rd., 5th floor · 617-353-7077</div></div>
+    <div class="resource-card"><div class="resource-name">CAS Writing Center</div><div class="resource-desc">Free one-on-one writing help for students in Writing Program courses. Any stage of your paper — brainstorming, drafts, revisions.</div><a class="resource-link" href="https://www.bu.edu/writingprogram/the-writing-center/" target="_blank">bu.edu/writingprogram/the-writing-center</a><div class="resource-phone">100 Bay State Rd., 3rd floor · 617-358-1500</div></div>
+    <div class="resource-card"><div class="resource-name">BU Libraries</div><div class="resource-desc">Free research help from actual librarians — chat, text, email, or appointment. You never pay for access to sources.</div><a class="resource-link" href="http://www.bu.edu/library" target="_blank">bu.edu/library</a></div>
+    <div class="resource-card"><div class="resource-name">Academic Advising</div><div class="resource-desc">Plan courses, navigate requirements, handle academic difficulties. Meet with them every semester — not just when something's wrong.</div><a class="resource-link" href="https://www.bu.edu/advising/" target="_blank">bu.edu/advising</a></div>
+    <div class="resource-card"><div class="resource-name">First Year Success</div><div class="resource-desc">Assistant Directors specifically for first-year students. They'll reach out to you, and you can reach out anytime you're navigating the adjustment to college.</div><a class="resource-link" href="https://www.bu.edu/advising/for-students/assistant-directors-of-first-year-success/" target="_blank">bu.edu/advising → First Year Success</a></div>
+    <div class="resource-card"><div class="resource-name">Disability & Access Services</div><div class="resource-desc">Accommodations for disability, chronic illness, or mental health conditions — extra time, note-taking support, and more. Confidential.</div><a class="resource-link" href="http://www.bu.edu/disability" target="_blank">bu.edu/disability</a><div class="resource-phone">25 Buick Street · 617-353-3658</div></div>
+  </div>
+
+  <div class="resource-cat">Community & belonging</div>
+  <div class="resource-grid" style="margin-bottom:16px;">
+    <div class="resource-card"><div class="resource-name">Newbury Center</div><div class="resource-desc">BU's home for first-generation college students. Programming, community, and people who get what it's like to be the first in your family navigating this. This one's for you.</div><a class="resource-link" href="https://www.bu.edu/newbury-center/" target="_blank">bu.edu/newbury-center</a><div class="resource-phone">755 Commonwealth Ave. · 617-353-3400</div></div>
+    <div class="resource-card"><div class="resource-name">Howard Thurman Center</div><div class="resource-desc">BU's cultural hub — intentionally inclusive, culturally affirming programming, events, and community. A great place to feel at home on campus.</div><a class="resource-link" href="http://www.bu.edu/thurman" target="_blank">bu.edu/thurman</a><div class="resource-phone">808 Commonwealth Ave. · 617-353-4745</div></div>
+    <div class="resource-card"><div class="resource-name">LGBTQIA+ Student Resource Center</div><div class="resource-desc">Community, programming, and resources to affirm student identities. Drop in to study, hang out, or pick up free gender-affirming products and pronoun pins.</div><a class="resource-link" href="https://www.bu.edu/lgbtqia-student-center/" target="_blank">bu.edu/lgbtqia-student-center</a><div class="resource-phone">808 Commonwealth Ave.</div></div>
+    <div class="resource-card"><div class="resource-name">Student Activities Office</div><div class="resource-desc">Find clubs, orgs, and events. Hundreds of groups — cultural, academic, athletic, social. Getting involved is one of the most important things you can do.</div><a class="resource-link" href="https://www.bu.edu/studentactivities/" target="_blank">bu.edu/studentactivities</a><div class="resource-phone">775 Commonwealth Ave. · 617-353-3635</div></div>
+  </div>
+
+  <div class="resource-cat">Mental health & wellness</div>
+  <div class="resource-grid" style="margin-bottom:16px;">
+    <div class="resource-card"><div class="resource-name">Counseling & Psychiatric Services (CAPS)</div><div class="resource-desc">Free counseling for BU students — anxiety, depression, stress, whatever you're going through. Crisis counselor available 24/7. You don't have to be in crisis to reach out.</div><a class="resource-link" href="http://www.bu.edu/shs/behavioral" target="_blank">bu.edu/shs/behavioral</a><div class="resource-phone">617-353-3569 (24/7 crisis line)</div></div>
+    <div class="resource-card"><div class="resource-name">Student Health Services</div><div class="resource-desc">Medical care for all full-time students. Schedule through Patient Connect or walk in if you're feeling unwell.</div><a class="resource-link" href="http://www.bu.edu/shs" target="_blank">bu.edu/shs</a><div class="resource-phone">881 Commonwealth Ave. · 617-353-3575</div></div>
+    <div class="resource-card"><div class="resource-name">The Wellbeing Project</div><div class="resource-desc">Campus-wide initiative for student health and wellness — events, programs, and resources to help you feel good during your time at BU.</div><a class="resource-link" href="https://www.bu.edu/provost/wellbeingproject/" target="_blank">bu.edu/provost/wellbeingproject</a></div>
+    <div class="resource-card"><div class="resource-name">SARP (Survivor Advocacy)</div><div class="resource-desc">Confidential care and support for survivors of sexual assault. A counselor is available 24/7, year-round. Reaching out does not automatically trigger a report.</div><a class="resource-link" href="http://www.bu.edu/sarp" target="_blank">bu.edu/sarp</a><div class="resource-phone">617-353-SARP (7277) — 24/7</div></div>
+  </div>
+
+  <div class="resource-cat">Money, jobs & future planning</div>
+  <div class="resource-grid">
+    <div class="resource-card"><div class="resource-name">Office of Financial Assistance</div><div class="resource-desc">All financial aid questions start here. Meet in person, on Zoom, or via live chat. If something about your aid looks wrong, come here first.</div><a class="resource-link" href="http://www.bu.edu/finaid" target="_blank">bu.edu/finaid</a><div class="resource-phone">881 Commonwealth Ave., 5th floor · 617-353-2965</div></div>
+    <div class="resource-card"><div class="resource-name">Student Employment Office</div><div class="resource-desc">On-campus jobs (work study and non-work study) and off-campus jobs via the JobX board. On-campus jobs have flexible hours and understanding supervisors.</div><a class="resource-link" href="http://www.bu.edu/seo" target="_blank">bu.edu/seo</a><div class="resource-phone">881 Commonwealth Ave., 2nd floor · 617-353-3594</div></div>
+    <div class="resource-card"><div class="resource-name">Center for Career Development</div><div class="resource-desc">Internships, résumé reviews, career advising, alumni connections — all through your Handshake account. Walk-in résumé review available, no appointment needed.</div><a class="resource-link" href="http://www.bu.edu/careers" target="_blank">bu.edu/careers</a><div class="resource-phone">100 Bay State Rd., 6th floor · 617-353-3590</div></div>
+    <div class="resource-card"><div class="resource-name">Undergraduate Research (UROP)</div><div class="resource-desc">Get paid to do real research with a BU professor. Open to all undergrads. One of the best résumé-builders available — don't sleep on it.</div><a class="resource-link" href="https://www.bu.edu/urop/" target="_blank">bu.edu/urop</a><div class="resource-phone">775 Commonwealth Ave., 5th floor · 617-353-2200</div></div>
+  </div>
+</div>
 
 </div><!-- end main -->
 
 <script>
-const SYSTEM = `You are Janet, a warm, practical, and encouraging academic planning assistant for undergraduate students at Boston University. Many of the students you work with are first-generation college students, from low-income backgrounds, and from historically marginalized communities. You never assume they already know the hidden curriculum of college.
+const BASE = `You are Janet, a warm, practical, and encouraging academic planning assistant for undergraduate students at Boston University. Many students you work with are first-generation college students, from low-income backgrounds, and from historically marginalized communities. You never assume they already know the hidden curriculum of college.
 
 Key principles:
 - Be warm, direct, and real. Never condescending.
-- When you reference things like "office hours," "academic advising," or "the writing center," briefly explain what they are and how to use them — don't assume students already know.
+- When you reference things like "office hours," "academic advising," or "the writing center," briefly explain what they are and how to use them.
 - Break everything into concrete, specific steps. Not "study more" but "spend 45 minutes re-reading your notes from Tuesday's lecture."
-- Acknowledge that students have real constraints: jobs, family responsibilities, commutes, financial stress. Factor these in.
-- Normalize struggle. Everyone finds college hard. Asking for help is smart, not weak.
-- When relevant, mention specific BU resources from this list:
+- Acknowledge real constraints: jobs, family responsibilities, commutes, financial stress. Factor these in.
+- Normalize struggle. Asking for help is smart, not weak.
+- When relevant, mention 1–2 specific BU resources:
   * Newbury Center (first-gen students): 755 Commonwealth Ave, 617-353-3400
-  * Educational Resource Center (free tutoring): 100 Bay State Rd 5th floor, bu.edu/erc
-  * CAS Writing Center (free writing help): 100 Bay State Rd 3rd floor
-  * CAPS (mental health, free, 24/7 crisis): 617-353-3569
-  * BU Food Pantry (free food, discreet): bu.edu/studentwellbeing/bu-food-pantry
-  * Terrier Meal Share (free dining meals): bu.edu/dos/terrier-meal-share
-  * Financial Assistance: 881 Commonwealth Ave 5th floor, bu.edu/finaid
+  * ERC (free tutoring): bu.edu/erc, 617-353-7077
+  * CAS Writing Center: 100 Bay State Rd 3rd floor, 617-358-1500
+  * CAPS (mental health, 24/7 crisis): 617-353-3569
+  * BU Food Pantry: bu.edu/studentwellbeing/bu-food-pantry
+  * Financial Assistance: bu.edu/finaid
   * Dean of Students (emergencies): drcm@bu.edu
-  * Student Employment Office (on-campus jobs): bu.edu/seo
-  * Center for Career Development (internships, résumé): bu.edu/careers
-  * Howard Thurman Center (cultural hub, community): 808 Commonwealth Ave
-  * LGBTQIA+ Student Resource Center: 808 Commonwealth Ave
-  * Disability & Access Services: bu.edu/disability
-  * First Year Success advisors: 100 Bay State Road
-- Don't overload students with resources. Mention 1–2 that are specifically relevant.
-- Self-care (sleep, food, breaks) is a legitimate and important part of any plan. Include it.
-- Keep responses focused and readable. Use clear structure when helpful. Never shame or lecture.`;
+- Self-care (sleep, food, breaks) is a legitimate part of any plan.
+- Keep responses focused and readable.`;
 
-let tasks = [], blocks = [], taskFilter = 'all';
+const PLANNER_SYS = BASE + `\n\nYou are in STUDY PLANNER mode. Help the student create a realistic medium to long-term plan — week by week, day by day. Be specific: name the assignment, the day, the time block, the task for that session. Cover the FULL timeframe requested — do not cut off early. Use up to 2000 tokens if needed. Ask clarifying questions if you need more information before building the plan.`;
 
-function switchTab(name, btn) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+const SOS_SYS = BASE + `\n\nYou are in STUDY S.O.S. mode. The student has something due very soon — 1–2 days. Do urgent triage: help them figure out the fastest realistic path with the time they have. Ask what the assignment is, when it's due, and where they're at (haven't started / have notes / have a draft / studied some but panicking). Then give a specific hour-by-hour or session-by-session plan. Be honest about what's achievable. Encourage them.`;
+
+let tasks=[], blocks=[], taskFilter='all';
+let histories={home:[], planner:[], sos:[]};
+let busy={home:false, planner:false, sos:false};
+
+// PERSISTENCE
+function save(){
+  try{localStorage.setItem('janet_tasks',JSON.stringify(tasks));localStorage.setItem('janet_blocks',JSON.stringify(blocks));}catch(e){}
+}
+function load(){
+  try{
+    const t=localStorage.getItem('janet_tasks');
+    const b=localStorage.getItem('janet_blocks');
+    if(t) tasks=JSON.parse(t);
+    if(b) blocks=JSON.parse(b);
+  }catch(e){}
+}
+
+// TABS
+function switchTab(name,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('tab-' + name).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+function switchTabByName(name){
+  const names=['home','tasks','planner','sos','semester','resources'];
+  document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('active',names[i]===name));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
 }
 
-function switchTabByName(name) {
-  const tabNames = ['home','plan','tasks','schedule','semester','resources'];
-  document.querySelectorAll('.tab').forEach((b,i) => b.classList.toggle('active', tabNames[i] === name));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
+// CONTEXT
+function taskCtx(){
+  const p=tasks.filter(t=>!t.done);
+  if(!p.length) return '';
+  return '\n\nStudent tasks:\n'+p.map(t=>`- ${t.name} (priority:${t.priority}, due:${t.due||'no date'}, type:${t.cat})`).join('\n');
+}
+function schedCtx(){
+  if(!blocks.length) return '';
+  return '\n\nStudent schedule:\n'+blocks.map(b=>{
+    const when=b.recurring==='weekly'?`Every ${b.day}`:fmtDate(b.date);
+    return `- ${when} ${fmt12(b.start)}${b.end?'–'+fmt12(b.end):''}: ${b.label} (${b.type})`;
+  }).join('\n');
 }
 
-function useChip(el) { document.getElementById('home-input').value = el.textContent.trim(); }
-
-function showThinking(el, msg) {
-  const label = msg || 'Janet is thinking';
-  el.innerHTML = `<div class="thinking"><span>${label}</span><div class="dots"><span></span><span></span><span></span></div></div>`;
-}
-
-let _janetBusy = false;
-
-async function callJanet(userMsg, sysOverride) {
-  const sys = sysOverride || SYSTEM;
-  const MAX_RETRIES = 3;
-  const RETRY_DELAY_MS = 1500;
-
-  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
-    try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: sys,
-          messages: [{ role: 'user', content: userMsg }]
-        })
+// API
+async function callJanet(msgs,sys){
+  for(let a=1;a<=3;a++){
+    try{
+      const r=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,system:sys,messages:msgs})
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      if (!data.content || data.content.length === 0) throw new Error('Empty response');
-      return data.content.map(b => b.text || '').join('');
-    } catch(e) {
-      if (attempt < MAX_RETRIES) {
-        await new Promise(r => setTimeout(r, RETRY_DELAY_MS * attempt));
-      } else {
-        throw e;
-      }
+      if(!r.ok) throw new Error(`HTTP ${r.status}`);
+      const d=await r.json();
+      if(!d.content||!d.content.length) throw new Error('Empty');
+      return d.content.map(b=>b.text||'').join('');
+    }catch(e){
+      if(a<3) await new Promise(r=>setTimeout(r,1500*a)); else throw e;
     }
   }
 }
 
-async function askJanet() {
-  if (_janetBusy) return;
-  const input = document.getElementById('home-input').value.trim();
-  if (!input) return;
-  _janetBusy = true;
-  const out = document.getElementById('home-output');
-  showThinking(out, 'Janet is thinking…');
-  const taskCtx = tasks.length > 0
-    ? '\n\nStudent current tasks:\n' + tasks.filter(t=>!t.done).map(t=>`- ${t.name} (${t.priority} priority, due: ${t.due||'no date'}, type: ${t.cat})`).join('\n')
-    : '';
-  try {
-    showThinking(out, 'Janet is thinking…');
-    const reply = await callJanet(input + taskCtx);
-    out.innerHTML = `<div class="ai-bubble">${reply}</div>`;
-  } catch(e) {
-    out.innerHTML = `<div class="ai-bubble" style="border-left-color:var(--red); color:var(--red-text);">Janet is having trouble connecting right now. Wait a moment and try again — she'll get back to you.</div>`;
-  } finally {
-    _janetBusy = false;
+// CHAT
+function setInput(id,el){document.getElementById(id).value=el.textContent.trim();}
+function handleKey(e,tab){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat(tab);}}
+
+function addMsg(containerId,role,text){
+  const c=document.getElementById(containerId);
+  const t=c.querySelector('.thinking-msg');
+  if(t) t.remove();
+  const div=document.createElement('div');
+  div.className=`chat-msg ${role}`;
+  const lbl=document.createElement('div');
+  lbl.className='chat-msg-label';
+  lbl.textContent=role==='user'?'You':'Janet';
+  const bub=document.createElement('div');
+  bub.className='chat-bubble';
+  bub.textContent=text;
+  div.appendChild(lbl);
+  div.appendChild(bub);
+  if(role==='janet'){
+    const acts=document.createElement('div');
+    acts.className='chat-bubble-actions';
+    const cp=document.createElement('button');
+    cp.className='bubble-btn';cp.textContent='Copy';
+    cp.onclick=()=>{navigator.clipboard.writeText(text).then(()=>{cp.textContent='Copied!';setTimeout(()=>cp.textContent='Copy',2000);});};
+    const sv=document.createElement('button');
+    sv.className='bubble-btn';sv.textContent='Save as file';
+    sv.onclick=()=>dlText(text,'janet-plan.txt');
+    acts.appendChild(cp);acts.appendChild(sv);div.appendChild(acts);
+  }
+  c.appendChild(div);
+  c.scrollTop=c.scrollHeight;
+}
+
+function showThinking(containerId){
+  const c=document.getElementById(containerId);
+  const div=document.createElement('div');
+  div.className='chat-msg janet thinking-msg';
+  const lbl=document.createElement('div');lbl.className='chat-msg-label';lbl.textContent='Janet';
+  const bub=document.createElement('div');
+  bub.className='thinking-bubble';
+  bub.innerHTML='<span>Janet is thinking</span><div class="dots"><span></span><span></span><span></span></div>';
+  div.appendChild(lbl);div.appendChild(bub);
+  c.appendChild(div);c.scrollTop=c.scrollHeight;
+}
+
+function showErr(containerId){
+  const c=document.getElementById(containerId);
+  const t=c.querySelector('.thinking-msg');if(t)t.remove();
+  const div=document.createElement('div');div.className='chat-msg janet';
+  const lbl=document.createElement('div');lbl.className='chat-msg-label';lbl.textContent='Janet';
+  const bub=document.createElement('div');bub.className='chat-bubble';
+  bub.style.borderLeftColor='var(--red)';bub.style.color='var(--red-text)';
+  bub.textContent="I'm having trouble connecting right now. Wait a moment and try again — I'll get back to you.";
+  div.appendChild(lbl);div.appendChild(bub);c.appendChild(div);c.scrollTop=c.scrollHeight;
+}
+
+function dlText(text,name){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([text],{type:'text/plain'}));
+  a.download=name;a.click();
+}
+
+const sysMap={home:BASE, planner:PLANNER_SYS, sos:SOS_SYS};
+const inputMap={home:'home-input', planner:'planner-input', sos:'sos-input'};
+const msgMap={home:'home-messages', planner:'planner-messages', sos:'sos-messages'};
+
+async function sendChat(tab){
+  if(busy[tab]) return;
+  const inp=document.getElementById(inputMap[tab]);
+  const text=inp.value.trim();
+  if(!text) return;
+  busy[tab]=true;
+  inp.value='';
+  addMsg(msgMap[tab],'user',text);
+  showThinking(msgMap[tab]);
+  const isFirst=histories[tab].length===0;
+  const content=isFirst ? text+taskCtx()+schedCtx() : text;
+  histories[tab].push({role:'user',content});
+  try{
+    const reply=await callJanet(histories[tab],sysMap[tab]);
+    histories[tab].push({role:'assistant',content:reply});
+    addMsg(msgMap[tab],'janet',reply);
+  }catch(e){
+    showErr(msgMap[tab]);
+    histories[tab].pop();
+  }finally{busy[tab]=false;}
+}
+
+function goToPlanner(){
+  switchTabByName('planner');
+  if(histories.planner.length===0&&(tasks.length>0||blocks.length>0)){
+    const intro="I've pulled in your tasks and schedule. Tell me the timeframe you're planning for — a week, two weeks, the rest of the semester — and I'll build you a day-by-day plan.";
+    addMsg('planner-messages','janet',intro);
+    histories.planner.push({role:'assistant',content:intro});
   }
 }
 
-function clearHome() {
-  document.getElementById('home-input').value = '';
-  document.getElementById('home-output').innerHTML = '';
+// TASKS
+function addTask(){
+  const name=document.getElementById('task-name').value.trim();
+  if(!name) return;
+  tasks.push({id:Date.now(),name,due:document.getElementById('task-due').value,cat:document.getElementById('task-cat').value,priority:document.getElementById('task-pri').value,done:false});
+  document.getElementById('task-name').value='';
+  save();renderTasks();
 }
+function toggleTask(id){const t=tasks.find(x=>x.id===id);if(t)t.done=!t.done;save();renderTasks();}
+function deleteTask(id){tasks=tasks.filter(x=>x.id!==id);save();renderTasks();}
+function filterTasks(f,btn){taskFilter=f;document.querySelectorAll('.fpill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderTasks();}
 
-async function buildPlan() {
-  const topic = document.getElementById('plan-topic').value.trim();
-  if (!topic) { alert('Tell Janet what you need to work on first.'); return; }
-  const deadline = document.getElementById('plan-deadline').value;
-  const hours = document.getElementById('plan-hours').value;
-  const constraints = document.getElementById('plan-constraints').value.trim();
-  const extra = document.getElementById('plan-extra').value.trim();
-  const out = document.getElementById('plan-output');
-  showThinking(out, 'Janet is building your plan…');
-  const prompt = `Please build me a study plan.\n\nWhat I need to do: ${topic}\nDeadline: ${deadline || 'not specified'}\nHours I can study per day: ${hours}\nWhen I'm not available: ${constraints || 'not specified'}\nOther info: ${extra || 'nothing else'}\n\nGive me a day-by-day plan with specific tasks for each session. Make it realistic and include breaks. If I have a paper or project, break it into stages (brainstorm, outline, draft, revise). Tell me what to do first today.`;
-  try {
-    const reply = await callJanet(prompt);
-    out.innerHTML = `<div class="ai-bubble">${reply}</div>`;
-  } catch(e) {
-    out.innerHTML = `<div class="ai-bubble" style="color:var(--red-text);">Janet is having trouble connecting right now. Wait a moment and try again.</div>`;
-  }
-}
+function renderTasks(){
+  const list=document.getElementById('task-list');
+  let filtered=tasks;
+  if(taskFilter==='done') filtered=tasks.filter(t=>t.done);
+  else if(taskFilter==='high') filtered=tasks.filter(t=>!t.done&&t.priority==='high');
+  else if(taskFilter==='med') filtered=tasks.filter(t=>!t.done&&t.priority==='med');
+  else if(taskFilter==='low') filtered=tasks.filter(t=>!t.done&&t.priority==='low');
 
-function addTask() {
-  const name = document.getElementById('task-name').value.trim();
-  if (!name) return;
-  tasks.push({
-    id: Date.now(), name,
-    due: document.getElementById('task-due').value,
-    cat: document.getElementById('task-cat').value,
-    priority: document.getElementById('task-pri').value,
-    done: false
-  });
-  document.getElementById('task-name').value = '';
-  renderTasks();
-}
+  document.getElementById('m-urgent').textContent=tasks.filter(t=>!t.done&&t.priority==='high').length;
+  document.getElementById('m-remaining').textContent=tasks.filter(t=>!t.done).length;
+  document.getElementById('m-done').textContent=tasks.filter(t=>t.done).length;
 
-function toggleTask(id) {
-  const t = tasks.find(x => x.id === id);
-  if (t) t.done = !t.done;
-  renderTasks();
-}
-
-function deleteTask(id) {
-  tasks = tasks.filter(x => x.id !== id);
-  renderTasks();
-}
-
-function filterTasks(f, btn) {
-  taskFilter = f;
-  document.querySelectorAll('.fpill').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderTasks();
-}
-
-function renderTasks() {
-  const list = document.getElementById('task-list');
-  let filtered = tasks;
-  if (taskFilter === 'done') filtered = tasks.filter(t => t.done);
-  else if (taskFilter === 'high') filtered = tasks.filter(t => !t.done && t.priority === 'high');
-  else if (taskFilter === 'med') filtered = tasks.filter(t => !t.done && t.priority === 'med');
-  else if (taskFilter === 'low') filtered = tasks.filter(t => !t.done && t.priority === 'low');
-
-  const urgent = tasks.filter(t => !t.done && t.priority === 'high').length;
-  const rem = tasks.filter(t => !t.done).length;
-  const done = tasks.filter(t => t.done).length;
-  document.getElementById('m-urgent').textContent = urgent;
-  document.getElementById('m-remaining').textContent = rem;
-  document.getElementById('m-done').textContent = done;
-
-  if (filtered.length === 0) {
-    list.innerHTML = '<li class="empty"><div class="empty-icon">📝</div>Nothing here yet.</li>';
-    return;
-  }
-
-  const priMap = {
-    high: ['b-red', '🔴 Due in 1–2 days'],
-    med:  ['b-amber', '🟡 Due in 3–7 days'],
-    low:  ['b-green', '🟢 Due later']
-  };
-  list.innerHTML = filtered.map(t => {
-    const [bc, pl] = priMap[t.priority] || ['b-gray', t.priority];
+  if(!filtered.length){list.innerHTML='<li class="empty"><div class="empty-icon">📝</div>Nothing here yet.</li>';return;}
+  const pm={high:['b-red','🔴 Due in 1–2 days'],med:['b-amber','🟡 Due in 3–7 days'],low:['b-green','🟢 Due later']};
+  list.innerHTML=filtered.map(t=>{
+    const [bc,pl]=pm[t.priority]||['b-gray',t.priority];
     return `<li class="task-item">
-      <button class="task-check ${t.done ? 'done' : ''}" onclick="toggleTask(${t.id})"></button>
-      <div class="task-body" onclick="editTask(${t.id})" style="cursor:pointer;" title="Click to edit">
-        <div class="task-name ${t.done ? 'done' : ''}">${t.name}</div>
-        <div class="task-meta">
-          ${t.due ? `<span>${fmtDate(t.due)}</span>` : ''}
-          <span>${t.cat}</span>
-          <span class="badge ${bc}">${pl}</span>
-          <span style="font-size:11px; color:var(--text3);">tap to edit</span>
-        </div>
+      <button class="task-check ${t.done?'done':''}" onclick="toggleTask(${t.id})"></button>
+      <div class="task-body" onclick="editTask(${t.id})" style="cursor:pointer;" title="Tap to edit">
+        <div class="task-name ${t.done?'done':''}">${t.name}</div>
+        <div class="task-meta">${t.due?`<span>${fmtDate(t.due)}</span>`:''}<span>${t.cat}</span><span class="badge ${bc}">${pl}</span><span style="font-size:11px;color:var(--text3);">tap to edit</span></div>
       </div>
       <button class="icon-btn" onclick="deleteTask(${t.id})">✕</button>
     </li>`;
   }).join('');
 }
 
-function editTask(id) {
-  const t = tasks.find(x => x.id === id);
-  if (!t) return;
-  document.getElementById('edit-id').value = t.id;
-  document.getElementById('edit-name').value = t.name;
-  document.getElementById('edit-due').value = t.due || '';
-  document.getElementById('edit-cat').value = t.cat;
-  document.getElementById('edit-pri').value = t.priority;
-  document.getElementById('edit-modal').style.display = 'flex';
+function editTask(id){
+  const t=tasks.find(x=>x.id===id);if(!t)return;
+  document.getElementById('edit-id').value=t.id;
+  document.getElementById('edit-name').value=t.name;
+  document.getElementById('edit-due').value=t.due||'';
+  document.getElementById('edit-cat').value=t.cat;
+  document.getElementById('edit-pri').value=t.priority;
+  document.getElementById('edit-modal').style.display='flex';
+}
+function closeEditModal(){document.getElementById('edit-modal').style.display='none';}
+function saveTaskEdit(){
+  const id=parseInt(document.getElementById('edit-id').value);
+  const t=tasks.find(x=>x.id===id);if(!t)return;
+  t.name=document.getElementById('edit-name').value.trim()||t.name;
+  t.due=document.getElementById('edit-due').value;
+  t.cat=document.getElementById('edit-cat').value;
+  t.priority=document.getElementById('edit-pri').value;
+  closeEditModal();save();renderTasks();
 }
 
-function closeEditModal() {
-  document.getElementById('edit-modal').style.display = 'none';
+function fmtDate(s){if(!s)return '';try{return new Date(s+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});}catch(e){return s;}}
+
+// SCHEDULE
+function toggleScheduleType(){
+  const v=document.getElementById('bl-recurring').value;
+  document.getElementById('weekly-fields').style.display=v==='weekly'?'block':'none';
+  document.getElementById('date-fields').style.display=v==='date'?'block':'none';
 }
 
-function saveTaskEdit() {
-  const id = parseInt(document.getElementById('edit-id').value);
-  const t = tasks.find(x => x.id === id);
-  if (!t) return;
-  t.name = document.getElementById('edit-name').value.trim() || t.name;
-  t.due = document.getElementById('edit-due').value;
-  t.cat = document.getElementById('edit-cat').value;
-  t.priority = document.getElementById('edit-pri').value;
-  closeEditModal();
-  renderTasks();
+function addBlock(){
+  const recurring=document.getElementById('bl-recurring').value;
+  const start=document.getElementById('bl-start').value;
+  const label=document.getElementById('bl-label').value.trim();
+  const errEl=document.getElementById('bl-error');
+  const date=recurring==='date'?document.getElementById('bl-date').value:null;
+  if(!start||!label||(recurring==='date'&&!date)){errEl.style.display='block';return;}
+  errEl.style.display='none';
+  blocks.push({id:Date.now(),recurring,day:document.getElementById('bl-day').value,date,start,end:document.getElementById('bl-end').value,label,type:document.getElementById('bl-type').value});
+  document.getElementById('bl-start').value='';
+  document.getElementById('bl-end').value='';
+  document.getElementById('bl-label').value='';
+  document.getElementById('bl-date').value='';
+  save();renderSchedule();
 }
 
-function fmtDate(s) {
-  if (!s) return '';
-  return new Date(s + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-}
+function deleteBlock(id){blocks=blocks.filter(b=>b.id!==id);save();renderSchedule();}
 
-async function aiPrioritize() {
-  const pending = tasks.filter(t => !t.done);
-  if (pending.length === 0) { alert('Add some tasks first!'); return; }
-  switchTabByName('tasks');
-  const out = document.getElementById('priority-output');
-  showThinking(out, 'Janet is sorting through your tasks…');
-  const taskStr = pending.map(t => `- ${t.name} (due: ${t.due || 'no date'}, type: ${t.cat}, urgency: ${t.priority})`).join('\n');
-  try {
-    const reply = await callJanet(`Help me figure out what to work on first. Here are my tasks:\n\n${taskStr}\n\nTell me what order to tackle them and why. Be specific and encouraging.`);
-    out.innerHTML = `<div class="ai-bubble">${reply}</div>`;
-  } catch(e) {
-    out.innerHTML = `<div class="ai-bubble" style="color:var(--red-text);">Janet is having trouble connecting right now. Wait a moment and try again.</div>`;
+function renderSchedule(){
+  const d=document.getElementById('schedule-display');
+  if(!blocks.length){d.innerHTML='<div class="empty"><div class="empty-icon">🗓️</div>No commitments added yet.</div>';return;}
+  const tc={class:'b-teal',work:'b-amber',break:'b-green',meeting:'b-gray',club:'b-blue',other:'b-gray'};
+  const tl={class:'Class',work:'Work',break:'Break',meeting:'Meeting',club:'Club/Org',other:'Other'};
+  const weekly=blocks.filter(b=>b.recurring==='weekly');
+  const oneoff=blocks.filter(b=>b.recurring==='date');
+  const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  let html='';
+  if(weekly.length){
+    html+='<div class="sched-section"><div class="sched-section-title">Recurring weekly</div>';
+    days.forEach(day=>{
+      weekly.filter(b=>b.day===day).sort((a,b)=>a.start.localeCompare(b.start)).forEach(b=>{
+        html+=`<div class="sched-item"><div class="sched-time"><span class="sched-day-tag">${day.slice(0,3)}</span><br/>${fmt12(b.start)}${b.end?'–'+fmt12(b.end):''}</div><div class="sched-body"><div class="sched-label">${b.label}</div><div class="sched-sub"><span class="badge ${tc[b.type]||'b-gray'}">${tl[b.type]||b.type}</span></div></div><button class="icon-btn" onclick="deleteBlock(${b.id})">✕</button></div>`;
+      });
+    });
+    html+='</div>';
   }
-}
-
-function addBlock() {
-  const start = document.getElementById('bl-start').value;
-  const label = document.getElementById('bl-label').value.trim();
-  const errEl = document.getElementById('bl-error');
-  if (!start || !label) {
-    errEl.style.display = 'block';
-    return;
+  if(oneoff.length){
+    html+='<div class="sched-section"><div class="sched-section-title">One-time commitments</div>';
+    oneoff.sort((a,b)=>a.date.localeCompare(b.date)).forEach(b=>{
+      html+=`<div class="sched-item"><div class="sched-time">${fmtDate(b.date)}<br/>${fmt12(b.start)}${b.end?'–'+fmt12(b.end):''}</div><div class="sched-body"><div class="sched-label">${b.label}</div><div class="sched-sub"><span class="badge ${tc[b.type]||'b-gray'}">${tl[b.type]||b.type}</span></div></div><button class="icon-btn" onclick="deleteBlock(${b.id})">✕</button></div>`;
+    });
+    html+='</div>';
   }
-  errEl.style.display = 'none';
-  blocks.push({
-    start,
-    end: document.getElementById('bl-end').value,
-    label,
-    type: document.getElementById('bl-type').value,
-    manual: true
-  });
-  blocks.sort((a,b) => a.start.localeCompare(b.start));
-  document.getElementById('bl-start').value = '';
-  document.getElementById('bl-end').value = '';
-  document.getElementById('bl-label').value = '';
-  document.getElementById('bl-type').value = 'study';
-  renderSchedule();
+  d.innerHTML=html;
 }
 
-function deleteBlock(i) { blocks.splice(i,1); renderSchedule(); }
+function fmt12(t){if(!t)return '';const[h,m]=t.split(':').map(Number);return `${h%12||12}:${String(m).padStart(2,'0')}${h>=12?'pm':'am'}`;}
 
-function clearAIBlocks() {
-  blocks = blocks.filter(b => b.manual);
-  renderSchedule();
-}
-
-function renderSchedule() {
-  const list = document.getElementById('schedule-list');
-  if (blocks.length === 0) {
-    list.innerHTML = '<div class="empty"><div class="empty-icon">🗓️</div>Add your fixed commitments below (work, class, meals), then let Janet fill in your study time around them.</div>';
-    return;
-  }
-  const tc = { study:'b-blue', class:'b-teal', work:'b-amber', break:'b-green', meeting:'b-gray', other:'b-gray' };
-  const tl = { study:'Study', class:'Class', work:'Work', break:'Break', meeting:'Meeting', other:'Other' };
-  const hasAI = blocks.some(b => !b.manual);
-  list.innerHTML = (hasAI ? `<div style="display:flex; justify-content:flex-end; margin-bottom:8px;"><button onclick="clearAIBlocks()" style="font-size:12px; color:var(--text3); padding:4px 10px;">Clear Janet's study blocks</button></div>` : '') +
-    blocks.map((b,i) => `
-    <div class="sched-item" style="${b.manual ? '' : 'background:var(--blue-bg); border-radius:var(--radius); margin-bottom:4px;'}">
-      <div class="sched-time">${fmt12(b.start)}${b.end ? '–'+fmt12(b.end) : ''}</div>
-      <div class="sched-body">
-        <div class="sched-label">${b.label}${b.manual ? '' : ' <span style="font-size:11px; color:var(--blue-text);">· added by Janet</span>'}</div>
-        <div class="sched-sub"><span class="badge ${tc[b.type]||'b-gray'}">${tl[b.type]||b.type}</span></div>
-      </div>
-      <button class="icon-btn" onclick="deleteBlock(${i})">✕</button>
-    </div>`).join('');
-}
-
-function fmt12(t) {
-  if (!t) return '';
-  const [h, m] = t.split(':').map(Number);
-  return `${h % 12 || 12}:${String(m).padStart(2,'0')}${h >= 12 ? 'pm' : 'am'}`;
-}
-
-async function generateSchedule() {
-  const pending = tasks.filter(t => !t.done);
-  if (pending.length === 0) { alert('Add some tasks first in the Tasks tab!'); return; }
-  const list = document.getElementById('schedule-list');
-  list.innerHTML = '<div class="thinking"><span>Janet is building your study blocks</span><div class="dots"><span></span><span></span><span></span></div></div>';
-
-  const taskStr = pending.map(t => `- ${t.name} (priority: ${t.priority}, due: ${t.due||'no date'}, type: ${t.cat})`).join('\n');
-
-  const existingStr = blocks.length > 0
-    ? '\n\nAlready scheduled (do NOT overlap with these):\n' + blocks.map(b => `- ${fmt12(b.start)}${b.end ? '–'+fmt12(b.end) : ''}: ${b.label} (${b.type})`).join('\n')
-    : '';
-
-  try {
-    const reply = await callJanet(
-      `Create study blocks for today based on these tasks. Return ONLY a JSON array, no markdown or explanation: [{"time":"9:00am","end":"10:30am","label":"...","type":"study"}]. Types: study, break. Only add study time and breaks — do NOT recreate any already-scheduled blocks. Schedule around the existing commitments. Include at least one break and don't schedule more than 90 min of study without a break.${existingStr}\n\nTasks to schedule:\n${taskStr}`,
-      'You are a scheduling assistant. Return ONLY valid JSON arrays. No markdown, no explanation, no text outside the array.'
-    );
-    const parsed = JSON.parse(reply.replace(/```json|```/g,'').trim());
-    const newBlocks = parsed.map(b => ({
-      start: to24(b.time),
-      end: b.end ? to24(b.end) : '',
-      label: b.label,
-      type: b.type||'study',
-      manual: false
-    }));
-    // Keep existing manual blocks, add new AI-generated ones
-    blocks = [...blocks.filter(b => b.manual), ...newBlocks];
-    blocks.sort((a,b) => a.start.localeCompare(b.start));
-    renderSchedule();
-  } catch(e) {
-    list.innerHTML = '<div class="empty" style="color:var(--red-text);">Janet is having trouble connecting right now. Wait a moment and try again.</div>';
-  }
-}
-
-function to24(s) {
-  if (!s) return '';
-  s = s.trim().toLowerCase();
-  const m = s.match(/(\d+):?(\d*)\s*(am|pm)?/);
-  if (!m) return '';
-  let h = parseInt(m[1]);
-  const min = m[2] ? m[2].padEnd(2,'0') : '00';
-  if (m[3]==='pm' && h!==12) h+=12;
-  if (m[3]==='am' && h===12) h=0;
-  return `${String(h).padStart(2,'0')}:${min}`;
-}
-
-// Init
-document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
-renderTasks();
-renderSchedule();
+load();renderTasks();renderSchedule();
 </script>
 </body>
 </html>
