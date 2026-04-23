@@ -660,7 +660,7 @@ function schedCtx(){
 async function callJanet(msgs,sys){
   for(let a=1;a<=3;a++){
     try{
-      const r=await fetch('https://api.anthropic.com/v1/messages',{
+      const r=await fetch('https://lnooney--9a7365ea3f3d11f1b1b642b51c65c3df.web.val.run',{
         method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,system:sys,messages:msgs})
       });
