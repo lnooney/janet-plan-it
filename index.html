@@ -16,6 +16,7 @@
   --blue:#1a5fa8;--blue-bg:#e8f1fb;--blue-text:#164d8a;
   --amber:#8c5a10;--amber-bg:#fdf3e0;--amber-text:#724808;
   --teal:#0f6b58;--teal-bg:#e2f4ef;--teal-text:#0a5244;
+  --purple:#6b2fa0;--purple-bg:#f3eafa;--purple-text:#5a2888;
   --radius:10px;--radius-lg:14px;
   --shadow:0 1px 3px rgba(0,0,0,0.06);
   --font:'Georgia',serif;--sans:system-ui,-apple-system,sans-serif;
@@ -31,6 +32,7 @@
     --blue-bg:#0e2a4a;--blue-text:#80b8f0;
     --amber-bg:#2e1e08;--amber-text:#e8a840;
     --teal-bg:#082820;--teal-text:#50c4a8;
+    --purple-bg:#2a1040;--purple-text:#c090f0;
   }
 }
 
@@ -61,6 +63,8 @@ button:hover{background:var(--bg2);}
 button:active{transform:scale(0.98);}
 .btn-primary{background:var(--red);color:#fff;border-color:var(--red);}
 .btn-primary:hover{background:#b5342a;}
+.btn-purple{background:var(--purple);color:#fff;border-color:var(--purple);}
+.btn-purple:hover{background:#5a2888;}
 
 .field{margin-bottom:12px;}
 .field label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px;font-weight:500;}
@@ -111,6 +115,7 @@ button:active{transform:scale(0.98);}
 .b-blue{background:var(--blue-bg);color:var(--blue-text);}
 .b-teal{background:var(--teal-bg);color:var(--teal-text);}
 .b-gray{background:var(--bg3);color:var(--text2);}
+.b-purple{background:var(--purple-bg);color:var(--purple-text);}
 
 .filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
 .fpill{font-size:12px;padding:5px 12px;border-radius:999px;border:0.5px solid var(--border2);background:none;cursor:pointer;color:var(--text2);transition:all .12s;}
@@ -137,6 +142,8 @@ button:active{transform:scale(0.98);}
 .tip-box{background:var(--amber-bg);border-left:3px solid var(--amber);border-radius:0 var(--radius) var(--radius) 0;padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--amber-text);line-height:1.55;}
 .tip-box strong{font-weight:600;}
 .info-box{background:var(--blue-bg);border-left:3px solid var(--blue);border-radius:0 var(--radius) var(--radius) 0;padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--blue-text);line-height:1.55;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.purple-box{background:var(--purple-bg);border-left:3px solid var(--purple);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin-bottom:14px;font-size:13px;color:var(--purple-text);line-height:1.6;}
+.purple-box strong{font-weight:600;}
 
 .timeline{list-style:none;}
 .tl-item{display:flex;gap:14px;padding:10px 0;border-bottom:0.5px solid var(--border);}
@@ -167,11 +174,24 @@ button:active{transform:scale(0.98);}
 .resource-phone{font-size:11px;color:var(--text3);margin-top:2px;}
 .resource-cat{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin:1.2rem 0 8px;}
 
+/* EF ONBOARDING */
+.ef-question{margin-bottom:16px;}
+.ef-question-label{font-size:14px;font-weight:500;color:var(--text);margin-bottom:8px;line-height:1.5;}
+.ef-options{display:flex;flex-wrap:wrap;gap:6px;}
+.ef-option{font-size:12px;padding:6px 12px;border-radius:999px;border:0.5px solid var(--border2);cursor:pointer;background:none;color:var(--text2);transition:all .12s;}
+.ef-option.selected{background:var(--purple-bg);border-color:var(--purple);color:var(--purple-text);font-weight:500;}
+.ef-profile-display{background:var(--purple-bg);border-radius:var(--radius);padding:12px 14px;font-size:13px;color:var(--purple-text);line-height:1.6;margin-bottom:12px;}
+
 .empty{text-align:center;padding:2rem 1rem;color:var(--text3);font-size:14px;}
 .empty-icon{font-size:28px;margin-bottom:8px;}
 
+.cal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.cal-card{background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow);}
+.cal-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.cal-desc{font-size:12px;color:var(--text2);margin-bottom:6px;line-height:1.4;}
+
 @media(max-width:560px){
-  .grid2,.resource-grid,.metrics{grid-template-columns:1fr;}
+  .grid2,.resource-grid,.metrics,.cal-grid{grid-template-columns:1fr;}
   .main{padding:1rem;}
   .tab{padding:10px 9px;font-size:12px;}
 }
@@ -205,9 +225,114 @@ button:active{transform:scale(0.98);}
     <h2>Hey — let's figure this out together.</h2>
     <p>College has a lot of unwritten rules. Janet doesn't assume you already know them. Tell her what's going on and she'll help you make a plan, find the right resources, and get things done. You've got this.</p>
   </div>
+
+  <!-- EF ONBOARDING -->
+  <div class="card" id="ef-onboarding-card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+      <div>
+        <div class="card-title" style="margin-bottom:4px;">Help Janet know you better</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">Optional — takes 2 minutes. Janet will use this to give you more personalized advice. You can skip it or update it anytime.</p>
+      </div>
+      <button onclick="toggleOnboarding()" id="ef-toggle-btn" style="font-size:12px;padding:5px 12px;white-space:nowrap;margin-left:12px;">Hide</button>
+    </div>
+
+    <div id="ef-onboarding-body">
+      <div class="purple-box">
+        <strong>This isn't a diagnosis</strong> — Janet just wants to understand how <em>you</em> work best so her advice actually fits your situation. Everyone's brain works differently, and that's okay.
+      </div>
+
+      <div class="ef-question">
+        <div class="ef-question-label">1. Getting started on tasks — how does that usually go for you?</div>
+        <div class="ef-options">
+          <button class="ef-option" onclick="toggleEF(this,'initiation','I usually just dive right in')">I usually just dive right in</button>
+          <button class="ef-option" onclick="toggleEF(this,'initiation','I need a few minutes to settle in')">I need a few minutes to settle in</button>
+          <button class="ef-option" onclick="toggleEF(this,'initiation','Getting started is really hard for me — I put it off a lot')">Getting started is really hard — I put things off a lot</button>
+          <button class="ef-option" onclick="toggleEF(this,'initiation','I freeze up and don\'t know where to begin')">I freeze up and don't know where to begin</button>
+        </div>
+      </div>
+
+      <div class="ef-question">
+        <div class="ef-question-label">2. Staying focused once I start — what's your experience?</div>
+        <div class="ef-options">
+          <button class="ef-option" onclick="toggleEF(this,'attention','I can focus for long stretches without much trouble')">I can focus for long stretches</button>
+          <button class="ef-option" onclick="toggleEF(this,'attention','I do okay but need breaks every 30–45 minutes')">I need breaks every 30–45 minutes</button>
+          <button class="ef-option" onclick="toggleEF(this,'attention','My mind wanders a lot — I get distracted easily')">My mind wanders a lot</button>
+          <button class="ef-option" onclick="toggleEF(this,'attention','I hyperfocus sometimes but then crash')">I hyperfocus sometimes but then crash</button>
+        </div>
+      </div>
+
+      <div class="ef-question">
+        <div class="ef-question-label">3. Keeping track of what I need to do — how does that feel?</div>
+        <div class="ef-options">
+          <button class="ef-option" onclick="toggleEF(this,'organization','I\'m pretty organized naturally')">I'm pretty organized naturally</button>
+          <button class="ef-option" onclick="toggleEF(this,'organization','I need a system or I forget things')">I need a system or I forget things</button>
+          <button class="ef-option" onclick="toggleEF(this,'organization','I lose track of deadlines and assignments often')">I lose track of deadlines often</button>
+          <button class="ef-option" onclick="toggleEF(this,'organization','Everything feels chaotic and hard to manage')">Everything feels chaotic</button>
+        </div>
+      </div>
+
+      <div class="ef-question">
+        <div class="ef-question-label">4. Switching between tasks or subjects — what happens?</div>
+        <div class="ef-options">
+          <button class="ef-option" onclick="toggleEF(this,'switching','No problem — I switch easily')">No problem — I switch easily</button>
+          <button class="ef-option" onclick="toggleEF(this,'switching','I need a few minutes to mentally shift gears')">I need a few minutes to shift gears</button>
+          <button class="ef-option" onclick="toggleEF(this,'switching','Switching is really hard — I get stuck on one thing')">Switching is really hard</button>
+          <button class="ef-option" onclick="toggleEF(this,'switching','I get anxious when plans change suddenly')">I get anxious when plans change</button>
+        </div>
+      </div>
+
+      <div class="ef-question">
+        <div class="ef-question-label">5. Managing stress and emotions while working — how do you handle it?</div>
+        <div class="ef-options">
+          <button class="ef-option" onclick="toggleEF(this,'emotional','I stay pretty calm under pressure')">I stay pretty calm under pressure</button>
+          <button class="ef-option" onclick="toggleEF(this,'emotional','I get stressed but can push through')">I get stressed but push through</button>
+          <button class="ef-option" onclick="toggleEF(this,'emotional','Anxiety makes it hard to work sometimes')">Anxiety makes it hard to work</button>
+          <button class="ef-option" onclick="toggleEF(this,'emotional','When I\'m overwhelmed I shut down completely')">When overwhelmed I shut down</button>
+        </div>
+      </div>
+
+      <div class="ef-question">
+        <div class="ef-question-label">6. Holding information in my head while working — what's your experience?</div>
+        <div class="ef-options">
+          <button class="ef-option" onclick="toggleEF(this,'working_memory','I can juggle a lot mentally without writing things down')">I can juggle a lot mentally</button>
+          <button class="ef-option" onclick="toggleEF(this,'working_memory','I need to write things down to remember them')">I need to write things down</button>
+          <button class="ef-option" onclick="toggleEF(this,'working_memory','I forget things mid-task even when I\'m trying to remember')">I forget things mid-task</button>
+          <button class="ef-option" onclick="toggleEF(this,'working_memory','Instructions or steps don\'t stick unless I repeat them')">Instructions don't stick</button>
+        </div>
+      </div>
+
+      <div class="ef-question">
+        <div class="ef-question-label">7. Finishing tasks and knowing when I'm done — how does that go?</div>
+        <div class="ef-options">
+          <button class="ef-option" onclick="toggleEF(this,'completion','I finish things and move on easily')">I finish and move on easily</button>
+          <button class="ef-option" onclick="toggleEF(this,'completion','I struggle to know when something is good enough')">I struggle to know when it\'s good enough</button>
+          <button class="ef-option" onclick="toggleEF(this,'completion','I leave things half-done and forget to go back')">I leave things half-done</button>
+          <button class="ef-option" onclick="toggleEF(this,'completion','I over-perfect things and run out of time')">I over-perfect and run out of time</button>
+        </div>
+      </div>
+
+      <div class="ef-question">
+        <div class="ef-question-label">8. Is there anything else Janet should know about how you work or what makes studying hard for you?</div>
+        <textarea id="ef-extra" placeholder="e.g. I have ADHD and take medication but it wears off by evening. I'm dyslexic so reading takes me twice as long. I'm a night owl. I work best with background noise…" style="width:100%;min-height:70px;" oninput="saveEF()"></textarea>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="btn-purple" onclick="saveEF();showEFSaved()">Save my profile</button>
+        <button onclick="clearEF()">Clear</button>
+      </div>
+      <div id="ef-saved-msg" style="display:none;font-size:12px;color:var(--green-text);margin-top:8px;">✓ Saved! Janet will use this to personalize her advice.</div>
+    </div>
+  </div>
+
+  <!-- EF PROFILE SUMMARY (shown when onboarding is collapsed) -->
+  <div id="ef-profile-summary" style="display:none;" class="purple-box">
+    <strong>Janet knows how you work.</strong> Your profile is saved and will inform her advice. <button onclick="toggleOnboarding()" style="background:none;border:none;color:var(--purple-text);cursor:pointer;font-size:12px;text-decoration:underline;padding:0;">Edit profile</button>
+  </div>
+
   <div class="tip-box">
     <strong>New here?</strong> Tell Janet what's stressing you out most right now. Or go to <strong>My Tasks & Schedule</strong> to get organized first, then come back to the <strong>Study Planner</strong> for a week-by-week plan.
   </div>
+
   <div class="chat-container">
     <div class="chat-messages" id="home-messages">
       <div class="chat-msg janet">
@@ -216,7 +341,7 @@ button:active{transform:scale(0.98);}
       </div>
     </div>
     <div class="chat-input-area">
-      <div class="chat-chips">
+      <div class="chat-chips" id="home-chips">
         <button class="chip" onclick="setInput('home-input',this)">I have no idea how to start this paper</button>
         <button class="chip" onclick="setInput('home-input',this)">I'm behind in two classes — what do I do?</button>
         <button class="chip" onclick="setInput('home-input',this)">What even is office hours and should I go?</button>
@@ -374,7 +499,7 @@ button:active{transform:scale(0.98);}
 <!-- STUDY PLANNER -->
 <div id="tab-planner" class="panel">
   <div class="tip-box">
-    <strong>Study Planner = the big picture.</strong> Janet will look at everything on your task list and schedule and help you map out a realistic, day-by-day plan. The more you've filled in under My Tasks & Schedule, the better her advice will be. You can also just start chatting and she'll ask you what she needs to know.
+    <strong>Study Planner = the big picture.</strong> Janet will look at everything on your task list and schedule and help you map out a realistic, day-by-day plan. The more you've filled in under My Tasks & Schedule, the better her advice will be.
   </div>
   <div class="chat-container">
     <div class="chat-messages" id="planner-messages">
@@ -384,7 +509,7 @@ button:active{transform:scale(0.98);}
       </div>
     </div>
     <div class="chat-input-area">
-      <div class="chat-chips">
+      <div class="chat-chips" id="planner-chips">
         <button class="chip" onclick="setInput('planner-input',this)">Build me a plan for the next two weeks</button>
         <button class="chip" onclick="setInput('planner-input',this)">I have three things due this week — help me sequence them</button>
         <button class="chip" onclick="setInput('planner-input',this)">Help me plan out the rest of the semester</button>
@@ -415,7 +540,7 @@ button:active{transform:scale(0.98);}
       </div>
     </div>
     <div class="chat-input-area">
-      <div class="chat-chips">
+      <div class="chat-chips" id="sos-chips">
         <button class="chip" onclick="setInput('sos-input',this)">Exam tomorrow and I haven't studied yet</button>
         <button class="chip" onclick="setInput('sos-input',this)">Paper due tonight and I have a messy draft</button>
         <button class="chip" onclick="setInput('sos-input',this)">Paper due tomorrow and I haven't started</button>
@@ -435,7 +560,7 @@ button:active{transform:scale(0.98);}
 
   <div class="info-box">
     <div><strong>Always check the official BU Academic Calendar for exact dates.</strong> Deadlines shift slightly each semester — the calendar is always up to date.</div>
-    <a href="https://www.bu.edu/academics/calendar/" target="_blank" style="display:inline-block;background:var(--blue);color:#fff;padding:8px 16px;border-radius:var(--radius);font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;flex-shrink:0;">Open BU Calendar →</a>
+    <a href="https://www.bu.edu/reg/calendars/" target="_blank" style="display:inline-block;background:var(--blue);color:#fff;padding:8px 16px;border-radius:var(--radius);font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;flex-shrink:0;">Open BU Academic Calendar →</a>
   </div>
 
   <div class="tip-box">
@@ -486,7 +611,7 @@ button:active{transform:scale(0.98);}
       <li class="tl-item">
         <div class="tl-month">January</div>
         <div class="tl-body">
-          BU holds a winter activities fair early in January — great if you missed SPLASH or want to try something new. Many summer on-campus job applications open in January, including orientation positions. If you want to stay in Boston over the summer, apply early.
+          BU holds a winter activities fair early in January — great if you missed SPLASH or want to try something new. Many summer on-campus job applications open in January, including orientation positions.
           <div class="tl-urgent">⚠️ RA applications for the following year typically open in January</div>
         </div>
       </li>
@@ -501,7 +626,7 @@ button:active{transform:scale(0.98);}
         <div class="tl-month">March</div>
         <div class="tl-body">
           Housing selection happens in March — seniors first, then juniors, then sophomores. Gender-affirming and gender-neutral housing options have separate deadlines; check the BU Housing site.
-          <br><br>Mid-terms are typically in March. Check your grades and get ahead of anything slipping — there's still time to turn things around.
+          <br><br>Mid-terms are typically in March. Check your grades and get ahead of anything slipping.
           <div class="tl-urgent">⚠️ Check the BU calendar: study abroad application deadlines (summer and fall programs)</div>
         </div>
       </li>
@@ -510,7 +635,7 @@ button:active{transform:scale(0.98);}
         <div class="tl-body">
           <div class="tl-urgent">⚠️ FAFSA renewal priority deadline is in early April — if you receive financial aid, this is critical</div>
           <div class="tl-urgent">⚠️ Check the BU calendar: last day to drop with a "W" or go pass/fail</div>
-          <br><small>The FAFSA is the federal form that determines your financial aid each year — you must renew it annually, it doesn't carry over automatically. Go to <strong>studentaid.gov</strong> and log in with your FSA ID. Missing this deadline can affect your aid for next year.</small>
+          <br><small>The FAFSA determines your financial aid each year — you must renew it annually. Go to <strong>studentaid.gov</strong> and log in with your FSA ID. Missing this deadline can affect your aid for next year.</small>
         </div>
       </li>
       <li class="tl-item">
@@ -529,7 +654,7 @@ button:active{transform:scale(0.98);}
       To keep your financial aid, you must pass at least <strong>75% of the credits you attempt</strong> and maintain at least a <strong>2.0 cumulative GPA</strong> each year. This applies to Pathways Scholars and most students receiving aid.
     </p>
     <p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:12px;">
-      If you fall below SAP, your aid can be suspended — but you can appeal. The appeal asks you to explain what happened and what you'll do differently. You can include letters from doctors, professors, or advisors. If you're worried about your GPA or credits, talk to your advisor <em>now</em>, not at the end of the semester.
+      If you fall below SAP, your aid can be suspended — but you can appeal. The appeal asks you to explain what happened and what you'll do differently. You can include letters from doctors, professors, or advisors. Talk to your advisor now, not at the end of the semester.
     </p>
     <a href="http://www.bu.edu/finaid/eligibility/satisfactory-academic-progress/" target="_blank" style="font-size:13px;color:var(--blue);">Learn more about SAP and how to appeal → bu.edu/finaid</a>
   </div>
@@ -542,12 +667,47 @@ button:active{transform:scale(0.98);}
     <strong>These resources exist because students need them.</strong> Using them isn't a sign you're struggling — it's a sign you're smart enough to use what's available. Every student at BU has access to all of these, free.
   </div>
 
+  <!-- CALENDARS -->
+  <div class="resource-cat">BU Calendars — bookmark these</div>
+  <div class="cal-grid" style="margin-bottom:16px;">
+    <div class="cal-card">
+      <div class="cal-name">Academic Deadlines</div>
+      <div class="cal-desc">Add/drop dates, registration windows, grade deadlines. Check this every semester.</div>
+      <a class="resource-link" href="https://www.bu.edu/reg/calendars/" target="_blank">bu.edu/reg/calendars</a>
+    </div>
+    <div class="cal-card">
+      <div class="cal-name">Housing Calendar</div>
+      <div class="cal-desc">Housing application dates, selection deadlines, move-in and move-out dates.</div>
+      <a class="resource-link" href="https://www.bu.edu/housing/living/calendar/" target="_blank">bu.edu/housing/living/calendar</a>
+    </div>
+    <div class="cal-card">
+      <div class="cal-name">Student Activities Calendar</div>
+      <div class="cal-desc">Campus events, club activities, SPLASH, fairs, and more.</div>
+      <a class="resource-link" href="https://www.bu.edu/calendar/" target="_blank">bu.edu/calendar</a>
+    </div>
+    <div class="cal-card">
+      <div class="cal-name">Dining Services Calendar</div>
+      <div class="cal-desc">Dining hall hours, special menus, and closures during breaks and holidays.</div>
+      <a class="resource-link" href="https://www.bu.edu/dining/calendar/" target="_blank">bu.edu/dining/calendar</a>
+    </div>
+    <div class="cal-card">
+      <div class="cal-name">Financial Aid Dates</div>
+      <div class="cal-desc">FAFSA deadlines, aid disbursement dates, and scholarship deadlines.</div>
+      <a class="resource-link" href="https://www.bu.edu/finaid" target="_blank">bu.edu/finaid</a>
+    </div>
+    <div class="cal-card">
+      <div class="cal-name">Career Development Events</div>
+      <div class="cal-desc">Career fairs, recruiting season, employer info sessions, and application deadlines.</div>
+      <a class="resource-link" href="https://www.bu.edu/careers" target="_blank">bu.edu/careers</a>
+    </div>
+  </div>
+
   <div class="resource-cat">Food & basic needs</div>
   <div class="resource-grid" style="margin-bottom:16px;">
     <div class="resource-card"><div class="resource-name">BU Food Pantry</div><div class="resource-desc">Free food, toiletries, and menstrual products. Order online and pick up discreetly on the Charles River or Medical campuses. No questions asked.</div><a class="resource-link" href="https://www.bu.edu/studentwellbeing/bu-food-pantry/" target="_blank">bu.edu/studentwellbeing/bu-food-pantry</a></div>
     <div class="resource-card"><div class="resource-name">Terrier Meal Share</div><div class="resource-desc">Need dining hall meals? Other students donate unused guest meals and BU matches them. No cost to you.</div><a class="resource-link" href="https://www.bu.edu/dos/terrier-meal-share/" target="_blank">bu.edu/dos/terrier-meal-share</a></div>
+    <div class="resource-card"><div class="resource-name">Basic Needs Support</div><div class="resource-desc">BU's dedicated basic needs support — food, housing, emergency funds, and more. If you're struggling with essentials, start here.</div><a class="resource-link" href="https://www.bu.edu/studentwellbeing/" target="_blank">bu.edu/studentwellbeing</a></div>
     <div class="resource-card"><div class="resource-name">Financial Emergency Help</div><div class="resource-desc">Students have gotten help with laptop loaners, emergency housing, and flights home for family emergencies. Contact the Dean of Students Office.</div><div class="resource-phone">Delcenia Collins-Murrell: drcm@bu.edu</div></div>
-    <div class="resource-card"><div class="resource-name">City of Boston Food Resources</div><div class="resource-desc">Text "FOOD" to 617-579-8238. Also: Fair Foods ($2 grocery bags), Fresh Truck mobile market, community fridges in Allston-Brighton, Brookline, Cambridge, and South End.</div></div>
   </div>
 
   <div class="resource-cat">Academic support</div>
@@ -562,9 +722,9 @@ button:active{transform:scale(0.98);}
 
   <div class="resource-cat">Community & belonging</div>
   <div class="resource-grid" style="margin-bottom:16px;">
-    <div class="resource-card"><div class="resource-name">Newbury Center</div><div class="resource-desc">BU's home for first-generation college students. Programming, community, and people who get what it's like to be the first in your family navigating this. This one's for you.</div><a class="resource-link" href="https://www.bu.edu/newbury-center/" target="_blank">bu.edu/newbury-center</a><div class="resource-phone">755 Commonwealth Ave. · 617-353-3400</div></div>
-    <div class="resource-card"><div class="resource-name">Howard Thurman Center</div><div class="resource-desc">BU's cultural hub — intentionally inclusive, culturally affirming programming, events, and community. A great place to feel at home on campus.</div><a class="resource-link" href="http://www.bu.edu/thurman" target="_blank">bu.edu/thurman</a><div class="resource-phone">808 Commonwealth Ave. · 617-353-4745</div></div>
-    <div class="resource-card"><div class="resource-name">LGBTQIA+ Student Resource Center</div><div class="resource-desc">Community, programming, and resources to affirm student identities. Drop in to study, hang out, or pick up free gender-affirming products and pronoun pins.</div><a class="resource-link" href="https://www.bu.edu/lgbtqia-student-center/" target="_blank">bu.edu/lgbtqia-student-center</a><div class="resource-phone">808 Commonwealth Ave.</div></div>
+    <div class="resource-card"><div class="resource-name">Newbury Center</div><div class="resource-desc">BU's home for first-generation college students. Programming, community, and people who get what it's like to be the first in your family navigating this.</div><a class="resource-link" href="https://www.bu.edu/newbury-center/" target="_blank">bu.edu/newbury-center</a><div class="resource-phone">755 Commonwealth Ave. · 617-353-3400</div></div>
+    <div class="resource-card"><div class="resource-name">Howard Thurman Center</div><div class="resource-desc">BU's cultural hub — intentionally inclusive, culturally affirming programming, events, and community.</div><a class="resource-link" href="http://www.bu.edu/thurman" target="_blank">bu.edu/thurman</a><div class="resource-phone">808 Commonwealth Ave. · 617-353-4745</div></div>
+    <div class="resource-card"><div class="resource-name">LGBTQIA+ Student Resource Center</div><div class="resource-desc">Community, programming, and resources to affirm student identities. Drop in to study, hang out, or pick up free gender-affirming products.</div><a class="resource-link" href="https://www.bu.edu/lgbtqia-student-center/" target="_blank">bu.edu/lgbtqia-student-center</a><div class="resource-phone">808 Commonwealth Ave.</div></div>
     <div class="resource-card"><div class="resource-name">Student Activities Office</div><div class="resource-desc">Find clubs, orgs, and events. Hundreds of groups — cultural, academic, athletic, social. Getting involved is one of the most important things you can do.</div><a class="resource-link" href="https://www.bu.edu/studentactivities/" target="_blank">bu.edu/studentactivities</a><div class="resource-phone">775 Commonwealth Ave. · 617-353-3635</div></div>
   </div>
 
@@ -577,25 +737,38 @@ button:active{transform:scale(0.98);}
   </div>
 
   <div class="resource-cat">Money, jobs & future planning</div>
-  <div class="resource-grid">
+  <div class="resource-grid" style="margin-bottom:16px;">
     <div class="resource-card"><div class="resource-name">Office of Financial Assistance</div><div class="resource-desc">All financial aid questions start here. Meet in person, on Zoom, or via live chat. If something about your aid looks wrong, come here first.</div><a class="resource-link" href="http://www.bu.edu/finaid" target="_blank">bu.edu/finaid</a><div class="resource-phone">881 Commonwealth Ave., 5th floor · 617-353-2965</div></div>
     <div class="resource-card"><div class="resource-name">Student Employment Office</div><div class="resource-desc">On-campus jobs (work study and non-work study) and off-campus jobs via the JobX board. On-campus jobs have flexible hours and understanding supervisors.</div><a class="resource-link" href="http://www.bu.edu/seo" target="_blank">bu.edu/seo</a><div class="resource-phone">881 Commonwealth Ave., 2nd floor · 617-353-3594</div></div>
     <div class="resource-card"><div class="resource-name">Center for Career Development</div><div class="resource-desc">Internships, résumé reviews, career advising, alumni connections — all through your Handshake account. Walk-in résumé review available, no appointment needed.</div><a class="resource-link" href="http://www.bu.edu/careers" target="_blank">bu.edu/careers</a><div class="resource-phone">100 Bay State Rd., 6th floor · 617-353-3590</div></div>
-    <div class="resource-card"><div class="resource-name">Undergraduate Research (UROP)</div><div class="resource-desc">Get paid to do real research with a BU professor. Open to all undergrads. One of the best résumé-builders available — don't sleep on it.</div><a class="resource-link" href="https://www.bu.edu/urop/" target="_blank">bu.edu/urop</a><div class="resource-phone">775 Commonwealth Ave., 5th floor · 617-353-2200</div></div>
+    <div class="resource-card"><div class="resource-name">Undergraduate Research (UROP)</div><div class="resource-desc">Get paid to do real research with a BU professor. Open to all undergrads. One of the best résumé-builders available.</div><a class="resource-link" href="https://www.bu.edu/urop/" target="_blank">bu.edu/urop</a><div class="resource-phone">775 Commonwealth Ave., 5th floor · 617-353-2200</div></div>
+    <div class="resource-card"><div class="resource-name">Student Health Insurance</div><div class="resource-desc">BU offers a student health insurance plan. If you already have coverage, you can waive it. If you don't, enrollment is automatic — know your options and deadlines.</div><a class="resource-link" href="https://www.bu.edu/shs/student-health-insurance/" target="_blank">bu.edu/shs/student-health-insurance</a></div>
+    <div class="resource-card"><div class="resource-name">Graduate School Preparation</div><div class="resource-desc">Thinking about grad school? Start early. Fellowships & Scholarships office helps with applications, personal statements, and identifying the right programs.</div><a class="resource-link" href="https://www.bu.edu/advising/fellowships-scholarships/" target="_blank">bu.edu/advising/fellowships-scholarships</a></div>
+  </div>
+
+  <div class="resource-cat">When something goes wrong</div>
+  <div class="resource-grid">
+    <div class="resource-card"><div class="resource-name">Student Legal Services</div><div class="resource-desc">Free legal advice for BU students on issues like housing disputes, consumer issues, immigration questions, and more. Many students don't know this exists.</div><a class="resource-link" href="https://www.bu.edu/studentservices/legal/" target="_blank">bu.edu/studentservices/legal</a></div>
+    <div class="resource-card"><div class="resource-name">University Ombuds</div><div class="resource-desc">Confidential resource for navigating conflicts with professors, grades, or university processes. They advocate for fairness — not for the university.</div><a class="resource-link" href="https://www.bu.edu/ombuds/" target="_blank">bu.edu/ombuds</a><div class="resource-phone">617-358-5960</div></div>
+    <div class="resource-card"><div class="resource-name">University Service Center</div><div class="resource-desc">For complex problems involving multiple offices — leaves of absence, withdrawals, situations that need more than one department to resolve.</div><a class="resource-link" href="http://www.bu.edu/usc" target="_blank">bu.edu/usc</a><div class="resource-phone">881 Commonwealth Ave., Lower Level · 617-358-1818</div></div>
+    <div class="resource-card"><div class="resource-name">Dean of Students Office</div><div class="resource-desc">For emergencies — housing insecurity, family crises, laptop loaners, and more. Students have gotten real help here. Don't wait until things spiral.</div><div class="resource-phone">Contact: drcm@bu.edu</div></div>
   </div>
 </div>
 
 </div><!-- end main -->
 
 <script>
+const RELAY = 'https://lnooney--b59323963f5711f1a86342b51c65c3df.web.val.run';
+
 const BASE = `You are Janet, a warm, practical, and encouraging academic planning assistant for undergraduate students at Boston University. Many students you work with are first-generation college students, from low-income backgrounds, and from historically marginalized communities. You never assume they already know the hidden curriculum of college.
 
 Key principles:
 - Be warm, direct, and real. Never condescending.
-- When you reference things like "office hours," "academic advising," or "the writing center," briefly explain what they are and how to use them.
-- Break everything into concrete, specific steps. Not "study more" but "spend 45 minutes re-reading your notes from Tuesday's lecture."
-- Acknowledge real constraints: jobs, family responsibilities, commutes, financial stress. Factor these in.
+- When you reference things like "office hours," "academic advising," or "the writing center," briefly explain what they are.
+- Break everything into concrete, specific steps.
+- Acknowledge real constraints: jobs, family responsibilities, commutes, financial stress.
 - Normalize struggle. Asking for help is smart, not weak.
+- Today's date is: DATE_PLACEHOLDER. Use this to assess urgency and plan realistically.
 - When relevant, mention 1–2 specific BU resources:
   * Newbury Center (first-gen students): 755 Commonwealth Ave, 617-353-3400
   * ERC (free tutoring): bu.edu/erc, 617-353-7077
@@ -604,16 +777,93 @@ Key principles:
   * BU Food Pantry: bu.edu/studentwellbeing/bu-food-pantry
   * Financial Assistance: bu.edu/finaid
   * Dean of Students (emergencies): drcm@bu.edu
+  * Disability & Access Services: bu.edu/disability
+  * Student Legal Services: bu.edu/studentservices/legal
+  * Ombuds (confidential conflict help): bu.edu/ombuds
 - Self-care (sleep, food, breaks) is a legitimate part of any plan.
-- Keep responses focused and readable.`;
+- If a student mentions or implies a disability, mental health condition, or learning difference, acknowledge it warmly without probing, adjust your recommendations accordingly, and mention Disability & Access Services (bu.edu/disability) or CAPS (617-353-3569) if appropriate.`;
 
-const PLANNER_SYS = BASE + `\n\nYou are in STUDY PLANNER mode. Help the student create a realistic medium to long-term plan — week by week, day by day. Be specific: name the assignment, the day, the time block, the task for that session. Cover the FULL timeframe requested — do not cut off early. Use up to 2000 tokens if needed. Ask clarifying questions if you need more information before building the plan.`;
+const PLANNER_SYS = BASE + `\n\nYou are in STUDY PLANNER mode. Help the student create a realistic medium to long-term plan — week by week, day by day. Be specific: name the assignment, the day, the time block, the task for that session. Cover the FULL timeframe requested — do not cut off early. Use up to 2000 tokens if needed. When you receive task and schedule context, acknowledge the specific tasks you can see and build around the schedule constraints provided. Do not ask for information already provided.`;
 
-const SOS_SYS = BASE + `\n\nYou are in STUDY S.O.S. mode. The student has something due very soon — 1–2 days. Do urgent triage: help them figure out the fastest realistic path with the time they have. Ask what the assignment is, when it's due, and where they're at (haven't started / have notes / have a draft / studied some but panicking). Then give a specific hour-by-hour or session-by-session plan. Be honest about what's achievable. Encourage them.`;
+const SOS_SYS = BASE + `\n\nYou are in STUDY S.O.S. mode. The student has something due very soon — 1–2 days. Do urgent triage: help them figure out the fastest realistic path with the time they have. Ask what the assignment is, when it's due, and where they're at. Then give a specific hour-by-hour or session-by-session plan. Be honest about what's achievable. Encourage them.`;
+
+function getSystem(base) {
+  const today = new Date().toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  return base.replace('DATE_PLACEHOLDER', today);
+}
 
 let tasks=[], blocks=[], taskFilter='all';
 let histories={home:[], planner:[], sos:[]};
 let busy={home:false, planner:false, sos:false};
+let chipsHidden={home:false, planner:false, sos:false};
+let efProfile={};
+
+// EF ONBOARDING
+function toggleEF(btn, key, value) {
+  const siblings = btn.parentElement.querySelectorAll('.ef-option');
+  siblings.forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  efProfile[key] = value;
+  saveEF();
+}
+
+function saveEF() {
+  efProfile.extra = document.getElementById('ef-extra').value;
+  try { localStorage.setItem('janet_ef', JSON.stringify(efProfile)); } catch(e){}
+}
+
+function loadEF() {
+  try {
+    const s = localStorage.getItem('janet_ef');
+    if (s) {
+      efProfile = JSON.parse(s);
+      if (efProfile.extra) document.getElementById('ef-extra').value = efProfile.extra;
+      // Restore selections
+      document.querySelectorAll('.ef-option').forEach(btn => {
+        const key = btn.getAttribute('onclick').match(/'([^']+)','([^']+)'/);
+        if (key && efProfile[key[1]] === key[2]) btn.classList.add('selected');
+      });
+    }
+  } catch(e){}
+}
+
+function showEFSaved() {
+  const msg = document.getElementById('ef-saved-msg');
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 3000);
+}
+
+function clearEF() {
+  efProfile = {};
+  try { localStorage.removeItem('janet_ef'); } catch(e){}
+  document.querySelectorAll('.ef-option').forEach(b => b.classList.remove('selected'));
+  document.getElementById('ef-extra').value = '';
+}
+
+function toggleOnboarding() {
+  const body = document.getElementById('ef-onboarding-body');
+  const btn = document.getElementById('ef-toggle-btn');
+  const summary = document.getElementById('ef-profile-summary');
+  const isHidden = body.style.display === 'none';
+  body.style.display = isHidden ? 'block' : 'none';
+  btn.textContent = isHidden ? 'Hide' : 'Show';
+  summary.style.display = isHidden ? 'none' : (Object.keys(efProfile).length > 0 ? 'block' : 'none');
+}
+
+function getEFContext() {
+  if (!efProfile || Object.keys(efProfile).length === 0) return '';
+  const parts = [];
+  if (efProfile.initiation) parts.push(`Task initiation: ${efProfile.initiation}`);
+  if (efProfile.attention) parts.push(`Attention/focus: ${efProfile.attention}`);
+  if (efProfile.organization) parts.push(`Organization: ${efProfile.organization}`);
+  if (efProfile.switching) parts.push(`Task switching: ${efProfile.switching}`);
+  if (efProfile.emotional) parts.push(`Emotional regulation: ${efProfile.emotional}`);
+  if (efProfile.working_memory) parts.push(`Working memory: ${efProfile.working_memory}`);
+  if (efProfile.completion) parts.push(`Task completion: ${efProfile.completion}`);
+  if (efProfile.extra) parts.push(`Additional context: ${efProfile.extra}`);
+  if (!parts.length) return '';
+  return '\n\nStudent executive function profile:\n' + parts.join('\n');
+}
 
 // PERSISTENCE
 function save(){
@@ -650,17 +900,17 @@ function taskCtx(){
 }
 function schedCtx(){
   if(!blocks.length) return '';
-  return '\n\nStudent schedule:\n'+blocks.map(b=>{
+  return '\n\nStudent schedule commitments:\n'+blocks.map(b=>{
     const when=b.recurring==='weekly'?`Every ${b.day}`:fmtDate(b.date);
     return `- ${when} ${fmt12(b.start)}${b.end?'–'+fmt12(b.end):''}: ${b.label} (${b.type})`;
   }).join('\n');
 }
 
 // API
-async function callJanet(msgs,sys){
+async function callJanet(msgs, sys){
   for(let a=1;a<=3;a++){
     try{
-      const r=await fetch('https://lnooney--b59323963f5711f1a86342b51c65c3df.web.val.run',{
+      const r=await fetch(RELAY,{
         method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:2000,system:sys,messages:msgs})
       });
@@ -672,6 +922,13 @@ async function callJanet(msgs,sys){
       if(a<3) await new Promise(r=>setTimeout(r,1500*a)); else throw e;
     }
   }
+}
+
+// CHIPS — hide after first user message
+function hideChips(tab) {
+  if (chipsHidden[tab]) return;
+  const el = document.getElementById(tab+'-chips');
+  if (el) { el.style.display='none'; chipsHidden[tab]=true; }
 }
 
 // CHAT
@@ -736,7 +993,11 @@ function dlText(text,name){
   a.download=name;a.click();
 }
 
-const sysMap={home:BASE, planner:PLANNER_SYS, sos:SOS_SYS};
+const sysMap={
+  home: () => getSystem(BASE),
+  planner: () => getSystem(PLANNER_SYS),
+  sos: () => getSystem(SOS_SYS)
+};
 const inputMap={home:'home-input', planner:'planner-input', sos:'sos-input'};
 const msgMap={home:'home-messages', planner:'planner-messages', sos:'sos-messages'};
 
@@ -747,13 +1008,15 @@ async function sendChat(tab){
   if(!text) return;
   busy[tab]=true;
   inp.value='';
+  hideChips(tab);
   addMsg(msgMap[tab],'user',text);
   showThinking(msgMap[tab]);
   const isFirst=histories[tab].length===0;
-  const content=isFirst ? text+taskCtx()+schedCtx() : text;
+  const efCtx = getEFContext();
+  const content=isFirst ? text+taskCtx()+schedCtx()+efCtx : text;
   histories[tab].push({role:'user',content});
   try{
-    const reply=await callJanet(histories[tab],sysMap[tab]);
+    const reply=await callJanet(histories[tab],sysMap[tab]());
     histories[tab].push({role:'assistant',content:reply});
     addMsg(msgMap[tab],'janet',reply);
   }catch(e){
@@ -764,10 +1027,20 @@ async function sendChat(tab){
 
 function goToPlanner(){
   switchTabByName('planner');
-  if(histories.planner.length===0&&(tasks.length>0||blocks.length>0)){
-    const intro="I've pulled in your tasks and schedule. Tell me the timeframe you're planning for — a week, two weeks, the rest of the semester — and I'll build you a day-by-day plan.";
+  if(histories.planner.length===0){
+    const hasTasks = tasks.filter(t=>!t.done).length > 0;
+    const hasBlocks = blocks.length > 0;
+    let intro;
+    if(hasTasks || hasBlocks){
+      const taskList = tasks.filter(t=>!t.done).map(t=>`${t.name}${t.due?' (due '+fmtDate(t.due)+')':''}`).join(', ');
+      const schedList = blocks.map(b=>`${b.recurring==='weekly'?'Every '+b.day:fmtDate(b.date)} ${fmt12(b.start)}${b.end?'–'+fmt12(b.end):''}: ${b.label}`).join('; ');
+      intro = `I can see your tasks and schedule. Here's what I'm working with:\n\n${hasTasks?'Tasks: '+taskList:'No tasks added yet.'}${hasBlocks?'\n\nSchedule: '+schedList:''}\n\nToday is ${new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}. How far out do you want to plan — this week, two weeks, the rest of the semester?`;
+    } else {
+      intro = `Let's build your study plan. I don't see any tasks added yet — you can add them in My Tasks & Schedule, or just tell me here what you're working on and when things are due. Today is ${new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}.`;
+    }
     addMsg('planner-messages','janet',intro);
     histories.planner.push({role:'assistant',content:intro});
+    hideChips('planner');
   }
 }
 
@@ -887,7 +1160,7 @@ function renderSchedule(){
 
 function fmt12(t){if(!t)return '';const[h,m]=t.split(':').map(Number);return `${h%12||12}:${String(m).padStart(2,'0')}${h>=12?'pm':'am'}`;}
 
-load();renderTasks();renderSchedule();
+load();loadEF();renderTasks();renderSchedule();
 </script>
 </body>
 </html>
