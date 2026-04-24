@@ -228,23 +228,34 @@ button:active{transform:scale(0.98);}
     <p>College has a lot of unwritten rules. Janet doesn't assume you already know them. Tell her what's going on and she'll help you make a plan, find the right resources, and get things done. You've got this.</p>
   </div>
 
-  <!-- STATE 1 & 2: No profile saved — show Personalize Janet button + tip box -->
+  <!-- STATE 1 & 2: No profile saved -->
   <div id="ef-state-unpersonalized">
-    <!-- Tip box — hidden once conversation starts -->
+    <!-- Tip box — changes text after first conversation -->
     <div class="tip-box" id="home-tip-box">
       <strong>New here?</strong> Tell Janet what's stressing you out most right now. Or go to <strong>My Tasks & Schedule</strong> to get organized first, then come back to the <strong>Study Planner</strong> for a week-by-week plan.
     </div>
-    <div style="margin-bottom:14px;">
+    <!-- Help Janet Know You Better card -->
+    <div class="card" style="border-left:3px solid var(--purple);padding:1rem 1.25rem;margin-bottom:14px;">
+      <div class="card-title" style="color:var(--purple-text);margin-bottom:4px;">Help Janet Know You Better</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:12px;">Optional — takes 2 minutes. Janet will use this to give you more personalized advice. You can skip it or update it anytime.</p>
       <button class="btn-purple" onclick="openEFModal()">Personalize Janet</button>
     </div>
   </div>
 
-  <!-- STATE 3: Profile saved — show summary card with Edit button -->
+  <!-- STATE 3: Profile saved — compact card -->
   <div id="ef-state-personalized" style="display:none;">
-    <div class="card" style="border-left:3px solid var(--purple);padding:1rem 1.25rem;margin-bottom:14px;">
-      <div class="card-title" style="color:var(--purple-text);margin-bottom:6px;">Help Janet Know You Better</div>
-      <p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:12px;">Your personalization is saved! Janet understands how you work and will use your personalization to inform her advice.</p>
-      <button class="btn-purple" onclick="openEFModal()">Edit</button>
+    <!-- Tip box — same as state 2, changes after first conversation -->
+    <div class="tip-box" id="home-tip-box-personalized">
+      <strong>New here?</strong> Tell Janet what's stressing you out most right now. Or go to <strong>My Tasks & Schedule</strong> to get organized first, then come back to the <strong>Study Planner</strong> for a week-by-week plan.
+    </div>
+    <div class="card" style="border-left:3px solid var(--purple);padding:10px 1.25rem;margin-bottom:14px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--purple-text);margin-bottom:2px;">Help Janet Know You Better</div>
+          <p style="font-size:12px;color:var(--text2);line-height:1.4;">Your info is saved! Janet will use it to inform her advice.</p>
+        </div>
+        <button class="btn-purple" onclick="openEFModal()" style="white-space:nowrap;flex-shrink:0;padding:7px 14px;font-size:13px;">Edit</button>
+      </div>
     </div>
   </div>
 
@@ -793,7 +804,7 @@ Key principles:
   * Disability & Access Services: bu.edu/disability
   * Student Legal Services: bu.edu/studentservices/legal
   * Ombuds (confidential conflict help): bu.edu/ombuds
-- Self-care (sleep, food, breaks) is a legitimate part of any plan.
+- When a student asks about managing deadlines, assignments, or planning their week, mention that they can add their tasks and schedule in the My Tasks & Schedule tab — and include this exact text as a link cue: [Go to My Tasks & Schedule]. Only do this when it is genuinely relevant to the conversation, not on every response.
 - If a student mentions or implies a disability, mental health condition, or learning difference, acknowledge it warmly without probing, adjust your recommendations accordingly, and mention Disability & Access Services (bu.edu/disability) or CAPS (617-353-3569) if appropriate.`;
 
 const PLANNER_SYS = BASE + `\n\nYou are in STUDY PLANNER mode. Help the student create a realistic medium to long-term plan — week by week, day by day. Be specific: name the assignment, the day, the time block, the task for that session. Cover the FULL timeframe requested — do not cut off early. Use up to 2000 tokens if needed. When you receive task and schedule context, acknowledge the specific tasks you can see and build around the schedule constraints provided. Do not ask for information already provided.`;
@@ -864,6 +875,16 @@ function loadEF() {
         const match = btn.getAttribute('onclick').match(/'([^']+)','([^']+)'/);
         if (match && efProfile[match[1]] === match[2]) btn.classList.add('selected');
       });
+    }
+  } catch(e){}
+  // Restore welcome back tip box if student has chatted before
+  try {
+    if(localStorage.getItem('janet_has_chatted')==='true') {
+      const welcomeBack = '<strong>Welcome back!</strong> Use the tabs above to manage tasks, plan your week, or find BU resources.';
+      const tip1 = document.getElementById('home-tip-box');
+      const tip2 = document.getElementById('home-tip-box-personalized');
+      if(tip1) tip1.innerHTML = welcomeBack;
+      if(tip2) tip2.innerHTML = welcomeBack;
     }
   } catch(e){}
   updateEFState();
@@ -974,7 +995,10 @@ function addMsg(containerId,role,text){
   lbl.textContent=role==='user'?'You':'Janet';
   const bub=document.createElement('div');
   bub.className='chat-bubble';
-  bub.textContent=text;
+  // Render [Go to My Tasks & Schedule] as a clickable tab link
+  const rendered = text.replace(/\[Go to My Tasks & Schedule\]/g,
+    '<button onclick="switchTabByName(\'tasks\')" style="background:var(--red);color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:12px;cursor:pointer;font-family:var(--sans);font-weight:500;margin:0 2px;">Go to My Tasks & Schedule →</button>');
+  bub.innerHTML = rendered;
   div.appendChild(lbl);
   div.appendChild(bub);
   if(role==='janet'){
@@ -1037,10 +1061,14 @@ async function sendChat(tab){
   busy[tab]=true;
   inp.value='';
   hideChips(tab);
-  // Hide tip box once conversation starts on home tab
+  // Hide tip box / switch to welcome back once first home conversation starts
   if(tab==='home' && histories.home.length===0){
-    const tip=document.getElementById('home-tip-box');
-    if(tip) tip.style.display='none';
+    const welcomeBack = '<strong>Welcome back!</strong> Use the tabs above to manage tasks, plan your week, or find BU resources.';
+    try { localStorage.setItem('janet_has_chatted','true'); } catch(e){}
+    const tip1 = document.getElementById('home-tip-box');
+    const tip2 = document.getElementById('home-tip-box-personalized');
+    if(tip1) tip1.innerHTML = welcomeBack;
+    if(tip2) tip2.innerHTML = welcomeBack;
   }
   addMsg(msgMap[tab],'user',text);
   showThinking(msgMap[tab]);
