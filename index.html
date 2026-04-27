@@ -182,6 +182,9 @@ button:active{transform:scale(0.98);}
 .ef-option.selected{background:var(--purple-bg);border-color:var(--purple);color:var(--purple-text);font-weight:500;}
 .ef-profile-display{background:var(--purple-bg);border-radius:var(--radius);padding:12px 14px;font-size:13px;color:var(--purple-text);line-height:1.6;margin-bottom:12px;}
 
+.day-pill{font-size:12px;padding:6px 12px;border-radius:999px;border:1.5px solid var(--border2);cursor:pointer;background:none;color:var(--text2);font-weight:500;transition:all .12s;font-family:var(--sans);}
+.day-pill.selected{background:var(--red);color:#fff;border-color:var(--red);}
+
 .empty{text-align:center;padding:2rem 1rem;color:var(--text3);font-size:14px;}
 .empty-icon{font-size:28px;margin-bottom:8px;}
 
@@ -392,7 +395,7 @@ button:active{transform:scale(0.98);}
     <div class="card-title">Add a task</div>
     <div class="grid2">
       <div class="field"><label>Task name</label><input type="text" id="task-name" placeholder="e.g. Read chapter 4 for BIO 107" style="width:100%;"/></div>
-      <div class="field"><label>Due date</label><input type="date" id="task-due" style="width:100%;"/></div>
+      <div class="field"><label>Due date 📅 <span style="font-size:11px;font-weight:400;color:var(--text3);">tap to pick</span></label><input type="date" id="task-due" style="width:100%;"/></div>
     </div>
     <div class="grid2">
       <div class="field">
@@ -445,23 +448,61 @@ button:active{transform:scale(0.98);}
     <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6;">Add your classes, work shifts, and other fixed commitments so Janet knows when you're available to study. Fields marked <span style="color:var(--red);">*</span> are required.</p>
 
     <div class="field">
-      <label>Is this recurring or a one-time event?</label>
+      <label>How often does this repeat? <span style="color:var(--red);">*</span></label>
       <select id="bl-recurring" style="width:100%;" onchange="toggleScheduleType()">
-        <option value="weekly">Recurring every week (e.g. every Tuesday)</option>
+        <option value="weekly">Every week</option>
+        <option value="biweekly">Every other week</option>
+        <option value="monthly-nth">Monthly — specific weekday (e.g. 2nd Tuesday)</option>
         <option value="date">One-time on a specific date</option>
       </select>
     </div>
+
+    <!-- Weekly / Bi-weekly: multi-select day pills -->
     <div id="weekly-fields">
-      <div class="field"><label>Day of week <span style="color:var(--red);">*</span></label>
-        <select id="bl-day" style="width:100%;">
-          <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
-          <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
-        </select>
+      <div class="field">
+        <label>Which day(s)? <span style="color:var(--red);">*</span> <span style="font-size:11px;font-weight:400;color:var(--text3);">tap to select, tap again to deselect</span></label>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+          <button type="button" class="day-pill" onclick="toggleDay(this,'Mon')">Mon</button>
+          <button type="button" class="day-pill" onclick="toggleDay(this,'Tue')">Tue</button>
+          <button type="button" class="day-pill" onclick="toggleDay(this,'Wed')">Wed</button>
+          <button type="button" class="day-pill" onclick="toggleDay(this,'Thu')">Thu</button>
+          <button type="button" class="day-pill" onclick="toggleDay(this,'Fri')">Fri</button>
+          <button type="button" class="day-pill" onclick="toggleDay(this,'Sat')">Sat</button>
+          <button type="button" class="day-pill" onclick="toggleDay(this,'Sun')">Sun</button>
+        </div>
       </div>
     </div>
-    <div id="date-fields" style="display:none;">
-      <div class="field"><label>Date <span style="color:var(--red);">*</span></label><input type="date" id="bl-date" style="width:100%;"/></div>
+
+    <!-- Monthly Nth weekday -->
+    <div id="monthly-nth-fields" style="display:none;">
+      <div class="grid2">
+        <div class="field">
+          <label>Which occurrence? <span style="color:var(--red);">*</span></label>
+          <select id="bl-nth" style="width:100%;">
+            <option value="1st">1st</option>
+            <option value="2nd">2nd</option>
+            <option value="3rd">3rd</option>
+            <option value="4th">4th</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Day of week <span style="color:var(--red);">*</span></label>
+          <select id="bl-nth-day" style="width:100%;">
+            <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+            <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
+          </select>
+        </div>
+      </div>
     </div>
+
+    <!-- One-time date -->
+    <div id="date-fields" style="display:none;">
+      <div class="field">
+        <label>Date 📅 <span style="font-size:11px;font-weight:400;color:var(--text3);">tap to pick</span> <span style="color:var(--red);">*</span></label>
+        <input type="date" id="bl-date" style="width:100%;"/>
+      </div>
+    </div>
+
     <div class="grid2">
       <div class="field"><label>Start time <span style="color:var(--red);">*</span></label><input type="time" id="bl-start" style="width:100%;"/></div>
       <div class="field"><label>End time</label><input type="time" id="bl-end" style="width:100%;"/></div>
@@ -486,6 +527,33 @@ button:active{transform:scale(0.98);}
     </div>
   </div>
 
+</div>
+
+<!-- SCHEDULE EDIT MODAL -->
+<div id="sched-edit-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <span style="font-family:var(--font);font-size:17px;">Edit commitment</span>
+      <button onclick="closeSchedEditModal()" style="border:none;background:none;font-size:18px;color:var(--text3);cursor:pointer;padding:0;">✕</button>
+    </div>
+    <input type="hidden" id="sched-edit-id"/>
+    <div class="field"><label>What's happening?</label><input type="text" id="sched-edit-label" style="width:100%;"/></div>
+    <div class="grid2">
+      <div class="field"><label>Start time</label><input type="time" id="sched-edit-start" style="width:100%;"/></div>
+      <div class="field"><label>End time</label><input type="time" id="sched-edit-end" style="width:100%;"/></div>
+    </div>
+    <div class="field"><label>Type</label>
+      <select id="sched-edit-type" style="width:100%;">
+        <option value="class">Class</option><option value="work">Work</option>
+        <option value="break">Break / self-care</option><option value="meeting">Meeting / appointment</option>
+        <option value="club">Club or org</option><option value="other">Other</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn-primary" onclick="saveSchedEdit()">Save changes</button>
+      <button onclick="closeSchedEditModal()">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <!-- EDIT MODAL -->
@@ -950,7 +1018,7 @@ function taskCtx(){
 function schedCtx(){
   if(!blocks.length) return '';
   return '\n\nStudent schedule commitments:\n'+blocks.map(b=>{
-    const when=b.recurring==='weekly'?`Every ${b.day}`:fmtDate(b.date);
+    const when=blockWhenLabel?blockWhenLabel(b):(b.recurring==='weekly'?`Every ${b.day}`:b.date||'');
     return `- ${when} ${fmt12(b.start)}${b.end?'–'+fmt12(b.end):''}: ${b.label} (${b.type})`;
   }).join('\n');
 }
@@ -1167,9 +1235,23 @@ function saveTaskEdit(){
 function fmtDate(s){if(!s)return '';try{return new Date(s+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});}catch(e){return s;}}
 
 // SCHEDULE
+let selectedDays=[];
+
+function toggleDay(btn,day){
+  btn.classList.toggle('selected');
+  if(selectedDays.includes(day)) selectedDays=selectedDays.filter(d=>d!==day);
+  else selectedDays.push(day);
+}
+
+function clearDayPills(){
+  selectedDays=[];
+  document.querySelectorAll('.day-pill').forEach(b=>b.classList.remove('selected'));
+}
+
 function toggleScheduleType(){
   const v=document.getElementById('bl-recurring').value;
-  document.getElementById('weekly-fields').style.display=v==='weekly'?'block':'none';
+  document.getElementById('weekly-fields').style.display=(v==='weekly'||v==='biweekly')?'block':'none';
+  document.getElementById('monthly-nth-fields').style.display=v==='monthly-nth'?'block':'none';
   document.getElementById('date-fields').style.display=v==='date'?'block':'none';
 }
 
@@ -1179,40 +1261,96 @@ function addBlock(){
   const label=document.getElementById('bl-label').value.trim();
   const errEl=document.getElementById('bl-error');
   const date=recurring==='date'?document.getElementById('bl-date').value:null;
-  if(!start||!label||(recurring==='date'&&!date)){errEl.style.display='block';return;}
+  const nth=recurring==='monthly-nth'?document.getElementById('bl-nth').value:null;
+  const nthDay=recurring==='monthly-nth'?document.getElementById('bl-nth-day').value:null;
+  const needsDays=recurring==='weekly'||recurring==='biweekly';
+
+  if(!start||!label||(recurring==='date'&&!date)||(needsDays&&selectedDays.length===0)){
+    errEl.style.display='block';
+    errEl.textContent=needsDays&&selectedDays.length===0?'Please select at least one day.':'Please fill in all required fields.';
+    return;
+  }
   errEl.style.display='none';
-  blocks.push({id:Date.now(),recurring,day:document.getElementById('bl-day').value,date,start,end:document.getElementById('bl-end').value,label,type:document.getElementById('bl-type').value});
+
+  const end=document.getElementById('bl-end').value;
+  const type=document.getElementById('bl-type').value;
+  blocks.push({id:Date.now(),recurring,days:needsDays?[...selectedDays]:null,date,nth,nthDay,start,end,label,type});
+
   document.getElementById('bl-start').value='';
   document.getElementById('bl-end').value='';
   document.getElementById('bl-label').value='';
   document.getElementById('bl-date').value='';
+  clearDayPills();
   save();renderSchedule();
 }
 
 function deleteBlock(id){blocks=blocks.filter(b=>b.id!==id);save();renderSchedule();}
+
+function editBlock(id){
+  const b=blocks.find(x=>x.id===id);if(!b)return;
+  document.getElementById('sched-edit-id').value=b.id;
+  document.getElementById('sched-edit-label').value=b.label;
+  document.getElementById('sched-edit-start').value=b.start;
+  document.getElementById('sched-edit-end').value=b.end||'';
+  document.getElementById('sched-edit-type').value=b.type;
+  document.getElementById('sched-edit-modal').style.display='flex';
+}
+
+function closeSchedEditModal(){document.getElementById('sched-edit-modal').style.display='none';}
+
+function saveSchedEdit(){
+  const id=parseFloat(document.getElementById('sched-edit-id').value);
+  const b=blocks.find(x=>x.id===id);if(!b)return;
+  b.label=document.getElementById('sched-edit-label').value.trim()||b.label;
+  b.start=document.getElementById('sched-edit-start').value||b.start;
+  b.end=document.getElementById('sched-edit-end').value;
+  b.type=document.getElementById('sched-edit-type').value;
+  closeSchedEditModal();save();renderSchedule();
+}
+
+function blockWhenLabel(b){
+  if(b.recurring==='weekly'||b.recurring==='biweekly'){
+    const days=b.days&&b.days.length?b.days:[];
+    const freq=b.recurring==='biweekly'?'Every other ':'Every ';
+    return freq+days.join('/');
+  }
+  if(b.recurring==='monthly-nth') return `${b.nth} ${b.nthDay} of month`;
+  if(b.recurring==='date') return fmtDate(b.date);
+  return '';
+}
 
 function renderSchedule(){
   const d=document.getElementById('schedule-display');
   if(!blocks.length){d.innerHTML='<div class="empty"><div class="empty-icon">🗓️</div>No commitments added yet.</div>';return;}
   const tc={class:'b-teal',work:'b-amber',break:'b-green',meeting:'b-gray',club:'b-blue',other:'b-gray'};
   const tl={class:'Class',work:'Work',break:'Break',meeting:'Meeting',club:'Club/Org',other:'Other'};
-  const weekly=blocks.filter(b=>b.recurring==='weekly');
+  const recurring=blocks.filter(b=>b.recurring!=='date');
   const oneoff=blocks.filter(b=>b.recurring==='date');
-  const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
   let html='';
-  if(weekly.length){
-    html+='<div class="sched-section"><div class="sched-section-title">Recurring weekly</div>';
-    days.forEach(day=>{
-      weekly.filter(b=>b.day===day).sort((a,b)=>a.start.localeCompare(b.start)).forEach(b=>{
-        html+=`<div class="sched-item"><div class="sched-time"><span class="sched-day-tag">${day.slice(0,3)}</span><br/>${fmt12(b.start)}${b.end?'–'+fmt12(b.end):''}</div><div class="sched-body"><div class="sched-label">${b.label}</div><div class="sched-sub"><span class="badge ${tc[b.type]||'b-gray'}">${tl[b.type]||b.type}</span></div></div><button class="icon-btn" onclick="deleteBlock(${b.id})">✕</button></div>`;
-      });
+
+  if(recurring.length){
+    html+='<div class="sched-section"><div class="sched-section-title">Recurring commitments</div>';
+    recurring.forEach(b=>{
+      const days=b.days&&b.days.length?b.days:[];
+      const dayTags=days.map(day=>`<span class="sched-day-tag">${day}</span>`).join(' ');
+      const freq=b.recurring==='biweekly'?'Every other week':b.recurring==='monthly-nth'?`${b.nth} ${b.nthDay} of month`:'Every week';
+      html+=`<div class="sched-item">
+        <div class="sched-time">${dayTags||blockWhenLabel(b)}<br/>${fmt12(b.start)}${b.end?'–'+fmt12(b.end):''}<br/><span style="font-size:10px;color:var(--text3);">${freq}</span></div>
+        <div class="sched-body"><div class="sched-label">${b.label}</div><div class="sched-sub"><span class="badge ${tc[b.type]||'b-gray'}">${tl[b.type]||b.type}</span></div></div>
+        <div style="display:flex;gap:4px;"><button class="icon-btn" onclick="editBlock(${b.id})" title="Edit">✏️</button><button class="icon-btn" onclick="deleteBlock(${b.id})" title="Delete">✕</button></div>
+      </div>`;
     });
     html+='</div>';
   }
+
   if(oneoff.length){
     html+='<div class="sched-section"><div class="sched-section-title">One-time commitments</div>';
     oneoff.sort((a,b)=>a.date.localeCompare(b.date)).forEach(b=>{
-      html+=`<div class="sched-item"><div class="sched-time">${fmtDate(b.date)}<br/>${fmt12(b.start)}${b.end?'–'+fmt12(b.end):''}</div><div class="sched-body"><div class="sched-label">${b.label}</div><div class="sched-sub"><span class="badge ${tc[b.type]||'b-gray'}">${tl[b.type]||b.type}</span></div></div><button class="icon-btn" onclick="deleteBlock(${b.id})">✕</button></div>`;
+      html+=`<div class="sched-item">
+        <div class="sched-time">${fmtDate(b.date)}<br/>${fmt12(b.start)}${b.end?'–'+fmt12(b.end):''}</div>
+        <div class="sched-body"><div class="sched-label">${b.label}</div><div class="sched-sub"><span class="badge ${tc[b.type]||'b-gray'}">${tl[b.type]||b.type}</span></div></div>
+        <div style="display:flex;gap:4px;"><button class="icon-btn" onclick="editBlock(${b.id})" title="Edit">✏️</button><button class="icon-btn" onclick="deleteBlock(${b.id})" title="Delete">✕</button></div>
+      </div>`;
     });
     html+='</div>';
   }
