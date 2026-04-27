@@ -216,12 +216,24 @@ button:active{transform:scale(0.98);}
 .tp-option:hover{background:var(--bg2);}
 .tp-option.selected{background:var(--red);color:#fff;}
 
-/* PRINT */
+/* PRINT PLAN MODAL */
+.print-plan-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center;padding:1rem;}
+.print-plan-modal.open{display:flex;}
+.print-plan-box{background:#fff;border-radius:var(--radius-lg);padding:2rem;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.2);}
+.print-plan-content{font-family:var(--sans);font-size:14px;line-height:1.7;color:#1c1c1a;white-space:pre-wrap;}
+.print-plan-content h2{font-family:var(--font);font-size:20px;font-weight:normal;margin-bottom:4px;}
+.print-plan-content .plan-date{font-size:12px;color:#8a8780;margin-bottom:16px;}
+.print-plan-content .plan-tasks{background:#f2f0ea;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;}
+.print-plan-content .plan-tasks strong{display:block;margin-bottom:6px;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;color:#5a5850;}
+.print-plan-content .plan-body{font-size:14px;}
+
 @media print{
-  .site-header,.tabs,.panel:not(#tab-tasks),.chat-container,.card:not(.print-schedule),.filter-row,.metrics,button,.storage-note,.tip-box,.info-box,.ef-state-unpersonalized,.ef-state-personalized{display:none!important;}
+  body>*:not(.print-plan-modal){display:none!important;}
+  .print-plan-modal{position:static;background:none;padding:0;display:block!important;}
+  .print-plan-box{box-shadow:none;padding:0;max-height:none;}
+  .print-plan-actions{display:none!important;}
   .print-schedule{display:block!important;box-shadow:none;border:none;}
-  body{background:#fff;color:#000;}
-  .sched-item{break-inside:avoid;}
+  .site-header,.tabs,.panel:not(#tab-tasks),.chat-container,.card:not(.print-schedule),.filter-row,.metrics,button,.storage-note,.tip-box,.info-box,.ef-state-unpersonalized,.ef-state-personalized,.data-card{display:none!important;}
 }
 
 /* EXPORT/IMPORT */
@@ -330,6 +342,9 @@ button:active{transform:scale(0.98);}
         <button class="btn-primary" onclick="sendChat('home')">Send ↗</button>
       </div>
     </div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;margin-top:-6px;margin-bottom:14px;">
+    <button id="home-print-btn" onclick="printMyPlan('home')" style="font-size:12px;padding:6px 14px;display:none;">🖨️ Print My Plan</button>
   </div>
 </div>
 
@@ -674,6 +689,9 @@ button:active{transform:scale(0.98);}
       </div>
     </div>
   </div>
+  <div style="display:flex;justify-content:flex-end;margin-top:-6px;margin-bottom:14px;">
+    <button id="planner-print-btn" onclick="printMyPlan('planner')" style="font-size:12px;padding:6px 14px;display:none;">🖨️ Print My Plan</button>
+  </div>
 </div>
 
 <!-- STUDY SOS -->
@@ -705,6 +723,9 @@ button:active{transform:scale(0.98);}
         <button class="btn-primary" onclick="sendChat('sos')">Send ↗</button>
       </div>
     </div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;margin-top:-6px;margin-bottom:14px;">
+    <button id="sos-print-btn" onclick="printMyPlan('sos')" style="font-size:12px;padding:6px 14px;display:none;">🖨️ Print My Plan</button>
   </div>
 </div>
 
@@ -909,6 +930,17 @@ button:active{transform:scale(0.98);}
 </div>
 
 </div><!-- end main -->
+
+<!-- PRINT MY PLAN MODAL -->
+<div id="print-plan-modal" class="print-plan-modal">
+  <div class="print-plan-box">
+    <div class="print-plan-content" id="print-plan-content"></div>
+    <div class="print-plan-actions" style="display:flex;gap:10px;margin-top:20px;justify-content:flex-end;border-top:0.5px solid #e8e5dc;padding-top:16px;">
+      <button onclick="window.print()" style="background:#cc3b2f;color:#fff;border-color:#cc3b2f;padding:10px 20px;font-weight:500;">Print / Save as PDF</button>
+      <button onclick="closePrintModal()">Close</button>
+    </div>
+  </div>
+</div>
 
 <script>
 const RELAY = 'https://lnooney--b59323963f5711f1a86342b51c65c3df.web.val.run';
@@ -1209,6 +1241,9 @@ async function sendChat(tab){
     const reply=await callJanet(histories[tab],sysMap[tab]());
     histories[tab].push({role:'assistant',content:reply});
     addMsg(msgMap[tab],'janet',reply);
+    // Show Print My Plan button once Janet has responded
+    const printBtn=document.getElementById(tab+'-print-btn');
+    if(printBtn) printBtn.style.display='block';
   }catch(e){
     showErr(msgMap[tab]);
     histories[tab].pop();
@@ -1603,6 +1638,42 @@ function importData(e){
 
 // ── PRINT SCHEDULE ──
 function printSchedule(){window.print();}
+
+// ── PRINT MY PLAN ──
+async function printMyPlan(tab){
+  const hist=histories[tab];
+  if(!hist||hist.length===0) return;
+  const btn=document.getElementById(tab+'-print-btn');
+  const origText=btn.textContent;
+  btn.textContent='Preparing plan…';
+  btn.disabled=true;
+
+  const taskList=tasks.filter(t=>!t.done);
+  const taskSummary=taskList.length>0
+    ?taskList.map(t=>`• ${t.name}${t.due?' (due '+fmtDate(t.due)+')':''}${t.priority==='high'?' — URGENT':''}`).join('\n')
+    :'No tasks entered.';
+
+  const today=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const convText=hist.map(m=>`${m.role==='user'?'Student':'Janet'}: ${m.content}`).join('\n\n');
+  const prompt=`Based on this conversation, extract and format a clean, organized study plan the student can print and use. Include specific days, times, and tasks. Format it clearly with structure. Do not include the raw conversation — just the final consolidated plan.\n\nConversation:\n${convText}`;
+
+  try{
+    const plan=await callJanet([{role:'user',content:prompt}],getSystem(BASE));
+    const modal=document.getElementById('print-plan-modal');
+    const content=document.getElementById('print-plan-content');
+    content.innerHTML=`<h2>My Study Plan</h2><div class="plan-date">${today}</div><div class="plan-tasks"><strong>My Tasks</strong>\n${taskSummary}</div><div class="plan-body">${plan}</div>`;
+    modal.classList.add('open');
+  }catch(e){
+    alert('Having trouble generating the plan right now. Try again in a moment.');
+  }finally{
+    btn.textContent=origText;
+    btn.disabled=false;
+  }
+}
+
+function closePrintModal(){
+  document.getElementById('print-plan-modal').classList.remove('open');
+}
 
 // Override addBlock and saveSchedEdit to use custom picker values
 const _origAddBlock=addBlock;
