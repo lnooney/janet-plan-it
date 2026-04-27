@@ -182,6 +182,52 @@ button:active{transform:scale(0.98);}
 .ef-option.selected{background:var(--purple-bg);border-color:var(--purple);color:var(--purple-text);font-weight:500;}
 .ef-profile-display{background:var(--purple-bg);border-radius:var(--radius);padding:12px 14px;font-size:13px;color:var(--purple-text);line-height:1.6;margin-bottom:12px;}
 
+/* CUSTOM DATE PICKER */
+.picker-wrap{position:relative;display:block;}
+.picker-wrap input{width:100%;cursor:pointer;}
+.date-picker-dropdown{
+  position:absolute;top:calc(100% + 4px);left:0;z-index:500;
+  background:var(--card);border:0.5px solid var(--border2);
+  border-radius:var(--radius-lg);box-shadow:0 8px 24px rgba(0,0,0,0.14);
+  padding:12px;width:280px;display:none;
+}
+.date-picker-dropdown.open{display:block;}
+.dp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.dp-nav{background:none;border:none;font-size:16px;cursor:pointer;color:var(--text2);padding:4px 8px;border-radius:6px;}
+.dp-nav:hover{background:var(--bg2);}
+.dp-month-label{font-size:14px;font-weight:600;color:var(--text);}
+.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.dp-day-label{font-size:11px;color:var(--text3);text-align:center;padding:4px 0;font-weight:500;}
+.dp-day{font-size:13px;text-align:center;padding:6px 2px;border-radius:6px;cursor:pointer;border:none;background:none;color:var(--text);}
+.dp-day:hover{background:var(--bg2);}
+.dp-day.selected{background:var(--red);color:#fff;}
+.dp-day.other-month{color:var(--text3);}
+.dp-day.today{font-weight:700;text-decoration:underline;}
+
+/* CUSTOM TIME PICKER */
+.time-picker-dropdown{
+  position:absolute;top:calc(100% + 4px);left:0;z-index:500;
+  background:var(--card);border:0.5px solid var(--border2);
+  border-radius:var(--radius-lg);box-shadow:0 8px 24px rgba(0,0,0,0.14);
+  padding:8px;width:160px;max-height:220px;overflow-y:auto;display:none;
+}
+.time-picker-dropdown.open{display:block;}
+.tp-option{font-size:13px;padding:7px 12px;border-radius:6px;cursor:pointer;color:var(--text);}
+.tp-option:hover{background:var(--bg2);}
+.tp-option.selected{background:var(--red);color:#fff;}
+
+/* PRINT */
+@media print{
+  .site-header,.tabs,.panel:not(#tab-tasks),.chat-container,.card:not(.print-schedule),.filter-row,.metrics,button,.storage-note,.tip-box,.info-box,.ef-state-unpersonalized,.ef-state-personalized{display:none!important;}
+  .print-schedule{display:block!important;box-shadow:none;border:none;}
+  body{background:#fff;color:#000;}
+  .sched-item{break-inside:avoid;}
+}
+
+/* EXPORT/IMPORT */
+.data-card{background:var(--green-bg);border:0.5px solid var(--green);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:14px;}
+.data-card-title{font-size:13px;font-weight:600;color:var(--green-text);margin-bottom:8px;}
+
 .day-pill{font-size:12px;padding:6px 12px;border-radius:999px;border:1.5px solid var(--border2);cursor:pointer;background:none;color:var(--text2);font-weight:500;transition:all .12s;font-family:var(--sans);}
 .day-pill.selected{background:var(--red);color:#fff;border-color:var(--red);}
 
@@ -395,7 +441,7 @@ button:active{transform:scale(0.98);}
     <div class="card-title">Add a task</div>
     <div class="grid2">
       <div class="field"><label>Task name</label><input type="text" id="task-name" placeholder="e.g. Read chapter 4 for BIO 107" style="width:100%;"/></div>
-      <div class="field"><label>Due date 📅 <span style="font-size:11px;font-weight:400;color:var(--text3);">tap to pick</span></label><input type="date" id="task-due" style="width:100%;"/></div>
+      <div class="field"><label>Due date</label><div class="picker-wrap"><input type="text" id="task-due" placeholder="Select a date" readonly onclick="openDatePicker('task-due','task-due-dp')" style="width:100%;cursor:pointer;"/><div class="date-picker-dropdown" id="task-due-dp"></div></div></div>
     </div>
     <div class="grid2">
       <div class="field">
@@ -498,14 +544,14 @@ button:active{transform:scale(0.98);}
     <!-- One-time date -->
     <div id="date-fields" style="display:none;">
       <div class="field">
-        <label>Date 📅 <span style="font-size:11px;font-weight:400;color:var(--text3);">tap to pick</span> <span style="color:var(--red);">*</span></label>
-        <input type="date" id="bl-date" style="width:100%;"/>
+        <label>Date <span style="color:var(--red);">*</span></label>
+        <div class="picker-wrap"><input type="text" id="bl-date" placeholder="Select a date" readonly onclick="openDatePicker('bl-date','bl-date-dp')" style="width:100%;cursor:pointer;"/><div class="date-picker-dropdown" id="bl-date-dp"></div></div>
       </div>
     </div>
 
     <div class="grid2">
-      <div class="field"><label>Start time <span style="color:var(--red);">*</span></label><input type="time" id="bl-start" style="width:100%;"/></div>
-      <div class="field"><label>End time</label><input type="time" id="bl-end" style="width:100%;"/></div>
+      <div class="field"><label>Start time <span style="color:var(--red);">*</span></label><div class="picker-wrap"><input type="text" id="bl-start" placeholder="Select time" readonly onclick="openTimePicker('bl-start','bl-start-tp')" style="width:100%;cursor:pointer;"/><div class="time-picker-dropdown" id="bl-start-tp"></div></div></div>
+      <div class="field"><label>End time</label><div class="picker-wrap"><input type="text" id="bl-end" placeholder="Select time" readonly onclick="openTimePicker('bl-end','bl-end-tp')" style="width:100%;cursor:pointer;"/><div class="time-picker-dropdown" id="bl-end-tp"></div></div></div>
     </div>
     <div class="field"><label>What's happening? <span style="color:var(--red);">*</span></label><input type="text" id="bl-label" placeholder="e.g. BIO 107 lecture, Work shift, Club meeting" style="width:100%;"/></div>
     <div class="field">
@@ -520,11 +566,26 @@ button:active{transform:scale(0.98);}
     <button class="btn-primary" onclick="addBlock()">Add to my schedule</button>
   </div>
 
-  <div class="card">
-    <div class="card-title">My Schedule</div>
+  <div class="card print-schedule">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div class="card-title" style="margin-bottom:0;">My Schedule</div>
+      <button onclick="printSchedule()" style="font-size:12px;padding:5px 12px;">🖨️ Print schedule</button>
+    </div>
     <div id="schedule-display">
       <div class="empty"><div class="empty-icon">🗓️</div>No commitments added yet.</div>
     </div>
+  </div>
+
+  <!-- EXPORT / IMPORT -->
+  <div class="data-card">
+    <div class="data-card-title">💾 Your Data</div>
+    <p style="font-size:13px;color:var(--green-text);line-height:1.5;margin-bottom:12px;">Save your tasks, schedule, and Janet profile to a file. Import it anytime — on this device or a new one.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+      <button class="btn-primary" onclick="exportData()" style="background:var(--green);border-color:var(--green);">Save my data</button>
+      <button onclick="document.getElementById('import-file').click()">Import my data</button>
+      <input type="file" id="import-file" accept=".json" style="display:none;" onchange="importData(event)"/>
+    </div>
+    <p style="font-size:11px;color:var(--green-text);line-height:1.5;">Switching devices? Save your data first, then open Janet on your new device and import the file.</p>
   </div>
 
 </div>
@@ -539,8 +600,8 @@ button:active{transform:scale(0.98);}
     <input type="hidden" id="sched-edit-id"/>
     <div class="field"><label>What's happening?</label><input type="text" id="sched-edit-label" style="width:100%;"/></div>
     <div class="grid2">
-      <div class="field"><label>Start time</label><input type="time" id="sched-edit-start" style="width:100%;"/></div>
-      <div class="field"><label>End time</label><input type="time" id="sched-edit-end" style="width:100%;"/></div>
+      <div class="field"><label>Start time</label><div class="picker-wrap"><input type="text" id="sched-edit-start" placeholder="Select time" readonly onclick="openTimePicker('sched-edit-start','sched-edit-start-tp')" style="width:100%;cursor:pointer;"/><div class="time-picker-dropdown" id="sched-edit-start-tp"></div></div></div>
+      <div class="field"><label>End time</label><div class="picker-wrap"><input type="text" id="sched-edit-end" placeholder="Select time" readonly onclick="openTimePicker('sched-edit-end','sched-edit-end-tp')" style="width:100%;cursor:pointer;"/><div class="time-picker-dropdown" id="sched-edit-end-tp"></div></div></div>
     </div>
     <div class="field"><label>Type</label>
       <select id="sched-edit-type" style="width:100%;">
@@ -565,7 +626,7 @@ button:active{transform:scale(0.98);}
     </div>
     <input type="hidden" id="edit-id"/>
     <div class="field"><label>Task name</label><input type="text" id="edit-name" style="width:100%;"/></div>
-    <div class="field"><label>Due date</label><input type="date" id="edit-due" style="width:100%;"/></div>
+    <div class="field"><label>Due date</label><div class="picker-wrap"><input type="text" id="edit-due" placeholder="Select a date" readonly onclick="openDatePicker('edit-due','edit-due-dp')" style="width:100%;cursor:pointer;"/><div class="date-picker-dropdown" id="edit-due-dp"></div></div></div>
     <div class="field"><label>Type</label>
       <select id="edit-cat" style="width:100%;">
         <option>Homework</option><option>Paper or project</option><option>Exam prep</option>
@@ -1358,6 +1419,302 @@ function renderSchedule(){
 }
 
 function fmt12(t){if(!t)return '';const[h,m]=t.split(':').map(Number);return `${h%12||12}:${String(m).padStart(2,'0')}${h>=12?'pm':'am'}`;}
+
+// ── CUSTOM DATE PICKER ──
+let dpState={};
+
+function openDatePicker(inputId, dropId){
+  // Close all other pickers
+  document.querySelectorAll('.date-picker-dropdown.open,.time-picker-dropdown.open').forEach(d=>{
+    if(d.id!==dropId) d.classList.remove('open');
+  });
+  const drop=document.getElementById(dropId);
+  if(drop.classList.contains('open')){drop.classList.remove('open');return;}
+  if(!dpState[dropId]){
+    const now=new Date();
+    dpState[dropId]={year:now.getFullYear(),month:now.getMonth(),inputId};
+  }
+  renderDatePicker(dropId);
+  drop.classList.add('open');
+}
+
+function renderDatePicker(dropId){
+  const state=dpState[dropId];
+  const drop=document.getElementById(dropId);
+  const inputEl=document.getElementById(state.inputId);
+  const selectedVal=inputEl.value; // format: YYYY-MM-DD or display
+  const today=new Date();
+  const firstDay=new Date(state.year,state.month,1);
+  const lastDay=new Date(state.year,state.month+1,0);
+  const startDow=firstDay.getDay(); // 0=Sun
+  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  let html=`<div class="dp-header">
+    <button class="dp-nav" onclick="dpNav('${dropId}',-1)">‹</button>
+    <span class="dp-month-label">${monthNames[state.month]} ${state.year}</span>
+    <button class="dp-nav" onclick="dpNav('${dropId}',1)">›</button>
+  </div>
+  <div class="dp-grid">
+    <div class="dp-day-label">Su</div><div class="dp-day-label">Mo</div><div class="dp-day-label">Tu</div>
+    <div class="dp-day-label">We</div><div class="dp-day-label">Th</div><div class="dp-day-label">Fr</div><div class="dp-day-label">Sa</div>`;
+
+  // Prev month padding
+  const prevLast=new Date(state.year,state.month,0).getDate();
+  for(let i=startDow-1;i>=0;i--){
+    html+=`<button class="dp-day other-month" onclick="dpSelectPrev('${dropId}',${prevLast-i})">${prevLast-i}</button>`;
+  }
+  // Current month days
+  for(let d=1;d<=lastDay.getDate();d++){
+    const dateStr=`${state.year}-${String(state.month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday=d===today.getDate()&&state.month===today.getMonth()&&state.year===today.getFullYear();
+    const isSelected=selectedVal===dateStr||selectedVal===fmtDateDisplay(dateStr);
+    html+=`<button class="dp-day${isToday?' today':''}${isSelected?' selected':''}" onclick="dpSelect('${dropId}','${dateStr}')">${d}</button>`;
+  }
+  // Next month padding
+  const totalCells=Math.ceil((startDow+lastDay.getDate())/7)*7;
+  for(let d=1;d<=totalCells-startDow-lastDay.getDate();d++){
+    html+=`<button class="dp-day other-month" onclick="dpSelectNext('${dropId}',${d})">${d}</button>`;
+  }
+  html+='</div>';
+  drop.innerHTML=html;
+}
+
+function dpNav(dropId,dir){
+  const s=dpState[dropId];
+  s.month+=dir;
+  if(s.month>11){s.month=0;s.year++;}
+  if(s.month<0){s.month=11;s.year--;}
+  renderDatePicker(dropId);
+}
+
+function dpSelect(dropId,dateStr){
+  const state=dpState[dropId];
+  const el=document.getElementById(state.inputId);
+  el.value=dateStr; // store as YYYY-MM-DD internally
+  el.setAttribute('data-display',fmtDateDisplay(dateStr));
+  el.value=fmtDateDisplay(dateStr); // show friendly format
+  el.setAttribute('data-raw',dateStr); // keep raw for saving
+  document.getElementById(dropId).classList.remove('open');
+}
+
+function dpSelectPrev(dropId,day){dpNav(dropId,-1);dpState[dropId].month++;renderDatePicker(dropId);dpNav(dropId,-1);}
+function dpSelectNext(dropId,day){dpNav(dropId,1);}
+
+function fmtDateDisplay(dateStr){
+  if(!dateStr) return '';
+  try{return new Date(dateStr+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}catch(e){return dateStr;}
+}
+
+function getRawDate(inputId){
+  const el=document.getElementById(inputId);
+  return el.getAttribute('data-raw')||el.value;
+}
+
+// ── CUSTOM TIME PICKER ──
+function openTimePicker(inputId,dropId){
+  document.querySelectorAll('.date-picker-dropdown.open,.time-picker-dropdown.open').forEach(d=>{
+    if(d.id!==dropId) d.classList.remove('open');
+  });
+  const drop=document.getElementById(dropId);
+  if(drop.classList.contains('open')){drop.classList.remove('open');return;}
+  const inputEl=document.getElementById(inputId);
+  const current=inputEl.getAttribute('data-raw')||'';
+  let html='<div class="tp-option" onclick="tpClear(\''+inputId+'\',\''+dropId+'\')">— Clear —</div>';
+  for(let h=7;h<=23;h++){
+    for(let m=0;m<60;m+=15){
+      const hh=String(h).padStart(2,'0');
+      const mm=String(m).padStart(2,'0');
+      const val=`${hh}:${mm}`;
+      const display=fmt12(val);
+      const isSel=current===val;
+      html+=`<div class="tp-option${isSel?' selected':''}" onclick="tpSelect('${inputId}','${dropId}','${val}')">${display}</div>`;
+    }
+  }
+  drop.innerHTML=html;
+  drop.classList.add('open');
+  // Scroll to selected
+  setTimeout(()=>{const sel=drop.querySelector('.selected');if(sel)sel.scrollIntoView({block:'nearest'});},50);
+}
+
+function tpSelect(inputId,dropId,val){
+  const el=document.getElementById(inputId);
+  el.value=fmt12(val);
+  el.setAttribute('data-raw',val);
+  document.getElementById(dropId).classList.remove('open');
+}
+
+function tpClear(inputId,dropId){
+  const el=document.getElementById(inputId);
+  el.value='';el.removeAttribute('data-raw');
+  document.getElementById(dropId).classList.remove('open');
+}
+
+function getRawTime(inputId){
+  const el=document.getElementById(inputId);
+  return el.getAttribute('data-raw')||'';
+}
+
+// Close pickers when clicking outside
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.picker-wrap')){
+    document.querySelectorAll('.date-picker-dropdown.open,.time-picker-dropdown.open').forEach(d=>d.classList.remove('open'));
+  }
+});
+
+// ── EXPORT / IMPORT ──
+function exportData(){
+  const data={
+    version:1,
+    exported:new Date().toISOString(),
+    tasks,blocks,
+    ef:JSON.parse(localStorage.getItem('janet_ef')||'{}'),
+    hasChatted:localStorage.getItem('janet_has_chatted')||''
+  };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`janet-data-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+
+function importData(e){
+  const file=e.target.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const data=JSON.parse(ev.target.result);
+      if(data.tasks) tasks=data.tasks;
+      if(data.blocks) blocks=data.blocks;
+      if(data.ef) localStorage.setItem('janet_ef',JSON.stringify(data.ef));
+      if(data.hasChatted) localStorage.setItem('janet_has_chatted',data.hasChatted);
+      save();
+      loadEF();
+      renderTasks();
+      renderSchedule();
+      alert('Your data has been imported successfully!');
+    }catch(err){
+      alert('Something went wrong importing your data. Make sure you\'re using a Janet data file.');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value=''; // reset so same file can be re-imported
+}
+
+// ── PRINT SCHEDULE ──
+function printSchedule(){window.print();}
+
+// Override addBlock and saveSchedEdit to use custom picker values
+const _origAddBlock=addBlock;
+function addBlock(){
+  // Patch date and time values from custom pickers before adding
+  const blDate=document.getElementById('bl-date');
+  if(blDate) blDate.setAttribute('data-raw',blDate.getAttribute('data-raw')||'');
+  _addBlockCore();
+}
+
+function _addBlockCore(){
+  const recurring=document.getElementById('bl-recurring').value;
+  const startRaw=getRawTime('bl-start');
+  const endRaw=getRawTime('bl-end');
+  const label=document.getElementById('bl-label').value.trim();
+  const errEl=document.getElementById('bl-error');
+  const dateRaw=recurring==='date'?getRawDate('bl-date'):null;
+  const nth=recurring==='monthly-nth'?document.getElementById('bl-nth').value:null;
+  const nthDay=recurring==='monthly-nth'?document.getElementById('bl-nth-day').value:null;
+  const needsDays=recurring==='weekly'||recurring==='biweekly';
+
+  if(!startRaw||!label||(recurring==='date'&&!dateRaw)||(needsDays&&selectedDays.length===0)){
+    errEl.style.display='block';
+    errEl.textContent=needsDays&&selectedDays.length===0?'Please select at least one day.':'Please fill in all required fields.';
+    return;
+  }
+  errEl.style.display='none';
+
+  const type=document.getElementById('bl-type').value;
+  blocks.push({id:Date.now(),recurring,days:needsDays?[...selectedDays]:null,date:dateRaw,nth,nthDay,start:startRaw,end:endRaw,label,type});
+
+  // Reset
+  const blDateEl=document.getElementById('bl-date');
+  if(blDateEl){blDateEl.value='';blDateEl.removeAttribute('data-raw');}
+  const blStart=document.getElementById('bl-start');
+  if(blStart){blStart.value='';blStart.removeAttribute('data-raw');}
+  const blEnd=document.getElementById('bl-end');
+  if(blEnd){blEnd.value='';blEnd.removeAttribute('data-raw');}
+  document.getElementById('bl-label').value='';
+  clearDayPills();
+  save();renderSchedule();
+}
+
+// Override saveSchedEdit to use custom picker time values
+const _origSaveSchedEdit=saveSchedEdit;
+function saveSchedEdit(){
+  const id=parseFloat(document.getElementById('sched-edit-id').value);
+  const b=blocks.find(x=>x.id===id);if(!b)return;
+  b.label=document.getElementById('sched-edit-label').value.trim()||b.label;
+  b.start=getRawTime('sched-edit-start')||b.start;
+  b.end=getRawTime('sched-edit-end');
+  b.type=document.getElementById('sched-edit-type').value;
+  closeSchedEditModal();save();renderSchedule();
+}
+
+// Also patch editBlock to set custom picker display values
+const _origEditBlock=editBlock;
+function editBlock(id){
+  const b=blocks.find(x=>x.id===id);if(!b)return;
+  document.getElementById('sched-edit-id').value=b.id;
+  document.getElementById('sched-edit-label').value=b.label;
+  // Set time picker display
+  const startEl=document.getElementById('sched-edit-start');
+  startEl.value=b.start?fmt12(b.start):'';
+  startEl.setAttribute('data-raw',b.start||'');
+  const endEl=document.getElementById('sched-edit-end');
+  endEl.value=b.end?fmt12(b.end):'';
+  endEl.setAttribute('data-raw',b.end||'');
+  document.getElementById('sched-edit-type').value=b.type;
+  document.getElementById('sched-edit-modal').style.display='flex';
+}
+
+// Patch addTask to use custom date picker
+const _origAddTask=addTask;
+function addTask(){
+  const name=document.getElementById('task-name').value.trim();
+  if(!name) return;
+  const dueRaw=getRawDate('task-due');
+  tasks.push({id:Date.now(),name,due:dueRaw,cat:document.getElementById('task-cat').value,priority:document.getElementById('task-pri').value,done:false});
+  document.getElementById('task-name').value='';
+  const duEl=document.getElementById('task-due');
+  duEl.value='';duEl.removeAttribute('data-raw');
+  save();renderTasks();
+}
+
+// Patch editTask to restore date display and saveTaskEdit to use raw date
+const _origEditTask=editTask;
+function editTask(id){
+  const t=tasks.find(x=>x.id===id);if(!t)return;
+  document.getElementById('edit-id').value=t.id;
+  document.getElementById('edit-name').value=t.name;
+  // Set date picker display
+  const dueEl=document.getElementById('edit-due');
+  dueEl.value=t.due?fmtDateDisplay(t.due):'';
+  dueEl.setAttribute('data-raw',t.due||'');
+  document.getElementById('edit-cat').value=t.cat;
+  document.getElementById('edit-pri').value=t.priority;
+  document.getElementById('edit-modal').style.display='flex';
+}
+
+const _origSaveTaskEdit=saveTaskEdit;
+function saveTaskEdit(){
+  const id=parseInt(document.getElementById('edit-id').value);
+  const t=tasks.find(x=>x.id===id);if(!t)return;
+  t.name=document.getElementById('edit-name').value.trim()||t.name;
+  t.due=getRawDate('edit-due');
+  t.cat=document.getElementById('edit-cat').value;
+  t.priority=document.getElementById('edit-pri').value;
+  closeEditModal();save();renderTasks();
+}
+
+// Update edit-due field in edit modal to use custom picker
 
 load();loadEF();renderTasks();renderSchedule();
 </script>
